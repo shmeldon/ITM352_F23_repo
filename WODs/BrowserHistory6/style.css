@@ -4,13 +4,13 @@ h1, h2 {
 
 body {
     font-family: 'Open Sans';
-    color: darkblue;
+    color: yellow;
     margin-top: 10px;
     margin-top: 10px;
     margin-left: 50px;
     margin-right: 50px;
     width: 950px;
-    background-color: ivory;
+    background-color: black;
 }
 
 img {
@@ -18,20 +18,6 @@ img {
 
 }
 
-.meat {
-    display: flex;
-    align-content: space-evenly;
-}
-
-.meat section {
-    width: 300px;
-}
-
-.meat img {
-    float: left;
-}
-
 .tableOfContents ul, li {
     display: flex;
-    justify-content: space-evenly;
 }
