@@ -12,41 +12,49 @@
     </style>
     <link rel="stylesheet" type="text/css" href="products-style.css">
     <script>
-        const store_name = 'Sheldon Aribal';
-        let hits = 1;
-        spins = 2;
+        store_name = 'Sheldon Aribal';
     </script>
-</head>
-<body>
-    <h1><script>document.write(store_name + "'s Used Smart Phone Store");</script></h1>
     
+</head>
+<body onload="hits_span.innerHTML = hits; spins_span.innerHTML = spins;">
+
+<header>
+    <h1><script>document.write(store_name + "'s Used Smart Phone Store");</script></h1>
+
+    <p style="text-align: center; font-weight: bold;">
+        Hits:<span id="hits_span">0</span>
+        Spins:<span id="spins_span">0</span>
+     </p>
+        
+</header>
+
     <div>
         <main>
-            <section class="item" onmouseover="this.className='item rotate'" onclick="className='item'">
+            <section class="item" onmouseover="this.className='item rotate'; spins_span.innerHTML = spins;" onclick="this.className='item'; hits_span.innerHTML = hits;">
                 <h2>HTC</h2>
                 <p class="price">&dollar; 40.00</p>
                 <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg" alt="HTC">
             </section>
 
-            <section class="item" onmouseover="this.className='item rotate'" onclick="className='item'">
+            <section class="item" onmouseover="this.className='item rotate'; spins_span.innerHTML = spins;" onclick="this.className='item'; hits_span.innerHTML = hits;">
                 <h2>Apple</h2>
                 <p class="price">&dollar; 75.00</p>
                 <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg" alt="Apple">
             </section>
 
-            <section class="item" onmouseover="this.className='item rotate'" onclick="className='item'">
+            <section class="item" onmouseover="this.className='item rotate'; spins_span.innerHTML = spins;" onclick="this.className='item'; hits_span.innerHTML = hits;">
                 <h2>Nokia</h2>
                 <p class="price">&dollar; 35.00</p>
                 <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg" alt="Nokia">
             </section>
 
-            <section class="item" onmouseover="this.className='item rotate'" onclick="className='item'">
+            <section class="item" onmouseover="this.className='item rotate'; spins_span.innerHTML = spins;" onclick="this.className='item'; hits_span.innerHTML = hits;">
                 <h2>Samsung</h2>
                 <p class="price">&dollar; 45.00</p>
                 <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg" alt="Samsung">
             </section>
 
-            <section class="item" onmouseover="this.className='item rotate'" onclick="className='item'">
+            <section class="item" onmouseover="this.className='item rotate'; spins_span.innerHTML = spins;" onclick="this.className='item'; hits_span.innerHTML = hits;">
                 <h2>Blackberry</h2>
                 <p class="price">&dollar; 10.00</p>
                 <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg" alt="Blackberry">
@@ -56,5 +64,10 @@
     
     <h1>Your One Stop Phone Shop</h1>
 
+    <script>
+    let store_name;
+    let hits = 0;
+    let spins = 1;
+    </script>
 </body>
 </html>
