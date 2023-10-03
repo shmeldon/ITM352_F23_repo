@@ -1,106 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smartphone Products</title>
     <style>
-        body {
-            text-align: center;
-            background: blueviolet;
-        }
+      body {
+        text-align: center;
+        background: blueviolet;
+      }
     </style>
-    <link rel="stylesheet" type="text/css" href="products-style.css">
+    <link rel="stylesheet" type="text/css" href="products-style.css" />
     <script>
-        store_name = 'Sheldon Aribal';
-        let hits = 0;
-        let spins = 0;
-        let first_name = "Sheldon";
-        let last_name = "Aribal";
-        let full_name = "<span style = 'font-size: 46px'; <b>" + first_name + "</b> <i>" + last_name + "'s" + "</i>";
-        let over_half = false;
+      store_name = "Sheldon Aribal";
+      let hits = 0;
+      let spins = 0;
+      let first_name = "Sheldon";
+      let last_name = "Aribal";
+      let full_name =
+        "<span style = 'font-size: 46px'; <b>" +
+        first_name +
+        "</b> <i>" +
+        last_name +
+        "'s" +
+        "</i>";
+      let over_half = false;
+      // -- Winning progress depends on hits/spins
+      function updateProgress() {
+        let hits_spins_ratio = hits / spins;
+        if (hits_spins_ratio >= 0.5 && hits >= spins) {
+          win_span.innerHTML = "You win!";
+        } else if (hits_spins_ratio >= 0.25) {
+          win_span.innerHTML = "Almost there!";
+        } else if (hits_spins_ratio > 0) {
+          win_span.innerHTML = "On your way!";
+        } else {
+          win_span.innerHTML = "Get going!";
+        }
+      }
     </script>
-    
-</head>
-<body onload="hits_span.innerHTML = hits; spins_span.innerHTML = spins;">
+  </head>
+  <body onload="hits_span.innerHTML = hits; spins_span.innerHTML = spins;">
+    <header>
+      <h1>
+        <script>
+          document.write(full_name + " Used Smart Phone Store");
+        </script>
+      </h1>
 
-<header>
-    <h1><script>document.write(full_name + " Used Smart Phone Store");</script></h1>
-
-    <p style="text-align: center; font-weight: bold;">
-        Hits:<span id="hits_span">0</span>
-        Spins:<span id="spins_span">0</span>
-        Hit/Spin:<span id="hit_spin_span">0</span>
-        You win:<span id="win_span">pending...</span>
-    </p>
-
-</header>
+      <p style="text-align: center; font-weight: bold">
+        Hits:<span id="hits_span">0</span> Spins:<span id="spins_span">0</span>
+        Hit/Spin:<span id="hit_spin_span">0</span> You win:<span id="win_span"
+          >pending...</span
+        >
+      </p>
+    </header>
 
     <div>
-        <main>
-            <section class="item" 
-            onmouseover="if (!this.className.includes('rotate')) { this.className='item rotate'; spins++; spins_span.innerHTML = spins; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; }"
+      <main>
+        <section
+          class="item"
+          onmouseover="if (!this.className.includes('rotate')) { this.className='item rotate'; spins++; spins_span.innerHTML = spins; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; updateProgress(); }"
+          onclick="if (this.className.includes('rotate')) { this.className='item'; hits++; hits_span.innerHTML = hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; updateProgress(); } else { this.className='item rotate'; }"
+        >
+          <h2>HTC</h2>
+          <p class="price">&dollar; 40.00</p>
+          <img
+            src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg"
+            alt="HTC"
+          />
+        </section>
 
-             onclick="if (this.className.includes('rotate')) { this.className='item'; hits++; hits_span.innerHTML = hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; } else { this.className='item rotate'; }">
+        <section
+          class="item"
+          onmouseover="if (!this.className.includes('rotate')) { this.className='item rotate'; spins++; spins_span.innerHTML = spins; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; updateProgress(); }"
+          onclick="if (this.className.includes('rotate')) { this.className='item'; hits++; hits_span.innerHTML = hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; updateProgress(); } else { this.className='item rotate'; }"
+        >
+          <h2>Apple</h2>
+          <p class="price">&dollar; 75.00</p>
+          <img
+            src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg"
+            alt="Apple"
+          />
+        </section>
 
-                <h2>HTC</h2>
-                <p class="price">&dollar; 40.00</p>
-                <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg" alt="HTC">
-            </section>
+        <section
+          class="item"
+          onmouseover="if (!this.className.includes('rotate')) { this.className='item rotate'; spins++; spins_span.innerHTML = spins; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; updateProgress(); }"
+          onclick="if (this.className.includes('rotate')) { this.className='item'; hits++; hits_span.innerHTML = hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; updateProgress(); } else { this.className='item rotate'; }"
+        >
+          <h2>Nokia</h2>
+          <p class="price">&dollar; 35.00</p>
+          <img
+            src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg"
+            alt="Nokia"
+          />
+        </section>
 
-            <section class="item" 
-            onmouseover="if (!this.className.includes('rotate')) { this.className='item rotate'; spins++; spins_span.innerHTML = spins; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; }"
+        <section
+          class="item"
+          onmouseover="if (!this.className.includes('rotate')) { this.className='item rotate'; spins++; spins_span.innerHTML = spins; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; updateProgress(); }"
+          onclick="if (this.className.includes('rotate')) { this.className='item'; hits++; hits_span.innerHTML = hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; updateProgress(); } else { this.className='item rotate'; }"
+        >
+          <h2>Samsung</h2>
+          <p class="price">&dollar; 45.00</p>
+          <img
+            src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg"
+            alt="Samsung"
+          />
+        </section>
 
-             onclick="if (this.className.includes('rotate')) { this.className='item'; hits++; hits_span.innerHTML = hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; } else { this.className='item rotate'; }">
-
-                <h2>Apple</h2>
-                <p class="price">&dollar; 75.00</p>
-                <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg" alt="Apple">
-            </section>
-
-            <section class="item" 
-           onmouseover="if (!this.className.includes('rotate')) { this.className='item rotate'; spins++; spins_span.innerHTML = spins; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; }"
-
-             onclick="if (this.className.includes('rotate')) { this.className='item'; hits++; hits_span.innerHTML = hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; } else { this.className='item rotate'; }">
-                <h2>Nokia</h2>
-                <p class="price">&dollar; 35.00</p>
-                <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg" alt="Nokia">
-            </section>
-
-            <section class="item" 
-            onmouseover="if (!this.className.includes('rotate')) { this.className='item rotate'; spins++; spins_span.innerHTML = spins; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; }"
-
-             onclick="if (this.className.includes('rotate')) { this.className='item'; hits++; hits_span.innerHTML = hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; } else { this.className='item rotate'; }">
-                <h2>Samsung</h2>
-                <p class="price">&dollar; 45.00</p>
-                <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg" alt="Samsung">
-            </section>
-
-            <section class="item" 
-            onmouseover="if (!this.className.includes('rotate')) { this.className='item rotate'; spins++; spins_span.innerHTML = spins; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; }"
-
-             onclick="if (this.className.includes('rotate')) { this.className='item'; hits++; hits_span.innerHTML = hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; } else { this.className='item rotate'; }">
-                <h2>Blackberry</h2>
-                <p class="price">&dollar; 10.00</p>
-                <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg" alt="Blackberry">
-            </section>
-        </main>
+        <section
+          class="item"
+          onmouseover="if (!this.className.includes('rotate')) { this.className='item rotate'; spins++; spins_span.innerHTML = spins; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; updateProgress(); }"
+          onclick="if (this.className.includes('rotate')) { this.className='item'; hits++; hits_span.innerHTML = hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2); if (spins < 2 * hits && hits < spins) { over_half = true; } document.getElementById('win_span').innerHTML = over_half; updateProgress(); } else { this.className='item rotate'; }"
+        >
+          <h2>Blackberry</h2>
+          <p class="price">&dollar; 10.00</p>
+          <img
+            src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg"
+            alt="Blackberry"
+          />
+        </section>
+      </main>
     </div>
-<footer> 
-    <script>
+    <footer>
+      <script>
         let line = 1;
         let now = new Date();
-        let table = 
-            `<table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
-            <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name[0]}.${last_name[0]}.'s</h1></th></tr>
+        let table = `<table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
+            <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${
+              first_name[0]
+            }.${last_name[0]}.'s</h1></th></tr>
             <tr><td>${line++}.</td><td><br />Copyright @ ${first_name} ${last_name}</td></tr>
             <tr><td>${line++}.</td><td>${now.getFullYear()}</td></tr>
-            <tr><td>${line++}.</td><td>${(now.getHours()+ 11) % 12 + 1}:${now.getMinutes()} ${(now.getHours()<12) ? 'AM':'PM'}</td></tr>
+            <tr><td>${line++}.</td><td>${
+          ((now.getHours() + 11) % 12) + 1
+        }:${now.getMinutes()} ${now.getHours() < 12 ? "AM" : "PM"}</td></tr>
             </table>`;
         document.write(table);
-    </script>
-</footer>
-   
-
-</body>
+      </script>
+    </footer>
+  </body>
 </html>
