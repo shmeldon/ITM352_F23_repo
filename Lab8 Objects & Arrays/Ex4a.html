@@ -21,7 +21,7 @@
   </script>
   <body>
     <table style="border: 1px solid black; text-align: center">
-      <tbody onclick="let newRow = this.appendChild(document.createElement('tr')); let numCells = this.rows[0].cells.length; for (let i = 0; i < numCells; i++) { let newCell = newRow.appendChild(document.createElement('td')); newCell.innerHTML = 'xxx'; }">
+      <tbody onclick="let newRow = this.appendChild(document.createElement('tr')); let numCells = this.rows[0].cells.length; for (let i = 0; i < numCells; i++) { let newCell = newRow.appendChild(document.createElement('td')); newCell.innerHTML = 'xxx'; newCell.style.border = '1px solid black';}">
       <tr style="border: 1px solid black">
         <th style="border: 1px solid black">Product #</th>
         <th style="border: 1px solid black">Name</th>
