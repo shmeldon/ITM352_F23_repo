@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic Tac Toe</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      td {
+        height: 50px;
+        width: 40px;
+        text-align: center;
+        cursor: cell;
+        border: 1px solid black;
+      }
+      td:hover {
+        background-color: chartreuse;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <div id="status_div">X goes first</div>
+      <script>
+        let TicTacToe = [
+          ["-", "-", "-"],
+          ["-", "-", "-"],
+          ["-", "-", "-"],
+        ];
+        board_str = TicTacToe.map((e) => e.join("")).join("");
+        let rowCount = TicTacToe.length;
+        let cellCount = TicTacToe[0].length;
+        let table = "";
+        let marks = ["X", "O"];
+        let move_num = 0;
+        const re =
+          /^(?:(?:...){0,2}([OX])\1\1|.{0,2}([OX])..\2..\2|([OX])...\3...\3|..([OX]).\4.\4)/g;
+
+        for (i = 0; i < TicTacToe.length; i++) {
+          table += "<tr>";
+          for (j = 0; j < TicTacToe[i].length; j++) {
+            let board_str = TicTacToe.map((e) => e.join("")).join("");
+            let wins = " wins";
+            let goes = " goes";
+            table += `<td onclick="if(this.innerHTML === '-') {this.innerHTML=marks[move_num % 2]; document.getElementById('status_div').innerHTML=marks[++move_num % 2] + ' goes'; this.TicTacToe[i][j] = marks[move_num % 2]}">${TicTacToe[i][j]}</td>`;
+          }
+          table += "</tr>";
+        }
+        document.write(table);
+      </script>
+    </table>
+  </body>
+</html>
