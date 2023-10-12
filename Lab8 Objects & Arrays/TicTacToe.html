@@ -9,6 +9,7 @@
         border-collapse: collapse;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 10px;
       }
       td {
         height: 50px;
@@ -24,7 +25,7 @@
   </head>
   <body>
     <table>
-      <div id="status_div">X goes first</div>
+      <div id="status_div" style="text-align: center;">X goes first</div>
       <script>
         let TicTacToe = [
           ["-", "-", "-"],
@@ -37,16 +38,27 @@
         let table = "";
         let marks = ["X", "O"];
         let move_num = 0;
+        let gameActive = true;
         const re =
           /^(?:(?:...){0,2}([OX])\1\1|.{0,2}([OX])..\2..\2|([OX])...\3...\3|..([OX]).\4.\4)/g;
 
         for (i = 0; i < TicTacToe.length; i++) {
           table += "<tr>";
           for (j = 0; j < TicTacToe[i].length; j++) {
-            let board_str = TicTacToe.map((e) => e.join("")).join("");
-            let wins = " wins";
-            let goes = " goes";
-            table += `<td onclick="if(this.innerHTML === '-') {this.innerHTML=marks[move_num % 2]; document.getElementById('status_div').innerHTML=marks[++move_num % 2] + ' goes'; this.TicTacToe[i][j] = marks[move_num % 2]}">${TicTacToe[i][j]}</td>`;
+            table += `<td onclick="if(this.innerHTML === '-' && gameActive) { this.innerHTML = marks[move_num % 2]; TicTacToe[${i}][${j}] = marks[move_num % 2];
+        board_str = TicTacToe.map(e => e.join('')).join('');
+        let win = re.exec(board_str);
+        if (win) {
+          document.getElementById('status_div').innerHTML = marks[move_num % 2] + ' wins';
+          gameActive = false;
+        } else if ((move_num + 1) == 9) {
+          document.getElementById('status_div').innerHTML = 'It is a draw';
+          gameActive = false;
+        } else {
+          document.getElementById('status_div').innerHTML = marks[(move_num + 1) % 2] + ' goes';
+        }
+        move_num++;
+        }">${TicTacToe[i][j]}</td>`;
           }
           table += "</tr>";
         }
