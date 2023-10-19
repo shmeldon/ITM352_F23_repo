@@ -1,120 +1,107 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
-    <script src="./product_data.js"></script>
+    <script>
+        // Your products_data.js content here
+        let products = [
+            {name: "HTC", price: 40.00},
+            {name: "Apple", price: 75.00},
+            {name: "Nokia", price: 35.00},
+            {name: "Samsung", price: 45.00},
+            {name: "Blackberry", price: 10.00}
+        ];
+        let quantities = [4, 1, 9, 5, 7, 12];
+    </script>
 </head>
 <body>
-     <script> 
-          /* File for generating a sales receipt for a sale that contians at least five products.
-          */
-          //Product Data
-          
-          // Compute extended prices
-          let extended_price1 = products[1-1].quantity * products[1-1].price;
-          let extended_price2 = products[2-1].quantity * products[2-1].price;
-          let extended_price3 = products[3-1].quantity * products[3-1].price;
-          let extended_price4 = products[4-1].quantity * products[4-1].price;
-          let extended_price5 = products[5-1].quantity * products[5-1].price;
-          
-          // Subtotal
-          let subtotal = extended_price1 + extended_price2 + extended_price3 + extended_price4 + extended_price5; 
-          
-          // Tax
-          let sales_tax = 5.75;
-          let tax = subtotal * sales_tax / 100;
-          
-          // Shipping
-          let shipping; 
-          if (subtotal < 50) {
-               shipping = 2.00;
-          }
-          if (subtotal >= 50 && subtotal < 100) {
-               shipping = 5.00;
-          }
-          else {
-               shipping = subtotal * .05;
-          }
-          
-          // Grand Total
-          let total = subtotal + tax;
-          </script>
-    
-    <table id = "invoiceTable" border = "1" style = "margin-left: auto; margin-right: auto;"> 
+    <script>
+        // Your HTML file's script content here
+        function isNonNegInt(q, returnErrors = false) {
+            let errors = [];
+            if(Number(q) !== q) errors.push('Not a number!');
+            if(q < 0) errors.push('Negative value!');
+            if(parseInt(q) !== q) errors.push('Not an integer!');
+            return returnErrors ? errors : (errors.length === 0);
+        }
+
+        function generate_item_rows(product_quantities_array) {
+            // Initialize variables
+            let subtotal = 0;
+            let sales_tax = 5.75;
+            let shipping;
+            let tax;
+            let total;
+
+            // Header Row
+            let header_row = invoiceTable.insertRow();
+            header_row.insertCell().innerHTML = "<b>Item</b>"; 
+            header_row.insertCell().innerHTML = "<b>Quantity</b>";
+            header_row.insertCell().innerHTML = "<b>Price</b>";
+            header_row.insertCell().innerHTML = "<b>Extended Price</b>";
+
+            for(let i in product_quantities_array) {
+                let errors = isNonNegInt(product_quantities_array[i]);
+                if(product_quantities_array[i] === 0 || !errors) {
+                    continue;
+                }
+                let extended_price = product_quantities_array[i] * products[i].price;  
+                let row = invoiceTable.insertRow();
+                row.insertCell().innerHTML = products[i].name; 
+                row.insertCell().innerHTML = product_quantities_array[i];
+                row.insertCell().innerHTML = products[i].price.toFixed(2);
+                row.insertCell().innerHTML = extended_price.toFixed(2);
+
+                subtotal += extended_price;
+            }
+
+            // Tax, Shipping, and Total Calculations
+            tax = subtotal * sales_tax / 100;
+            if (subtotal < 50) {
+                shipping = 2.00;
+            } else if (subtotal >= 50 && subtotal < 100) {
+                shipping = 5.00;
+            } else {
+                shipping = subtotal * .05;
+            }
+            total = subtotal + tax + shipping;
+
+            // Subtotal Row
+            let subtotal_row = invoiceTable.insertRow();
+            subtotal_row.insertCell().innerHTML = "Sub-total";
+            subtotal_row.insertCell().innerHTML = ""; 
+            subtotal_row.insertCell().innerHTML = "";
+            subtotal_row.insertCell().innerHTML = subtotal.toFixed(2);
+
+            // Tax Row
+            let tax_row = invoiceTable.insertRow();
+            tax_row.insertCell().innerHTML = "Tax @ 5.75%";
+            tax_row.insertCell().innerHTML = ""; 
+            tax_row.insertCell().innerHTML = "";
+            tax_row.insertCell().innerHTML = tax.toFixed(2);
+
+            // Shipping Row
+            let shipping_row = invoiceTable.insertRow();
+            shipping_row.insertCell().innerHTML = "Shipping";
+            shipping_row.insertCell().innerHTML = ""; 
+            shipping_row.insertCell().innerHTML = "";
+            shipping_row.insertCell().innerHTML = shipping.toFixed(2);
+
+            // Grand Total Row
+            let total_row = invoiceTable.insertRow();
+            total_row.insertCell().innerHTML = "<b>Total</b>";
+            total_row.insertCell().innerHTML = ""; 
+            total_row.insertCell().innerHTML = "";
+            total_row.insertCell().innerHTML = "<b>" + total.toFixed(2) + "</b>";
+        }
+    </script>
+
+    <table id="invoiceTable" border="1" style="margin-left: auto; margin-right: auto; border-collapse: collapse;"> 
         <script>
-        // Header Row 
-        let header_row = invoiceTable.insertRow();
-        header_row.insertCell().innerHTML = "<b>Item</b>"; 
-        header_row.insertCell().innerHTML = "<b>Quantity<b/>";
-        header_row.insertCell().innerHTML = "<b>Price<b/>";
-        header_row.insertCell().innerHTML = "<b>Extended Price<b/>";
-         // item row 1
-        let row = invoiceTable.insertRow();
-        row.insertCell().innerHTML = products[1-1].name; 
-        row.insertCell().innerHTML = products[1-1].quantity;
-        row.insertCell().innerHTML = products[1-1].price.toFixed(2);
-        row.insertCell().innerHTML = extended_price1;
-
-         // item row 2
-         let row2 = invoiceTable.insertRow();
-        row2.insertCell().innerHTML = products[2-1].name; 
-        row2.insertCell().innerHTML = products[2-1].quantity;
-        row2.insertCell().innerHTML = products[2-1].price.toFixed(2);
-        row2.insertCell().innerHTML = extended_price2;
-
-         // item row 3
-         let row3 = invoiceTable.insertRow();
-        row3.insertCell().innerHTML = products[3-1].name; 
-        row3.insertCell().innerHTML = products[3-1].quantity;
-        row3.insertCell().innerHTML = products[3-1].price.toFixed(2);
-        row3.insertCell().innerHTML = extended_price1;
-
-         // item row 4
-         let row4 = invoiceTable.insertRow();
-        row4.insertCell().innerHTML = products[4-1].name; 
-        row4.insertCell().innerHTML = products[4-1].quantity;
-        row4.insertCell().innerHTML = products[4-1].price.toFixed(2);
-        row4.insertCell().innerHTML = extended_price4;
-
-         // item row 5
-         let row5 = invoiceTable.insertRow();
-        row5.insertCell().innerHTML = products[5-1].name; 
-        row5.insertCell().innerHTML = products[5-1].quantity;
-        row5.insertCell().innerHTML = products[5-1].price.toFixed(2);
-        row5.insertCell().innerHTML = extended_price5;
-
-        // subtotal row
-        let subtotal_row = invoiceTable.insertRow();
-        subtotal_row.insertCell().innerHTML = "Sub-total";
-        subtotal_row.insertCell().innerHTML = ""; 
-        subtotal_row.insertCell().innerHTML = "";
-        subtotal_row.insertCell().innerHTML = subtotal.toFixed(2);
-
-        // tax row
-        let tax_row = invoiceTable.insertRow();
-        tax_row.insertCell().innerHTML = "Tax @ 5.75%";
-        tax_row.insertCell().innerHTML = ""; 
-        tax_row.insertCell().innerHTML = "";
-        tax_row.insertCell().innerHTML = tax.toFixed(2);
-        
-        // Shipping row
-        let shipping_row = invoiceTable.insertRow();
-        shipping_row.insertCell().innerHTML = "Shipping";
-        shipping_row.insertCell().innerHTML = ""; 
-        shipping_row.insertCell().innerHTML = "";
-        shipping_row.insertCell().innerHTML = shipping.toFixed(2);
-        // Grand Total Row 
-         let total_row = invoiceTable.insertRow();
-         total_row.insertCell().innerHTML = "<b>Total</b>";
-         total_row.insertCell().innerHTML = ""; 
-        total_row.insertCell().innerHTML = "";
-        total_row.insertCell().innerHTML = "<b>" + total.toFixed(2); + "</b>"
-         </script>
-         
+            generate_item_rows(quantities);
+        </script>
     </table>
-</script>
 </body>
 </html>
