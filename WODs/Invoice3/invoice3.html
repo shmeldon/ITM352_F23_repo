@@ -3,105 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
+    <title>Invoice1</title>
     <script>
-        // Your products_data.js content here
-        let products = [
-            {name: "HTC", price: 40.00},
-            {name: "Apple", price: 75.00},
-            {name: "Nokia", price: 35.00},
-            {name: "Samsung", price: 45.00},
-            {name: "Blackberry", price: 10.00}
-        ];
-        let quantities = [4, 1, 9, 5, 7, 12];
+    /*Invoice*/
+    // define quantiues array
+    let product_quantities = [1,2,3,4,5];
+
+    //Product Data
+        // Product 1
+        /*
+        let item1 = 'Gillette Sensor 3 Razor';
+        
+        let price1 = 1.23;
+        */
+        let product1 = {
+          "item": 'Gillette Sensor 3 Razor',  
+          "price" : 1.23
+        }
+        product1['SKU#'] = 1234;
+        product1["quantity"] = 0;
+
+        // Product 2
+        let item2 = 'Barbasol Shaving Cream';
+        
+        let price2 = 2.64;
+        // Product 3
+        let item3 = 'Nautica Cologne';
+        
+        let price3 = 6.17;
+        // Product 4
+        let item4 = 'Rubbing Alcohol';
+        
+        let price4 = 0.98;
+        // Product 5
+        let item5 = 'Colgate Classic Toothbrush	';
+        
+        let price5 = 1.89;
+        // Compute extended prices
+        let extended_price1 = product_quantities[0] * product1.price;
+        let extended_price2 = product_quantities[1] * price2;
+        let extended_price3 = product_quantities[2] * price3;
+        let extended_price4 = product_quantities[3] * price4;
+        let extended_price5 = product_quantities[4] * price5;
+        //Subtotal
+        let subtotal = extended_price1 + extended_price2 + extended_price3 + extended_price4 + extended_price5;
+        //Tax
+        let tax = +(subtotal * 0.0575).toFixed(2);
+        //Grand Total 
+        let gTotal = (subtotal + tax).toFixed(2);
     </script>
 </head>
 <body>
-    <script>
-        // Your HTML file's script content here
-        function isNonNegInt(q, returnErrors = false) {
-            let errors = [];
-            if(Number(q) !== q) errors.push('Not a number!');
-            if(q < 0) errors.push('Negative value!');
-            if(parseInt(q) !== q) errors.push('Not an integer!');
-            return returnErrors ? errors : (errors.length === 0);
-        }
-
-        function generate_item_rows(product_quantities_array) {
-            // Initialize variables
-            let subtotal = 0;
-            let sales_tax = 5.75;
-            let shipping;
-            let tax;
-            let total;
-
-            // Header Row
-            let header_row = invoiceTable.insertRow();
-            header_row.insertCell().innerHTML = "<b>Item</b>"; 
-            header_row.insertCell().innerHTML = "<b>Quantity</b>";
-            header_row.insertCell().innerHTML = "<b>Price</b>";
-            header_row.insertCell().innerHTML = "<b>Extended Price</b>";
-
-            for(let i in product_quantities_array) {
-                let errors = isNonNegInt(product_quantities_array[i]);
-                if(product_quantities_array[i] === 0 || !errors) {
-                    continue;
-                }
-                let extended_price = product_quantities_array[i] * products[i].price;  
-                let row = invoiceTable.insertRow();
-                row.insertCell().innerHTML = products[i].name; 
-                row.insertCell().innerHTML = product_quantities_array[i];
-                row.insertCell().innerHTML = products[i].price.toFixed(2);
-                row.insertCell().innerHTML = extended_price.toFixed(2);
-
-                subtotal += extended_price;
-            }
-
-            // Tax, Shipping, and Total Calculations
-            tax = subtotal * sales_tax / 100;
-            if (subtotal < 50) {
-                shipping = 2.00;
-            } else if (subtotal >= 50 && subtotal < 100) {
-                shipping = 5.00;
-            } else {
-                shipping = subtotal * .05;
-            }
-            total = subtotal + tax + shipping;
-
-            // Subtotal Row
-            let subtotal_row = invoiceTable.insertRow();
-            subtotal_row.insertCell().innerHTML = "Sub-total";
-            subtotal_row.insertCell().innerHTML = ""; 
-            subtotal_row.insertCell().innerHTML = "";
-            subtotal_row.insertCell().innerHTML = subtotal.toFixed(2);
-
-            // Tax Row
-            let tax_row = invoiceTable.insertRow();
-            tax_row.insertCell().innerHTML = "Tax @ 5.75%";
-            tax_row.insertCell().innerHTML = ""; 
-            tax_row.insertCell().innerHTML = "";
-            tax_row.insertCell().innerHTML = tax.toFixed(2);
-
-            // Shipping Row
-            let shipping_row = invoiceTable.insertRow();
-            shipping_row.insertCell().innerHTML = "Shipping";
-            shipping_row.insertCell().innerHTML = ""; 
-            shipping_row.insertCell().innerHTML = "";
-            shipping_row.insertCell().innerHTML = shipping.toFixed(2);
-
-            // Grand Total Row
-            let total_row = invoiceTable.insertRow();
-            total_row.insertCell().innerHTML = "<b>Total</b>";
-            total_row.insertCell().innerHTML = ""; 
-            total_row.insertCell().innerHTML = "";
-            total_row.insertCell().innerHTML = "<b>" + total.toFixed(2) + "</b>";
-        }
-    </script>
-
-    <table id="invoiceTable" border="1" style="margin-left: auto; margin-right: auto; border-collapse: collapse;"> 
-        <script>
-            generate_item_rows(quantities);
-        </script>
-    </table>
+    <div >
+        <table border="2" align="center">
+          <tbody>
+            <tr>
+              <th style="text-align: center;" width="43%">Item</th>
+              <th style="text-align: center;" width="11%">quantity</th>
+              <th style="text-align: center;" width="13%">price</th>
+              <th style="text-align: center;" width="54%">extended price</th>
+            </tr>
+            <tr>
+              <td width="43%"><script>document.write(product1.item)</script></td>
+              <td align="center" width="11%"><script>document.write(product_quantities[0])</script></td>
+              <td width="13%"><script>document.write('$'+product1.price)</script></td>
+              <td width="54%"><script>document.write('$'+extended_price1)</script></td>
+            </tr>
+            <tr>
+              <td width="43%"><script>document.write(item2)</script></td>
+              <td align="center" width="11%"><script>document.write(product_quantities[1])</script></td>
+              <td width="13%"><script>document.write('$'+price2)</script></td>
+              <td width="54%"><script>document.write('$'+extended_price2)</script></td>
+            </tr>
+            <tr>
+              <td width="43%"><script>document.write(item3)</script></td>
+              <td align="center" width="11%"><script>document.write(product_quantities[2])</script></td>
+              <td width="13%"><script>document.write('$'+price3)</script></td>
+              <td width="54%"><script>document.write('$'+extended_price3)</script></td>
+            </tr>
+            <tr>
+              <td width="43%"><script>document.write(item4)</script></td>
+              <td align="center" width="11%"><script>document.write(product_quantities[3])</script></td>
+              <td width="13%"><script>document.write('$'+price4)</script></td>
+              <td width="54%"><script>document.write('$'+extended_price4)</script></td>
+            </tr>
+            <tr>
+              <td width="43%"><script>document.write(item5)</script></td>
+              <td align="center" width="11%"><script>document.write(product_quantities[4])</script></td>
+              <td width="13%"><script>document.write('$'+price5)</script></td>
+              <td width="54%"><script>document.write('$'+extended_price5)</script></td>
+            </tr>
+            <tr>
+              <td colspan="4" width="100%">&nbsp;</td>
+            </tr>
+            <tr id="subtotal_cell">
+              <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+              <td width="54%"><script>document.write('$'+subtotal)</script></td>
+            </tr>
+            <tr id="tax">
+              <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 5.75%</span></td>
+              <td width="54%"><script>document.write('$'+tax)</script></td>
+            </tr>
+            <tr id="gTotal">
+              <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+              <td width="54%"><strong><script>document.write('$'+gTotal)</script></strong></td>
+            </tr>
+          </tbody>
+        </table>
+        
+        </div>
+        
 </body>
-</html>
