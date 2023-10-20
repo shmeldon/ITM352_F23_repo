@@ -32,4 +32,4 @@ console.log("Product variables loaded...");
  };
 
 let products = [product1, product2, product3, product4, product5];
-let quantities = [4, 1, 0, 5, -1, 12];
+let quantities = [-10, 1, -3.4, 5, 2];

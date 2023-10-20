@@ -8,69 +8,91 @@
      <script src="./products_data.js"></script>
 </head>
 
-<script>
-     function generate_item_rows(product_quantities_array) {
-          let subtotal = 0;
-          for (let i in product_quantities_array) {
-               let extended_price = product_quantities_array[i] * products[i].price;
-               let row = invoiceTable.insertRow();
-               row.insertCell().innerHTML = products[i].name;
-               row.insertCell().innerHTML = product_quantities_array[i];
-               row.insertCell().innerHTML = products[i].price.toFixed(2);
-               row.insertCell().innerHTML = extended_price;
-
-               subtotal += extended_price;
-          }
-          // Tax
-let sales_tax = 5.75;
-          let tax = subtotal * sales_tax / 100;
-
-          // Shipping
-          let shipping;
-          if (subtotal < 50) {
-               shipping = 2.00;
-          }
-          if (subtotal >= 50 && subtotal < 100) {
-               shipping = 5.00;
-          }
-          else {
-               shipping = subtotal * .05;
-          }
-          // Grand Total
-          let total = subtotal + tax;
-          // subtotal row
-          let subtotal_row = invoiceTable.insertRow();
-          subtotal_row.insertCell().colSpan = 3;
-          subtotal_row.cells[0].innerHTML = "Sub-total";
-          subtotal_row.cells[0].style.textAlign = "center";
-          subtotal_row.insertCell(1).innerHTML = '$' + subtotal.toFixed(2);
-
-          // Tax row
-          let tax_row = invoiceTable.insertRow();
-          tax_row.insertCell().colSpan = 3;
-          tax_row.cells[0].innerHTML = "Tax @ 5.75%";
-          tax_row.cells[0].style.textAlign = "center";
-          tax_row.insertCell(1).innerHTML = '$' + tax.toFixed(2);
-
-          // Shipping row
-          let shipping_row = invoiceTable.insertRow();
-          shipping_row.insertCell().colSpan = 3;
-          shipping_row.cells[0].innerHTML = "Shipping";
-          shipping_row.cells[0].style.textAlign = "center";
-          shipping_row.insertCell(1).innerHTML = '$' + shipping.toFixed(2);
-
-          // Grand Total Row
-          let total_row = invoiceTable.insertRow();
-          total_row.insertCell().colSpan = 3;
-          total_row.cells[0].innerHTML = "<b>Total</b>";
-          total_row.cells[0].style.textAlign = "center";
-          total_row.insertCell(1).innerHTML = "<b>" + '$' + total.toFixed(2) + "</b>";
-     }
-</script>
-
 <body>
-     <table id="invoiceTable" border="2" align="center">
+     <table id="invoiceTable" border="2" align="center" style="background-color: blueviolet;">
           <script>
+               function isNonNegInt(q, returnErrors = false) {
+                    errors = [];
+                    if (Number(q) != q) errors.push('Not a number!');
+                    if (q < 0) errors.push('Negative value!');
+                    if (parseInt(q) != q) errors.push('Not an integer!');
+                    return returnErrors ? errors : (errors.length == 0);
+               }
+               function generate_item_rows(product_quantities_array) {
+                    let subtotal = 0;
+                    for (let i in product_quantities_array) {
+                         let extended_price = product_quantities_array[i] * products[i].price;
+                         let errors = isNonNegInt(product_quantities_array[i], true);
+
+                         if (product_quantities_array[i] == 0) {
+                              continue;
+                         }
+
+                         let row = invoiceTable.insertRow();
+                         row.insertCell().innerHTML = products[i].name;
+                         if (errors.length > 0) {
+                              row.insertCell().innerHTML = ` ${product_quantities_array[i]}<br><div style="color:red;">${errors.join('<br> ')}</div>`;
+                              extended_price = 0;
+                         }
+                         else {
+                              row.insertCell().innerHTML = product_quantities_array[i];
+                         }
+                         row.insertCell().innerHTML = '$' + products[i].price.toFixed(2);
+                         row.insertCell().innerHTML = '$' + extended_price;
+
+                         subtotal += extended_price;
+                    }
+
+                    // Tax
+                    let sales_tax = 5.75;
+                    let tax = subtotal * sales_tax / 100;
+
+                    // Shipping
+                    let shipping;
+                    if (subtotal < 50) {
+                         shipping = 2.00;
+                    }
+                    if (subtotal >= 50 && subtotal < 100) {
+                         shipping = 5.00;
+                    }
+                    else {
+                         shipping = subtotal * .05;
+                    }
+                    // Grand Total
+                    let total = subtotal + tax;
+
+                    //Blank row
+                    let blank_row = invoiceTable.insertRow();
+                    blank_row.style.height = "22px";
+                    blank_row.insertCell().colSpan = 4;
+                    // subtotal row
+                    let subtotal_row = invoiceTable.insertRow();
+                    subtotal_row.insertCell().colSpan = 3;
+                    subtotal_row.cells[0].innerHTML = "Sub-total";
+                    subtotal_row.cells[0].style.textAlign = "center";
+                    subtotal_row.insertCell(1).innerHTML = '$' + subtotal.toFixed(2);
+
+                    let tax_row = invoiceTable.insertRow();
+                    tax_row.insertCell().colSpan = 3;
+                    tax_row.cells[0].innerHTML = "Tax @ 5.75%";
+                    tax_row.cells[0].style.textAlign = "center";
+                    tax_row.insertCell(1).innerHTML = '$' + tax.toFixed(2);
+
+                    // Shipping row
+                    let shipping_row = invoiceTable.insertRow();
+                    shipping_row.insertCell().colSpan = 3;
+                    shipping_row.cells[0].innerHTML = "Shipping";
+                    shipping_row.cells[0].style.textAlign = "center";
+                    shipping_row.insertCell(1).innerHTML = '$' + shipping.toFixed(2);
+
+                    // Grand Total Row
+                    let total_row = invoiceTable.insertRow();
+                    total_row.insertCell().colSpan = 3;
+                    total_row.cells[0].innerHTML = "<b>Total</b>";
+                    total_row.cells[0].style.textAlign = "center";
+                    total_row.insertCell(1).innerHTML = "<b>" + '$' + total.toFixed(2) + "</b>";
+               }
+               // Header Row 
                let header_row = invoiceTable.insertRow();
                let headers = ["Item", "Quantity", "Price", "Extended Price"];
                let widths = ["43%", "11%", "13%", "33%"];
@@ -81,6 +103,7 @@ let sales_tax = 5.75;
                     cell.style.width = widths[i];
                }
                generate_item_rows(quantities);
+
           </script>
      </table>
 </body>
