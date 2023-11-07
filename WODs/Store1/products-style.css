@@ -10,7 +10,7 @@ html {
 }
 
 body {
-  width: 800px;
+  width: 1000px;
   margin: 0 auto;
 }
 
@@ -84,7 +84,7 @@ footer h1 {
 }
 
 aside {
-  flex: 3;
+  flex: 2;
 }
 
 main {
@@ -117,7 +117,7 @@ aside div {
 
 
 section {
-  width: 45%;
+  width: 40%;
   margin: 5px;
   background-color: black;
   position: relative;
@@ -139,11 +139,9 @@ section p {
   z-index: 2000;
 }
 
-
 .item {
   background-size: 234px 24px;
 }
-
 
 .item img {
     width: 200px;
@@ -153,4 +151,28 @@ section p {
     position: absolute;
     bottom: 0px;
     
+}
+
+.item label {
+  color: yellow; 
+  position: absolute;
+  left: 230px;
+  top: 45px;
+  font-size: 1.4rem;
+}
+
+.item input[type="text"] {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  left: 230px;
+  top: 80px;
+  font-size: 1.5rem;
+}
+
+footer input[type="submit"] {
+  background: black;
+  width:100px;
+  color: white;
+  font-size: medium;
 }

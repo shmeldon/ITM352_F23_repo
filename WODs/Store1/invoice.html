@@ -11,6 +11,11 @@
 <body>
      <table id="invoiceTable" border="2" align="center" style="background-color: blueviolet;">
           <script>
+               let params = (new URL(document.location)).searchParams;
+               let quantities = [];
+               for(let i = 0; i < products.length; i++) {
+                    quantities.push(params.get(`quantity${i}`));
+               }
                function isNonNegInt(q, returnErrors = false) {
                     errors = [];
                     if (Number(q) != q) errors.push('Not a number!');

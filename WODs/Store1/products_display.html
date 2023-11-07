@@ -14,6 +14,7 @@
     <script src="./products_data.js"></script>
   </head>
 
+<form action="./invoice.html" method="get">
   <body>
     <header>
       <h1>Sheldon's Used Smart Phone Store</h1>
@@ -41,6 +42,8 @@
                     <h2>${products[i].name}</h2>
                     <p>$${products[i].price}</p>
                     <img src = ${products[i].image}>
+                    <label for="quantity${i}" id="quantity${i}_label"> Quantity Desired: </label>
+                    <input type="text" name="quantity${i}" id="quantity${i}">
                 </section>`);
           }
         </script>
@@ -48,6 +51,8 @@
     </div>
     <footer>
       <h1>Your One Stop For Used Phones</h1>
+      <h1><input type="submit" value="Purchase"></h1>
     </footer>
   </body>
+</form>
 </html>
