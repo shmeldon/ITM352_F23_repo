@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 const products = require(__dirname + '/products.json');
+const qs = require('qs');
 
 // Function to check if the quantities entered are whole numbers, negative values, and/or a number and not a string; Taken from labs
 function isNonNegInt(quantities, returnErrors) {
@@ -47,7 +48,7 @@ app.post("/process_form", function (request, response) {
 
         // if valid, create invoice
         if (Object.entries(errors.length === 0)) {
-            response.redirect(`invoice.html${qstr}`);
+            response.redirect(`invoice.html?${qstr}`);
         }
         // check quanitity is available
     
