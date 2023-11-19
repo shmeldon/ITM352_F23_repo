@@ -8,27 +8,27 @@ h1 {
 .products-container {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around; /* This will space out the items evenly */
+    justify-content: space-around;
     align-items: flex-start; /* Aligns items to the start of the container */
-    margin: 2px;
+    margin: 10px;
 }
 .item {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     align-items: start;
-    padding: 2px;
-    margin: 2px;
-    width: 40%;
-    font-size: 14px;
+    padding: 10px;
+    margin: 3px;
+    width: 25%;
+    font-size: 12px;
 }
 .item img {
-    width: 100%;
     height: auto;
+    max-width: 100%;
 }
 .item h2, .item h3, .item p {
-    text-align: center;
-    margin: 5px 0; /* Adjust spacing as needed */
+    text-align: start;
+    margin: 3px 0; /* Adjust spacing as needed */
 }
 nav {
     display: flex;
@@ -44,15 +44,32 @@ nav ul {
     margin-right: 35%; 
     font-size: 150%;
 }
+nav ul li a:visited {
+    color: black;
+}
 nav ul li a:hover {
     color: red;
 }
-nav ul li a:visited {
-    color: black;
-    text-decoration: none;
-}
 .quantity-container input[type="text"]{
-    width: 50%;
+    width: 30%;
     height: auto;
-    font-size: 14px;
+    font-size: 13px;
+}
+/* Copied from ChatGPT. Adjusts the items according to the size of the browser window open. */
+@media (max-width: 600px) {
+    .item {
+        width: 100%; /* Full width for small screens, 1 item per row */
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1000px) {
+    .item {
+        width: 55%; /* Half width for medium screens, 2 items per row */
+    }
+}
+
+@media (min-width: 1001px) {
+    .item {
+        width: 30%; /* One-third width for large screens, 3 items per row */
+    }
 }
