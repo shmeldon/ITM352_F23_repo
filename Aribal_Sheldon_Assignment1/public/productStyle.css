@@ -5,6 +5,7 @@ h1 {
     text-align: center;
     font-size: 35px;
 }
+
 .products-container {
     display: flex;
     flex-flow: row wrap;
@@ -12,6 +13,7 @@ h1 {
     align-items: flex-start; /* Aligns items to the start of the container */
     margin: 10px;
 }
+/* Styling for content within class "item" */
 .item {
     display: flex;
     flex-wrap: wrap;
@@ -22,12 +24,13 @@ h1 {
     width: 25%;
     font-size: 12px;
 }
+/* Styling for product images only */
 .item img {
     height: auto;
     max-width: 100%;
 }
+/* Styling for item price, availability, quantity desired */
 .item h2, .item h3, .item p {
-    text-align: start;
     margin: 3px 0; /* Adjust spacing as needed */
 }
 nav {
@@ -44,17 +47,40 @@ nav ul {
     margin-right: 35%; 
     font-size: 150%;
 }
+/* Make it so after clicking link, words don't turn purple */
 nav ul li a:visited {
     color: black;
 }
+/* Create hover effect for nav bar links */
 nav ul li a:hover {
     color: red;
 }
+/* Styling for quantity textbox */
 .quantity-container input[type="text"]{
     width: 30%;
     height: auto;
     font-size: 13px;
 }
+/* Style for purchase button */
+input[type="submit"] {
+    background-color: red;
+    color: white; /* White text */
+    text-align: center; /* Center the text inside the button */
+    display: inline-block; /* Align it inline with other elements */
+    font-size: 24px; /* Set the font size */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+    border-radius: 4px; /* Rounded corners */
+}
+/* Create scale effect on hover */
+input[type="submit"]:hover {
+    transform: scale(1.1);
+}
+footer {
+    display: flex;
+    justify-content: center; /* Centers the button horizontally */
+    align-items: center; /* Centers the button vertically if the footer has a specific height */
+}
+
 /* Copied from ChatGPT. Adjusts the items according to the size of the browser window open. */
 @media (max-width: 600px) {
     .item {
@@ -64,7 +90,7 @@ nav ul li a:hover {
 
 @media (min-width: 601px) and (max-width: 1000px) {
     .item {
-        width: 55%; /* Half width for medium screens, 2 items per row */
+        width: 45%; /* Half width for medium screens, 2 items per row */
     }
 }
 

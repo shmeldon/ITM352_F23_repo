@@ -33,8 +33,9 @@ app.get("/products.js", function (request, response, next) {
 app.post("/process_form", function (request, response) {
     console.log('in process+form', request.body);
     
-    for (let i in product_data) {
-        let q = request.body['quantity' + i];
+    for (let i in products) {
+        let qty = request.body['quantity' + i];
+        
         // validate quantities 
         let errors = {}; //assume no errors
         //check if nonnegint
