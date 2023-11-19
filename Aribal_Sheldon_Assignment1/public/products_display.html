@@ -68,10 +68,11 @@
                                 <h2>${products[i].name}</h2>
                                 <h3><b>$${products[i].price.toFixed(2)}</b></h3>
                                 <p>${products[i].quantity_available} available</p>
+                                <div class="quantity-container">
                                 <label id="quantity${i}_label"}">Quantity Desired:</label>
-                                <input type="text" placeholder="0" name="quantity${i}" 
+                                <input type="text" class="textbox" placeholder="0" name="quantity${i}" 
                                 onkeyup="checkQuantityTextbox(this);">
-                    
+                                </div>
                             </section>
                         `);
                     }    
