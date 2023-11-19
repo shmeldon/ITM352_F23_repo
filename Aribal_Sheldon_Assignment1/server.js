@@ -1,21 +1,5 @@
 const express = require('express');
 const app = express();
-const products = require(__dirname + "/public/product_data.js");
-
-function isNonNegInt(q, returnErrors = false) {
-    errors = [];
-    if (q === '') {
-        q = 0;
-    }
-    if (Number(q) != q) {
-        errors.push('Not a number!');
-    }
-    else {
-        if (q < 0) errors.push('Negative value!');
-        if (parseInt(q) != q) errors.push('Not an integer!');
-    }
-    return returnErrors ? errors : (errors.length == 0);
-}
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -23,6 +7,8 @@ app.all('*', function (request, response, next) {
     console.log(request.method + ' to path ' + request.path + 'with qs ' + JSON.stringify(request.query)) ;
     next(); 
 });
+
+const products = require(__dirname + '/product_data.json');
 
 app.get("/product_data.js", function (request, response, next) {
    response.type('.js');
@@ -32,7 +18,8 @@ app.get("/product_data.js", function (request, response, next) {
 
 app.post("/process_form", function (request, response) {
     console.log('in process+form', request.body);
-    for (let i in products) {
+    
+    for (let i in product_data) {
         let q = request.body['quantity' + i];
         // validate quantities 
         let errors = {}; //assume no errors
@@ -40,18 +27,20 @@ app.post("/process_form", function (request, response) {
         if (isNonNegInt(qty) === false) {
             errors['quantity0'] = isNonNegInt(qty, true);
         }
-   
+        
+        let qstr = qs.stringify(request.body)
+
         // if valid, create invoice
         if (Object.entries(errors.length === 0)) {
-            response.send(`Thank you for purchasing ${q} things!`);
+            response.redirect(`invoice.html${qstr}`);
         }
+        // check quanitity is available
     
         // not valid, send back to display product 
         else {
-            response.send(`${errors} is not valid. Hit the back button and submit again`)
+            response.redirect(`product_display.html`);
         }
     }
-
  });
 
 app.get('/test', function (request, response, next) {
