@@ -10,15 +10,40 @@
         body {
             text-align: center;
             font-family: Arial, Helvetica, sans-serif;
+            font-size: 35px;
         }
+
+        img {
+            width: 90%;
+            height: auto;
+        }
+        img:hover {
+            filter: blur(4px);
+        }
+        .overlay-text {
+            position: absolute;
+            top: 58%;
+            /* Center vertically */
+            left: 50%;
+            /* Center horizontally */
+            transform: translate(-50%, -50%);
+            color: rgb(250, 249, 249);
+            /* Text color */
+            font-size: 60px;
+            
+        }
+
     </style>
 </head>
 
 <body>
     <h1>Sheldon's Vintage Clothing Store</h1>
 
-    <a href="products_display.html"><img
-            src="https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/IMG_0494.jpg?raw=true"></a>
+        <a href="products_display.html"><img
+                src="https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/IMG_0494.jpg?raw=true">
+            <span class="overlay-text"><b>Enter</b></span>
+        </a>
+    
 
 </body>
 
