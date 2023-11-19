@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const products_array = require(__dirname + '/products.json');
+
 app.use(express.urlencoded({ extended: true }));
 
 app.all('*', function (request, response, next) {
@@ -8,7 +10,7 @@ app.all('*', function (request, response, next) {
     next(); 
 });
 
-const products = require(__dirname + '/product_data.json');
+const products = require(__dirname + '/products.json');
 
 app.get("/product_data.js", function (request, response, next) {
    response.type('.js');

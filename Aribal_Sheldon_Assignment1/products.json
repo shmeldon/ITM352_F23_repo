@@ -1,0 +1,36 @@
+{
+    "products": [
+      {
+        "name": "Custom Pearl Necklace",
+        "price": 0.00,
+        "quantity_available": 20,
+        "image": "url_to_product_1_image.jpg"
+      },
+      {
+        "name": "Custom Graphic Hoodie",
+        "price": 0.00,
+        "quantity_available": 5,
+        "image": "url_to_product_2_image.jpg"
+      },
+      {
+        "name": "Grey Kith Mesh Shorts",
+        "price": 0.00,
+        "quantity_available": 0,
+        "image": "url_to_product_3_image.jpg"
+      },
+      {
+        "name": "Black Nike Mesh Shorts",
+        "price": 0.00,
+        "quantity_available": 0,
+        "image": "url_to_product_4_image.jpg"
+      },
+      {
+        "name": "Stussy International Tee",
+        "price": 0.00,
+        "quantity_available": 0,
+        "image": "url_to_product_5_image.jpg"
+      }
+      // Add more products as needed
+    ]
+  }
+  
