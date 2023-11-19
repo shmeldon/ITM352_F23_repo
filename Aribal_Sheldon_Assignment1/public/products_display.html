@@ -50,8 +50,8 @@
 <body>
     <nav>
         <ul>
-            <li><a href="index.html">HOME</a></li>
-            <li><a href="products_display.html">SHOP</a></li>
+            <li><a href="index.html"><b>HOME</b></a></li>
+            <li><a href="products_display.html"><b>SHOP</b></a></li>
         </ul>
     </nav>
     <form name="product_selection_form" action="process_form" method="POST">
@@ -66,9 +66,9 @@
                             <section class="item">
                                 <img src="${products[i].image}">
                                 <h2>${products[i].name}</h2>
-                                <h3>${products[i].quantity_available} available</h3>
-                                <p><b>$${products[i].price}</b></p>
-                                <label id="quantity${i}_label"}">Quantity</label>
+                                <h3><b>$${products[i].price.toFixed(2)}</b></h3>
+                                <p>${products[i].quantity_available} available</p>
+                                <label id="quantity${i}_label"}">Quantity Desired:</label>
                                 <input type="text" placeholder="0" name="quantity${i}" 
                                 onkeyup="checkQuantityTextbox(this);">
                     
@@ -80,7 +80,7 @@
         </div>
         <footer>
             <h1>
-                Straight From My Closet
+
             </h1>
             <input type="submit" value="Purchase!" name="purchase_submit">
         </footer>
