@@ -20,7 +20,7 @@ function isNonNegInt(quantities, returnErrors) {
 app.use(express.urlencoded({ extended: true }));
 
 app.all('*', function (request, response, next) {
-    console.log(request.method + ' to path ' + request.path + 'with qs ' + JSON.stringify(request.query)) ;
+    console.log(request.method + ' to path ' + request.path);
     next(); 
 });
 
