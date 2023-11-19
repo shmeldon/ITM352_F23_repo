@@ -3,7 +3,7 @@
 		"name": "CUSTOM PEARL NECKLACE",
 		"price": 100.00,
 		"quantity_available": 20,
-		"image": ""
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/pearl_necklace.jpg?raw=true"
 	},
 	{
 		"name": "CUSTOM GRAPHIC HOODIE",
@@ -21,7 +21,7 @@
 		"name": "NIKE MESH SHORT BLACK",
 		"price": 60.00,
 		"quantity_available": 25,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_001_20231118_210242.jpg?raw=true"
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/nike_shorts.jpg?raw=true"
 	},
 	{
 		"name": "STUSSY X CACTUS PLANT",
