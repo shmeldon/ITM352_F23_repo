@@ -1,5 +1,4 @@
-{
-    "products": [
+[
       {
         "name": "Custom Pearl Necklace",
         "price": 100.00,
@@ -37,6 +36,6 @@
         "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/supreme_flannel.JPG?raw=true"
       }
 
-    ]
-  }
+ ]
+  
   

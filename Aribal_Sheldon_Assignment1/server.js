@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const products_array = require(__dirname + '/products.json');
+const products = require(__dirname + '/products.json');
 
 // Function to check if the quantities entered are whole numbers, negative values, and/or a number and not a string; Taken from labs
 function isNonNegInt(quantities, returnErrors) {
@@ -23,8 +23,6 @@ app.all('*', function (request, response, next) {
     console.log(request.method + ' to path ' + request.path);
     next(); 
 });
-
-const products = require(__dirname + '/products.json');
 
 app.get("/products.js", function (request, response, next) {
    response.type('.js');
