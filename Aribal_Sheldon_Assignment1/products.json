@@ -1,41 +1,38 @@
 [
-      {
-        "name": "Custom Pearl Necklace",
-        "price": 100.00,
-        "quantity_available": 20,
-        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_000_20231118_205531%202.jpg?raw=true"
-      },
-      {
-        "name": "Custom Graphic Hoodie",
-        "price": 100.00,
-        "quantity_available": 5,
-        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_004_20231118_205531%202.jpg?raw=true"
-      },
-      {
-        "name": "Kith Mesh Shorts Grey",
-        "price": 60.00,
-        "quantity_available": 25,
-        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_001_20231118_205531%202.jpg?raw=true"
-      },
-      {
-        "name": "Nike Mesh Shorts Black",
-        "price": 60.00,
-        "quantity_available": 25,
-        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_001_20231118_210242.jpg?raw=true"
-      },
-      {
-        "name": "Stussy International Tee",
-        "price": 75.00,
-        "quantity_available": 40,
-        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/stussy_tee.jpg?raw=true"
-      },
-      {
-        "name": "Supreme Flannel Green",
-        "price": 120.00,
-        "quantity_available": 25,
-        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_003_20231118_205531%202.jpg?raw=true"
-      }
-
- ]
-  
-  
+	{
+		"name": "Custom Pearl Necklace",
+		"price": 100.0,
+		"quantity_available": 20,
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_000_20231118_205531%202.jpg?raw=true"
+	},
+	{
+		"name": "Custom Graphic Hoodie",
+		"price": 100.0,
+		"quantity_available": 5,
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_004_20231118_205531%202.jpg?raw=true"
+	},
+	{
+		"name": "Kith Mesh Shorts Grey",
+		"price": 60.0,
+		"quantity_available": 25,
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_001_20231118_205531%202.jpg?raw=true"
+	},
+	{
+		"name": "Nike Mesh Shorts Black",
+		"price": 60.0,
+		"quantity_available": 25,
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_001_20231118_210242.jpg?raw=true"
+	},
+	{
+		"name": "Stussy International Tee",
+		"price": 75.0,
+		"quantity_available": 40,
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_000_20231118_210909.jpg?raw=true"
+	},
+	{
+		"name": "Supreme Flannel Green",
+		"price": 120.0,
+		"quantity_available": 25,
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_003_20231118_205531%202.jpg?raw=true"
+	}
+]
