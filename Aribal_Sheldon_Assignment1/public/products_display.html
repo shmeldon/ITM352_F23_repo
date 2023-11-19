@@ -45,31 +45,35 @@
       }
     </script>
 </head>
-<body>
+<form name="product_selection_form" action="process_form" method="POST">
+    <header>
+      <h1>Vintage Clothing</h1>
+    </header>
     <div>
-        <main>
-            <form name="quantity_form" action="./invoice.html" method="POST">
-                <script>
-                    // for loop that generates product data
-                    for (i = 0; i < products.length; i++)
-                        document.write(`
-                <section class="item">
-                    <h2 name = "products${i}_name">${products[i].name}</td>
-                    </h2> 
-                    <p>$${products[i].price}</p>
-                    <img src="${products[i].image}" id = "image">
-                    <p>Quantity Available: ${products[i].quantity_available}</p>
-                    <p><label for = "quantities${i}" id = "quantities${i}_label">Enter Quantity Desired:</label><p>
-                   <p><input type = "text" id = "quantities${i}" name = "quantities${i}"></p>
-                </section>
-            `);
-                </script>
-
+      <main>
+        <script>
+          for (i = 0; i < products.length; i++) {
+            document.write(`
+                            <section class="item">
+                                <h2>${products[i].name}</h2>
+                                <h3>${products[i].quantity_available} available</h3>
+                                <p>$${products[i].price}</p>
+                                <label id="quantity${i}_label"}">Quantity</label>
+                                <input type="text" placeholder="0" name="quantity${i}" 
+                                onkeyup="checkQuantityTextbox(this);">
+                                <img src="${products[i].image}">
+                            </section>
+                        `);
+          }    
+        </script>
+      </main>
     </div>
     <footer>
-        </p><input type="submit" id="purchase_button" value="Click Here to Purchase!"></p>
+      <h1>
+       Straight From My Closet
+      </h1>
+      <input type="submit" value="Purchase!" name="purchase_submit">
     </footer>
-    </form>
-    </main>
+  </form>
 </body>
 </html>
