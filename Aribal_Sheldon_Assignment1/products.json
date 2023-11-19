@@ -9,13 +9,13 @@
 		"name": "CUSTOM GRAPHIC HOODIE",
 		"price": 100.00,
 		"quantity_available": 5,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_004_20231118_205531%202.jpg?raw=true"
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/custom_hoodie.jpg?raw=true"
 	},
 	{
 		"name": "KITH MESH SHORT GREY",
 		"price": 60.00,
 		"quantity_available": 25,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_001_20231118_205531%202.jpg?raw=true"
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/kith_shorts.jpg?raw=true"
 	},
 	{
 		"name": "NIKE MESH SHORT BLACK",
@@ -27,12 +27,12 @@
 		"name": "STUSSY X CACTUS PLANT",
 		"price": 75.00,
 		"quantity_available": 40,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_000_20231118_210909.jpg?raw=true"
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/Stussy_tee.jpg?raw=true"
 	},
 	{
 		"name": "SUPREME FLANNEL GREEN",
 		"price": 120.00,
 		"quantity_available": 25,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/PhotoRoom_003_20231118_205531%202.jpg?raw=true"
+		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/Supreme_flannel.jpg?raw=true"
 	}
 ]
