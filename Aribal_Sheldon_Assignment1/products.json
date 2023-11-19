@@ -2,35 +2,41 @@
     "products": [
       {
         "name": "Custom Pearl Necklace",
-        "price": 0.00,
+        "price": 100.00,
         "quantity_available": 20,
-        "image": "url_to_product_1_image.jpg"
+        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/pear_necklace.JPG?raw=true"
       },
       {
         "name": "Custom Graphic Hoodie",
-        "price": 0.00,
+        "price": 100.00,
         "quantity_available": 5,
-        "image": "url_to_product_2_image.jpg"
+        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/custom_hoodie.JPG?raw=true"
       },
       {
-        "name": "Grey Kith Mesh Shorts",
-        "price": 0.00,
-        "quantity_available": 0,
-        "image": "url_to_product_3_image.jpg"
+        "name": "Kith Mesh Shorts Grey",
+        "price": 60.00,
+        "quantity_available": 25,
+        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/kith_shorts.JPG?raw=true"
       },
       {
-        "name": "Black Nike Mesh Shorts",
-        "price": 0.00,
-        "quantity_available": 0,
-        "image": "url_to_product_4_image.jpg"
+        "name": "Nike Mesh Shorts Black",
+        "price": 60.00,
+        "quantity_available": 25,
+        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/nike_shorts.jpg"
       },
       {
         "name": "Stussy International Tee",
-        "price": 0.00,
-        "quantity_available": 0,
-        "image": "url_to_product_5_image.jpg"
+        "price": 75.00,
+        "quantity_available": 40,
+        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/stussy_tee.jpg?raw=true"
+      },
+      {
+        "name": "Supreme Flannel Green",
+        "price": 120.00,
+        "quantity_available": 25,
+        "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/supreme_flannel.JPG?raw=true"
       }
-      // Add more products as needed
+
     ]
   }
   
