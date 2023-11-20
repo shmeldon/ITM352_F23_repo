@@ -1,0 +1,49 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #fff; /* or any background color you prefer */
+    color: #333; /* text color */
+}
+
+table {
+    width: 100%; /* Make the table use the full width */
+    border-collapse: collapse; /* Remove space between borders */
+    margin-top: 20px; /* Add some spacing at the top of the table */
+}
+
+th, td {
+    text-align: left; /* Align text to the left in table headers and cells */
+    border: 2px solid #000; /* Black border for table headers and cells */
+    padding: 8px; /* Spacing inside cells */
+}
+
+th {
+    background-color: #f2f2f2; /* Light grey background for table headers */
+    font-weight: bold; /* Make table headers bold */
+}
+
+td {
+    background-color: #fff; /* White background for table cells */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Zebra striping for rows */
+}
+
+/* Style for the total, subtotal, tax, and shipping rows */
+.summary-row {
+    font-weight: bold; /* Make summary text bold */
+}
+
+.summary-value {
+    text-align: right; /* Align summary values to the right */
+}
+
+/* Policy section styling */
+.policy {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin-top: 20px; /* Add spacing above the policy section */
+    font-size: 0.9em; /* Smaller font size for the policy text */
+    font-weight: bold; /* Bold font for emphasis */
+}
+
+/* Apply additional styles as needed */
