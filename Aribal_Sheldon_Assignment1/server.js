@@ -66,13 +66,11 @@ app.post("/process_form", function (request, response) {
 
     console.log("Valid Items: ", validItems);
     console.log("Errors: ", errors);
-    
-        // if valid, create invoice. Revised code from ChatGpt
-        if (Object.keys(errors).length === 0) {
-            response.redirect(`invoice.html?${qstr}`);
-        }
 
-    
+        // if valid, create invoice. Revised code from ChatGpt
+    if (Object.keys(validItems).length > 0 && Object.keys(errors).length === 0) {
+        response.redirect(`invoice.html?purchase_submit=true&${qstr}`); //redirects the user to 'invoice.html' with the query string appended.
+        }
         // if not valid, send back to products display page. Passes errors back as well. 
         else {
             response.redirect(`products_display.html?error=${JSON.stringify(errors)}`);
