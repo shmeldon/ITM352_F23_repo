@@ -45,11 +45,15 @@
 
 	<body>
 		<nav>
-      <ul>
-          <li><a href="index.html"><b>HOME</b></a></li>
-          <li><a href="products_display.html"><b>SHOP</b></a></li>
-      </ul>
-  </nav>
+			<ul>
+				<li>
+					<a href="index.html"><b>HOME</b></a>
+				</li>
+				<li>
+					<a href="products_display.html"><b>SHOP</b></a>
+				</li>
+			</ul>
+		</nav>
 
 		<header>
 			<h1>ORDER SUMMARY</h1>
@@ -62,16 +66,15 @@
 					if (quantities[i] > 0) {
 						document.write(`
                         <div class="invoice-item">
-                            <img src="${products[i].image}" alt="${
-							products[i].name
-						}">
+                            <img src="${products[i].image}" alt="${products[i].name}">
                             <div class="item-details">
-                                <h3>${products[i].name}</h3>
+                              <div  class="item-header">             <h3>${products[i].name}</h3>
+                                <h3>Total: $${(
+																	quantities[i] * products[i].price
+																).toFixed(2)}</h3>
                                 <p>Quantity: ${quantities[i]}</p>
                                 <p>Price: $${products[i].price.toFixed(2)}</p>
-                                <p>Total: $${(
-																	quantities[i] * products[i].price
-																).toFixed(2)}</p>
+                                
                             </div>
                         </div>
                     `);
