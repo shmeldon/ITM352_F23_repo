@@ -33,10 +33,10 @@ nav ul li a:hover {
     margin-bottom: 20px;
 }
 .invoice-item img {
-   width: 25%;
+   width: 30%;
    height: auto;
    margin-right: 25px; /* Increase right margin */
-   margin-bottom: 10px; /* Add bottom margin if needed */
+   margin-bottom: 5px; 
 }
 .item-details {
     display: flex;
@@ -45,34 +45,28 @@ nav ul li a:hover {
 .item-header {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+}
+.item-total {
+    margin-left: auto;
+}
+.item-name {
+    flex: 0 0 300px; 
 }
 h1 {
     font-size: 40px;
     text-align: center;
+    margin-bottom: 50px;
 }
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background: #fff;
     color: #333; 
 }
-
-
-th, td {
-    text-align: left; /* Align text to the left in table headers and cells */
-    border: 2px solid #000; /* Black border for table headers and cells */
-    padding: 8px; /* Spacing inside cells */
+.dashed-line {
+    border-bottom: 1px dashed #000; 
+    width: 100%; 
+    margin: 20px 0;
 }
-
-th {
-    background-color: #f2f2f2; /* Light grey background for table headers */
-    font-weight: bold; /* Make table headers bold */
-}
-
-td {
-    background-color: #fff; /* White background for table cells */
-}
-
 /* Style for the total, subtotal, tax, and shipping rows */
 .summary-row {
     font-weight: bold; /* Make summary text bold */
@@ -88,6 +82,7 @@ td {
     margin-top: 20px; /* Add spacing above the policy section */
     font-size: 0.9em; /* Smaller font size for the policy text */
     font-weight: bold; /* Bold font for emphasis */
+    justify-content: center;
+    align-items: center;
 }
 
-/* Apply additional styles as needed */
