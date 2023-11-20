@@ -46,14 +46,20 @@ app.post("/process_form", function (request, response) {
         if (qty == 0) {
             continue;
         }
+         // If the quantity is valid and non-zero, add it to the validItems object.
         if (isNonNegInt(qty) && Number(qty) > 0) {
-            // If the quantity is valid and non-zero, add it to the filteredItems object.
             validItems['quantity' + i] = qty;
+        }
+        // If the quantity is NOT valid or non-zero, add to errors object
+        if (!isNonNegInt(qty) | !Number(qty) > 0) {
+            errors['quantity' + i] = `Quantity for ${products[i].name} is not valid (Not a number or negative value)`;
         }
         totalQuantity += Number(qty); // Add up all quantities
 
+        console.log("available quantities: ", products[i].quantity_available);
+
         // Check if quantity does not exceed available quantity
-        if (Number(qty) > products[i].availableQuantity) {
+        if (Number(qty) > products[i].quantity_available) {
             errors['quantity' + i] = `Quantity for ${products[i].name} exceeds available stock.`;
         }
     }
