@@ -32,32 +32,45 @@ app.get("/products.js", function (request, response, next) {
 });
 
 app.post("/process_form", function (request, response) {
-    console.log('in process+form', request.body);
+    console.log('in process_form', request.body);
     
+    let errors = {}; // Object to store errors
+    let totalQuantity = 0; // To check if any quantity is selected
+
+    // Got loop from previous labs and modified
     for (let i in products) {
         let qty = request.body['quantity' + i];
-        
-        // validate quantities 
-        let errors = {}; //assume no errors
-        //check if nonnegint
-        if (isNonNegInt(qty) === false) {
-            errors['quantity0'] = isNonNegInt(qty, true);
-        }
-        
-        let qstr = qs.stringify(request.body)
+        totalQuantity += Number(qty); // Add up all quantities
 
-        // if valid, create invoice
-        if (Object.entries(errors.length === 0)) {
-            response.redirect(`invoice.html?${qstr}`);
+        // Validate if quantity is a non-negative integer
+        if (!isNonNegInt(qty)) {
+            errors['quantity' + i] = isNonNegInt(qty, true);
         }
-        // check quanitity is available
-    
-        // not valid, send back to display product 
-        else {
-            response.redirect(`product_display.html`);
+
+        // Check if quantity does not exceed available quantity
+        if (Number(qty) > products[i].availableQuantity) {
+            errors['quantity' + i] = `Quantity for ${products[i].name} exceeds available stock.`;
         }
     }
- });
+    if (totalQuantity === 0) {
+        errors['totalQuantity'] = 'No quantities selected. Please select at least one item.';
+    }
+
+    // Converts the request body into a URL-encoded query string. 
+    let qstr = qs.stringify(request.body);
+
+        // if valid, create invoice. Revised code from ChatGpt
+        if (Object.keys(errors).length === 0) {
+            response.redirect(`invoice.html?${qstr}`);
+        }
+
+    
+        // if not valid, send back to products display page. Passes errors back as well. 
+        else {
+            response.redirect(`products_display.html?error=${JSON.stringify(errors)}`);
+        }
+    }
+ );
 
 app.get('/test', function (request, response, next) {
     response.send('in route GET to /test');
