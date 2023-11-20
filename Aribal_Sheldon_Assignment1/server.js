@@ -36,16 +36,21 @@ app.post("/process_form", function (request, response) {
     
     let errors = {}; // Object to store errors
     let totalQuantity = 0; // To check if any quantity is selected
+    let validItems = {};
 
     // Got loop from previous labs and modified
     for (let i in products) {
         let qty = request.body['quantity' + i];
-        totalQuantity += Number(qty); // Add up all quantities
 
-        // Validate if quantity is a non-negative integer
-        if (!isNonNegInt(qty)) {
-            errors['quantity' + i] = isNonNegInt(qty, true);
+        // Continue over if there's a textbox with 0 quantity. 
+        if (qty == 0) {
+            continue;
         }
+        if (isNonNegInt(qty) && Number(qty) > 0) {
+            // If the quantity is valid and non-zero, add it to the filteredItems object.
+            validItems['quantity' + i] = qty;
+        }
+        totalQuantity += Number(qty); // Add up all quantities
 
         // Check if quantity does not exceed available quantity
         if (Number(qty) > products[i].availableQuantity) {
@@ -57,7 +62,7 @@ app.post("/process_form", function (request, response) {
     }
 
     // Converts the request body into a URL-encoded query string. 
-    let qstr = qs.stringify(request.body);
+    let qstr = qs.stringify(validItems);
 
         // if valid, create invoice. Revised code from ChatGpt
         if (Object.keys(errors).length === 0) {
