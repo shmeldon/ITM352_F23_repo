@@ -1,13 +1,15 @@
 nav {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     border-bottom: 1px solid black;
 }
-  nav ul li {
+nav ul {
     display: flex;
     list-style-type: none;
-    margin-right: 5%; 
+  }
+  nav ul li {
+    margin-right: 35%; 
     font-size: 150%;
 }
 /* Make it so after clicking link, words don't turn purple */
@@ -23,11 +25,8 @@ nav ul li a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 800px; /* Set a maximum width */
-    margin: 0 auto; /* Auto margins for equal space on both sides */
-    padding: 20px; /* Optional padding */
+    max-width: 100%; /* Set a maximum width */
 }
-
 .invoice-item {
     display: flex;
     align-items: top;
@@ -53,7 +52,6 @@ body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background: #fff;
     color: #333; 
-    width: 80%;
 }
 
 
