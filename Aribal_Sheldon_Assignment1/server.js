@@ -64,6 +64,9 @@ app.post("/process_form", function (request, response) {
     // Converts the request body into a URL-encoded query string. 
     let qstr = qs.stringify(validItems);
 
+    console.log("Valid Items: ", validItems);
+    console.log("Errors: ", errors);
+    
         // if valid, create invoice. Revised code from ChatGpt
         if (Object.keys(errors).length === 0) {
             response.redirect(`invoice.html?${qstr}`);

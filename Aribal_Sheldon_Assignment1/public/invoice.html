@@ -102,8 +102,10 @@
       let subtotal = 0;
 
       for (let i = 0; i < products.length; i++) {
-        if (quantities[i] === 0) continue; // Skip items with zero quantity
-        
+        // Skip items with zero or invalid quantity
+    if (!quantities[i] || quantities[i] <= 0) continue;
+
+
         let totalForItem = quantities[i] * products[i].price;
         subtotal += totalForItem;
 
