@@ -79,77 +79,28 @@
 					}
 				}
 			</script>
+      <div class="line"></div> 
+      <div class="costs"> 
+        <div class="cost-item">
+          <span class="cost-label">Subtotal:</span>
+          <span class="cost-value">$[Subtotal]</span>
+      </div>
+      <div class="cost-item">
+          <span class="cost-label">Shipping:</span>
+          <span class="cost-value">$[Shipping]</span>
+      </div>
+      <div class="cost-item">
+          <span class="cost-label">Total:</span>
+          <span class="cost-value">$[Total]</span>
+      </div>
       </div>
 
-      <script>  
-        <div class="dashed-line"></div> /*div to add dashed line in css */
-      </script>
-      
+    
   </body>
    
-		<table border="2">
-			<tbody>
-				<tr>
-					<td colspan="4" width="100%">&nbsp;</td>
-				</tr>
-				<tr class="summary-row">
-					<td style="text-align: center" colspan="3" width="67%">Sub-total</td>
-					<td class="summary-value" width="54%">
-						$
-						<script>
-							document.write(subtotal.toFixed(2));
-						</script>
-					</td>
-				</tr>
-
-				<!-- Tax row -->
-				<tr class="summary-row">
-					<td style="text-align: center" colspan="3" width="67%">
-						Tax @
-						<script>
-							document.write(100 * tax_rate);
-						</script>
-						%
-					</td>
-					<td class="summary-value" width="54%">
-						$
-						<script>
-							document.write(tax.toFixed(2));
-						</script>
-					</td>
-				</tr>
-
-				<!-- Shipping row -->
-				<tr class="summary-row">
-					<td style="text-align: center" colspan="3" width="67%">Shipping</td>
-					<td class="summary-value" width="54%">
-						$
-						<script>
-							document.write(shipping.toFixed(2));
-						</script>
-					</td>
-				</tr>
-
-				<!-- Total row -->
-				<tr class="summary-row">
-					<td style="text-align: center" colspan="3" width="67%">
-						<strong>Total</strong>
-					</td>
-					<td class="summary-value" width="54%">
-						<strong
-							>$
-							<script>
-								document.write(total.toFixed(2));
-							</script>
-						</strong>
-					</td>
-				</tr>
-			</tbody>
-		</table>
- 
- 
 		<div class="shipping-policy">
-			<br /><b>
+			<br/>
+      <b>
 				SHIPPING POLICY: A subtotal $0 - $49.99 will be $2 shipping A subtotal
 				$50 - $99.99 will be $5 shipping Subtotals over $100 will be charged 5%
 				of the subtotal amount

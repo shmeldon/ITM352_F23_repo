@@ -62,7 +62,8 @@ body {
     background: #fff;
     color: #333; 
 }
-.dashed-line {
+/* Style for line separating parts of the invoice */
+.line {
     border-bottom: 1px dashed #000; 
     width: 100%; 
     margin: 20px 0;
