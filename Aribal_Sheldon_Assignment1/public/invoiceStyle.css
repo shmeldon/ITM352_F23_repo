@@ -24,8 +24,8 @@ nav ul li a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: auto;
-    max-width: 50%; /* Set a maximum width */
+    margin: 0 auto;
+    width: 60%; 
 }
 .invoice-item {
     display: flex;
@@ -33,7 +33,7 @@ nav ul li a:hover {
     margin-bottom: 20px;
 }
 .invoice-item img {
-   width: 30%;
+   width: 20%;
    height: auto;
    margin-right: 25px; /* Increase right margin */
    margin-bottom: 5px; 
@@ -41,19 +41,18 @@ nav ul li a:hover {
 .item-details {
     display: flex;
     flex-direction: column;
+    justify-content: space-between; 
 }
 .item-header {
-    display: flex;
-    justify-content: space-between;
+    flex-grow: 1; 
+    align-items: top;
 }
 .item-total {
+    text-align: right;
     margin-left: auto;
 }
-.item-name {
-    flex: 0 0 300px; 
-}
 h1 {
-    font-size: 40px;
+    font-size: 37px;
     text-align: center;
     margin-bottom: 50px;
 }
@@ -62,28 +61,50 @@ body {
     background: #fff;
     color: #333; 
 }
-/* Style for line separating parts of the invoice */
+/* Style for line separating parts of the invoice*/
 .line {
     border-bottom: 1px dashed #000; 
-    width: 100%; 
-    margin: 20px 0;
+    width: 70%; 
+    margin: auto;
 }
-/* Style for the total, subtotal, tax, and shipping rows */
-.summary-row {
-    font-weight: bold; /* Make summary text bold */
+/* Styling for the total, subtotal, tax, and shipping rows */
+.costs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: auto;
+    width: 65%;
+    font-size: 21px;
 }
 
-.summary-value {
-    text-align: right; /* Align summary values to the right */
+.cost-item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
+.cost-label {
+    font-weight: bold;
+}
+/* Align prices to right */
+.cost-value {
+    margin-left: auto;
+}
 /* Policy section styling */
-.policy {
+.shipping-policy {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    margin-top: 20px; /* Add spacing above the policy section */
-    font-size: 0.9em; /* Smaller font size for the policy text */
+    margin-top: 30px; /* Add spacing above the policy section */
+    font-size: 17px; /* Smaller font size for the policy text */
     font-weight: bold; /* Bold font for emphasis */
-    justify-content: center;
-    align-items: center;
+    width: 70%;
+    margin: auto;
+}
+/* Copied from ChatGPT. Makes the layout responsive to webpage size */
+@media screen and (max-width: 600px) {
+    .invoice-items {
+        max-width: 90%;
+    }
 }
 
