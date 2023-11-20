@@ -1,133 +1,150 @@
 <script src="./products.js" type="text/javascript"></script>
 <script>
-  let params = (new URL(document.location)).searchParams;
-  let quantities = [];
+	let params = new URL(document.location).searchParams;
+	let quantities = [];
 
-  // form was submitted so process the invoice
-  if (params.has('purchase_submit')) {
-    for (i = 0; i < products.length; i++) {
-      if (params.has(`quantity${i}`)) {
-        a_qty = params.get(`quantity${i}`);
-        quantities[i] = a_qty;
-      }
-    }
-  } else {
-    document.write('no form submitted');
-  }
-  console.log(quantities);
-
-  
+	// form was submitted so process the invoice
+	if (params.has("purchase_submit")) {
+		for (i = 0; i < products.length; i++) {
+			if (params.has(`quantity${i}`)) {
+				a_qty = params.get(`quantity${i}`);
+				quantities[i] = a_qty;
+			}
+		}
+	} else {
+		document.write("no form submitted");
+	}
+	console.log(quantities);
 </script>
 <script>
-  // Compute tax
-  let tax_rate = 0.0575;
-  let tax = tax_rate * subtotal;
+	// Compute tax
+	let tax_rate = 0.0575;
+	let tax = tax_rate * subtotal;
 
-  // Compute shipping
-  if (subtotal <= 50) {
-    shipping = 2;
-  }
-  else if (subtotal <= 100) {
-    shipping = 5;
-  }
-  else {
-    shipping = 0.05 * subtotal; // 5% of subtotal
-  }
+	// Compute shipping
+	if (subtotal <= 50) {
+		shipping = 2;
+	} else if (subtotal <= 100) {
+		shipping = 5;
+	} else {
+		shipping = 0.05 * subtotal; // 5% of subtotal
+	}
 
-  // Compute grand total
-  let total = subtotal + tax + shipping;
+	// Compute grand total
+	let total = subtotal + tax + shipping;
 </script>
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Invoice</title>
+		<link rel="stylesheet" href="invoiceStyle.css" />
+	</head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Invoice</title>
-  <link rel="stylesheet" href="productStyle.css">
+	<body>
+		<nav>
+      <ul>
+          <li><a href="index.html"><b>HOME</b></a></li>
+          <li><a href="products_display.html"><b>SHOP</b></a></li>
+      </ul>
+  </nav>
 
-</head>
+		<header>
+			<h1>ORDER SUMMARY</h1>
+		</header>
 
-<body>
-  <nav>
-    <ul>
-        <li><a href="index.html"><b>HOME</b></a></li>
-        <li><a href="products_display.html"><b>SHOP</b></a></li>
-    </ul>
-</nav>
-
-<header>
-  <h1>ORDER SUMMARY</h1>
-</header>
-
-  <table border="2">
-    <tbody>
-      <div class="invoice-items">
-        <script>
-            // Assuming 'products' is an array of product objects and 'quantities' is an array of quantities
-            for (let i = 0; i < products.length; i++) {
-                if (quantities[i] > 0) { // Replace 'quantities[i]' with the correct way you are getting the quantity for each product
-                    document.write(`
+		<div class="invoice-items">
+			<script>
+				//
+				for (let i = 0; i < products.length; i++) {
+					if (quantities[i] > 0) {
+						document.write(`
                         <div class="invoice-item">
-                            <img src="${products[i].image}" alt="${products[i].name}">
+                            <img src="${products[i].image}" alt="${
+							products[i].name
+						}">
                             <div class="item-details">
                                 <h3>${products[i].name}</h3>
                                 <p>Quantity: ${quantities[i]}</p>
                                 <p>Price: $${products[i].price.toFixed(2)}</p>
-                                <p>Total: $${(quantities[i] * products[i].price).toFixed(2)}</p>
+                                <p>Total: $${(
+																	quantities[i] * products[i].price
+																).toFixed(2)}</p>
                             </div>
                         </div>
                     `);
-                }
-            }
-        </script>
-    </div>
-  
-      <tr>
-        <td colspan="4" width="100%">&nbsp;</td>
-      </tr>
-      <tr class="summary-row">
-        <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
-        <td class="summary-value" width="54%">$
-          <script>document.write(subtotal.toFixed(2));</script>
-        </td>
-      </tr>
-      
-      <!-- Tax row -->
-      <tr class="summary-row">
-        <td style="text-align: center;" colspan="3" width="67%">Tax @
-          <script>document.write(100 * tax_rate);</script>%
-        </td>
-        <td class="summary-value" width="54%">$
-          <script>document.write(tax.toFixed(2));</script>
-        </td>
-      </tr>
-      
-      <!-- Shipping row -->
-      <tr class="summary-row">
-        <td style="text-align: center;" colspan="3" width="67%">Shipping</td>
-        <td class="summary-value" width="54%">$
-          <script>document.write(shipping.toFixed(2));</script>
-        </td>
-      </tr>
-      
-      <!-- Total row -->
-      <tr class="summary-row">
-        <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
-        <td class="summary-value" width="54%"><strong>$
-            <script>document.write(total.toFixed(2));</script></strong>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="shipping-policy">
-    <br><b>
-      OUR SHIPPING POLICY IS:A subtotal $0 - $49.99 will be $2 shipping
-      A subtotal $50 - $99.99 will be $5 shipping
-      Subtotals over $100 will be charged 5% of the subtotal amount
-    </b>
-  </div>
-</body>
+					}
+				}
+			</script>
+		</div>
 
+		<table border="2">
+			<tbody>
+				<tr>
+					<td colspan="4" width="100%">&nbsp;</td>
+				</tr>
+				<tr class="summary-row">
+					<td style="text-align: center" colspan="3" width="67%">Sub-total</td>
+					<td class="summary-value" width="54%">
+						$
+						<script>
+							document.write(subtotal.toFixed(2));
+						</script>
+					</td>
+				</tr>
+
+				<!-- Tax row -->
+				<tr class="summary-row">
+					<td style="text-align: center" colspan="3" width="67%">
+						Tax @
+						<script>
+							document.write(100 * tax_rate);
+						</script>
+						%
+					</td>
+					<td class="summary-value" width="54%">
+						$
+						<script>
+							document.write(tax.toFixed(2));
+						</script>
+					</td>
+				</tr>
+
+				<!-- Shipping row -->
+				<tr class="summary-row">
+					<td style="text-align: center" colspan="3" width="67%">Shipping</td>
+					<td class="summary-value" width="54%">
+						$
+						<script>
+							document.write(shipping.toFixed(2));
+						</script>
+					</td>
+				</tr>
+
+				<!-- Total row -->
+				<tr class="summary-row">
+					<td style="text-align: center" colspan="3" width="67%">
+						<strong>Total</strong>
+					</td>
+					<td class="summary-value" width="54%">
+						<strong
+							>$
+							<script>
+								document.write(total.toFixed(2));
+							</script>
+						</strong>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="shipping-policy">
+			<br /><b>
+				SHIPPING POLICY: A subtotal $0 - $49.99 will be $2 shipping A subtotal
+				$50 - $99.99 will be $5 shipping Subtotals over $100 will be charged 5%
+				of the subtotal amount
+			</b>
+		</div>
+	</body>
 </html>

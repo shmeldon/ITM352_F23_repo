@@ -1,18 +1,44 @@
+nav {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid black;
+}
+  nav ul li {
+    display: flex;
+    list-style-type: none;
+    margin-right: 5%; 
+    font-size: 150%;
+}
+/* Make it so after clicking link, words don't turn purple */
+nav ul li a:visited {
+    color: black;
+}
+/* Create hover effect for nav bar links */
+nav ul li a:hover {
+    color: red;
+}
+
 .invoice-items {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 800px; /* Set a maximum width */
+    margin: 0 auto; /* Auto margins for equal space on both sides */
+    padding: 20px; /* Optional padding */
 }
 
 .invoice-item {
     display: flex;
-    align-items: center;
+    align-items: top;
     margin-bottom: 20px;
 }
 
 .invoice-item img {
-   height: 10px;
-   width: 10px;
+   width: 25%;
+   height: auto;
+   margin-right: 25px; /* Increase right margin */
+   margin-bottom: 10px; /* Add bottom margin if needed */
 }
 
 .item-details {
@@ -25,8 +51,9 @@ h1 {
 }
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: #fff; /* or any background color you prefer */
-    color: #333; /* text color */
+    background: #fff;
+    color: #333; 
+    width: 80%;
 }
 
 
