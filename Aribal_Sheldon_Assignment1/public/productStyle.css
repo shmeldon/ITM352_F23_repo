@@ -80,7 +80,9 @@ footer {
     justify-content: center; /* Centers the button horizontally */
     align-items: center; /* Centers the button vertically if the footer has a specific height */
 }
-
+.error-messages {
+    color: red;
+}
 /* Copied from ChatGPT. Adjusts the items according to the size of the browser window open. */
 @media (max-width: 600px) {
     .item {
