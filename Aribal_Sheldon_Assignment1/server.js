@@ -52,7 +52,7 @@ app.post("/process_form", function (request, response) {
         }
         // If the quantity is NOT valid or non-zero, add to errors object
         if (!isNonNegInt(qty) | !Number(qty) > 0) {
-            errors['quantity' + i] = `Quantity for ${products[i].name} is not valid (Not a number or negative value)`;
+            errors['quantity' + i] = `Quantity for ${products[i].name} is not valid (Not a number or is a negative value)`;
         }
         totalQuantity += Number(qty); // Add up all quantities
 
