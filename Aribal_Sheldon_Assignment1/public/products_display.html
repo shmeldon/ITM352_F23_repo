@@ -9,47 +9,61 @@
     <script src="./products.js" type="text/javascript"></script>
 </head>
    <script>
+    // Function to check if the quantities entered are whole numbers, negative values, and/or a number and not a string; Taken from labs
+function isNonNegInt(quantities, returnErrors) {
+    errors = []; // assume no errors at first
+    if (Number(quantities) != quantities) errors.push(' Not a number'); // Check if string is a number
+    if (quantities < 0) errors.push(' Negative value'); // Check to see if it is a non-negative value
+    if (parseInt(quantities) != quantities) errors.push(' Not an integer'); // Check to see if it is an integer
+ 
+    // Determine the return value and store it in 'result', then return that result. 
+    let result = returnErrors ? errors : (errors.length == 0);
+    return (result);
+ };
+    function checkQuantityTextbox(theTextbox) {
+		errs = isNonNegInt(theTextbox.value, true);
+		if (errs.length == 0) errs = ["You want:"];
+		if (theTextbox.value.trim() == "") errs = ["Quantity"];
+		document.getElementById(theTextbox.name + "_label").innerHTML =
+			errs.join(", ");
+	}
     // Function will run after the window is fully loaded. Orginally got from ChatGpt and then modified to fit my website
-window.onload = function() {
-  // Create a URLSearchParams object from the query string in the URL
+    window.onload = function() {
   let params = new URLSearchParams(window.location.search);
-
-  // Retrieve the 'error' parameter from the query string
   let errorMessages = params.get('error');
+  console.log("Error Messages:", errorMessages); // Log the raw error message string
 
   if (errorMessages) {
-    // Parse the JSON string of error messages into an object
     errorMessages = JSON.parse(errorMessages);
-    let alertMessage = '';
+    console.log("Parsed Error Messages:", errorMessages); // Log the parsed error messages
 
-    // Iterate over each errorKey in the errorMessages object to see if the error message is about quantity exceeding availability
-    for (let errorKey in errorMessages) {
-    
-      let errorMessage = errorMessages[errorKey];
+    for (let productId in errorMessages) {
+      let errorMessage = errorMessages[productId];
+      console.log("Processing Error Message for Product ID:", productId, errorMessage); // Log each error message being processed
 
-      // Add the current error message to the alertMessage string, followed by a newline
-      alertMessage += errorMessage + '\n';
-
-      // Check if the current error message is about quantity exceeding availability
-      if (errorMessage.includes("exceeds the quantity that we have available")) {
-        // Extract the product name from the error message
+      // Check if the error message is about quantity exceeding availability
+      if (errorMessage.includes("exceeds available stock")) {
         let productName = errorMessage.split(" for ")[1].split(" exceeds")[0];
+        console.log("Product Name Extracted:", productName); // Log the extracted product name
 
-        // Find the index of the product in the products array based on the product name
         let productIndex = products.findIndex(p => p.name === productName);
+        console.log("Product Index Found:", productIndex); // Log the found product index
 
-        // Get the input box element for the product based on its index
-        let inputBox = document.getElementById(`quantities${productIndex}`);
+        let inputBox = document.getElementById(`quantity${productIndex}`);
+        console.log("Input Box Element:", inputBox); // Log the input box element
 
-        // Change the border color of the input box to red to indicate an error
-        inputBox.style.borderColor = "red";
-
-        // Update the value of the input box to the maximum available quantity for the product
-        inputBox.value = products[productIndex].quantityAvailable;
+        if (inputBox) {
+          inputBox.style.borderColor = "red"; // Change frame to red
+          inputBox.value = products[productIndex].quantityAvailable; // Update to max available quantity
+          console.log("Updated Input Box for Product:", productName); // Log the update action
+        }
       }
     }
 
-    // If there are any accumulated error messages, display them in an alert
+    // Display all error messages in an alert
+    let alertMessage = Object.values(errorMessages).join('\n');
+    console.log("Alert Message Compiled:", alertMessage); // Log the compiled alert message
+
     if (alertMessage) {
       alert(alertMessage);
     }
