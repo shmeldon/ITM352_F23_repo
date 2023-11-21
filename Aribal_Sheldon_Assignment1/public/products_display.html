@@ -8,68 +8,34 @@
     <link rel="stylesheet" href="productStyle.css">
     <script src="./products.js" type="text/javascript"></script>
 </head>
-   <script>
-    // Function to check if the quantities entered are whole numbers, negative values, and/or a number and not a string; Taken from labs
-function isNonNegInt(quantities, returnErrors) {
-    errors = []; // assume no errors at first
-    if (Number(quantities) != quantities) errors.push(' Not a number'); // Check if string is a number
-    if (quantities < 0) errors.push(' Negative value'); // Check to see if it is a non-negative value
-    if (parseInt(quantities) != quantities) errors.push(' Not an integer'); // Check to see if it is an integer
- 
-    // Determine the return value and store it in 'result', then return that result. 
-    let result = returnErrors ? errors : (errors.length == 0);
-    return (result);
- };
-    function checkQuantityTextbox(theTextbox) {
-		errs = isNonNegInt(theTextbox.value, true);
-		if (errs.length == 0) errs = ["You want:"];
-		if (theTextbox.value.trim() == "") errs = ["Quantity Desired:"];
-		document.getElementById(theTextbox.name + "_label").innerHTML =
-			errs.join(", ");
-	}
-    // Function will run after the window is fully loaded. e
+<script>
     window.onload = function() {
-  let params = new URLSearchParams(window.location.search);
-  let errorMessages = params.get('error');
-  console.log("Error Messages:", errorMessages); // Log the raw error message string
-
-  if (errorMessages) {
-    errorMessages = JSON.parse(errorMessages);
-    console.log("Parsed Error Messages:", errorMessages); // Log the parsed error messages
-
-    for (let productId in errorMessages) {
-      let errorMessage = errorMessages[productId];
-      console.log("Processing Error Message for Product ID:", productId, errorMessage); // Log each error message being processed
-
-      // Check if the error message is about quantity exceeding availability
-      if (errorMessage.includes("exceeds available stock")) {
-        let productName = errorMessage.split(" for ")[1].split(" exceeds")[0];
-        console.log("Product Name Extracted:", productName); // Log the extracted product name
-
-        let productIndex = products.findIndex(p => p.name === productName);
-        console.log("Product Index Found:", productIndex); // Log the found product index
-
-        let inputBox = document.getElementById(`quantities${productIndex}`);
-        console.log("Input Box Element:", inputBox); // Log the input box element
-
-        if (inputBox) {
-          inputBox.style.borderColor = "red"; // Change frame to red
-          inputBox.value = products[productIndex].quantityAvailable; // Update to max available quantity
-          console.log("Updated Input Box for Product:", productName); // Log the update action
+        let params = new URLSearchParams(window.location.search);
+        let errorMessages = params.get('error');
+        if (errorMessages) {
+            errorMessages = JSON.parse(errorMessages);
+            let alertMessage = '';
+            for (let inputName in errorMessages) {
+                alertMessage += errorMessages[inputName] + '\n'; // Add each error message to the alert string
+    
+                if (inputName.startsWith('quantity')) {
+                    let inputElements = document.getElementsByName(inputName);
+                    if (inputElements.length > 0) {
+                        let inputElement = inputElements[0]; // Assuming the first element is the desired one
+                        let maxAvailable = errorMessages[inputName].match(/Only (\d+) left/)[1];
+    
+                        inputElement.value = maxAvailable; // Update the input field
+                        inputElement.style.borderColor = 'red'; // Change the border color to red
+                    }
+                }
+            }
+            if (alertMessage) {
+                alert(alertMessage); // Display the alert with all error messages
+            }
         }
-      }
-    }
-
-    // Display all error messages in an alert
-    let alertMessage = Object.values(errorMessages).join('\n');
-    console.log("Alert Message Compiled:", alertMessage); // Log the compiled alert message
-
-    if (alertMessage) {
-      alert(alertMessage);
-    }
-  }
-};
-  </script>
+    };
+    </script>
+    
 
 <body>
     <nav>

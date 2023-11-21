@@ -41,13 +41,7 @@ app.post("/process_form", function (request, response) {
     // Got loop from previous labs and modified
     for (let i in products) {
         let qty = request.body['quantity' + i];
-        var qa = products[i].quantityAvailable;
 
-        if (qty > qa) {
-            errors_array.push(`The quantity that you have selected for ${products[i].name} exceeds the quantity available`);
-            // Reduce the requested quantity to the available quantity
-            request.body['quantity' + i] = qa;
-        }
         // Continue over if there's a textbox with 0 quantity. 
         if (qty == 0) {
             continue;
@@ -64,11 +58,16 @@ app.post("/process_form", function (request, response) {
 
         console.log("available quantities: ", products[i].quantity_available);
 
-        // Check if quantity does not exceed available quantity
+     
+        // IR3: Check that the quantity entered does not exceed the quantity available as currently available on the server. If it does, change the frame for the textbox to red and display a message “We don’t have xx available.” and reduce the input to the quantity available (replace the input).
+           // Check if quantity does not exceed available quantity
         if (Number(qty) > products[i].quantity_available) {
-            errors['quantity' + i] = `Quantity for ${products[i].name} exceeds available stock.`;
+            errors['quantity' + i] = `We don't have ${qty} of ${products[i].name} available. Only ${products[i].quantity_available} left.`; // Add error string to errors indicating current stock is less than attempted purchase. 
+
+            validItems['quantity' + i] = products[i].quantity_available; // Set input text to current max quantity available. 
         }
     }
+    // If no quantity is selected or all input fields are zero, then add the error string. 
     if (totalQuantity === 0) {
         errors['totalQuantity'] = 'No quantities selected. Please select at least one item.';
     }
@@ -96,4 +95,4 @@ app.get('/test', function (request, response, next) {
 
 app.use(express.static(__dirname + '/public'));
 
-app.listen(8080, () => console.log(`listening on port 8080`)); // note the use of an anonymous function here to do a callback
+app.listen(8080, () => console.log(`listening on port 8080`));
