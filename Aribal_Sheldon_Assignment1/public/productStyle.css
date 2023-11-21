@@ -5,7 +5,7 @@ h1 {
     text-align: center;
     font-size: 35px;
 }
-
+/* Styling for products */
 .products-container {
     display: flex;
     flex-flow: row wrap;
