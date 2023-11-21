@@ -23,11 +23,11 @@ function isNonNegInt(quantities, returnErrors) {
     function checkQuantityTextbox(theTextbox) {
 		errs = isNonNegInt(theTextbox.value, true);
 		if (errs.length == 0) errs = ["You want:"];
-		if (theTextbox.value.trim() == "") errs = ["Quantity"];
+		if (theTextbox.value.trim() == "") errs = ["Quantity Desired:"];
 		document.getElementById(theTextbox.name + "_label").innerHTML =
 			errs.join(", ");
 	}
-    // Function will run after the window is fully loaded. Orginally got from ChatGpt and then modified to fit my website
+    // Function will run after the window is fully loaded. e
     window.onload = function() {
   let params = new URLSearchParams(window.location.search);
   let errorMessages = params.get('error');
@@ -49,7 +49,7 @@ function isNonNegInt(quantities, returnErrors) {
         let productIndex = products.findIndex(p => p.name === productName);
         console.log("Product Index Found:", productIndex); // Log the found product index
 
-        let inputBox = document.getElementById(`quantity${productIndex}`);
+        let inputBox = document.getElementById(`quantities${productIndex}`);
         console.log("Input Box Element:", inputBox); // Log the input box element
 
         if (inputBox) {
