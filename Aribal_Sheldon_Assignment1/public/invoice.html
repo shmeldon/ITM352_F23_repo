@@ -21,32 +21,51 @@
     </ul>
   </nav>
 
-
   <header>
     <h1>ORDER SUMMARY</h1>
   </header>
 
-  <div class="invoice-items" id="invoice-items-container"></div>
+  <!-- Invoice Items Container -->
+<div class="invoice-items" id="invoice-items-container"></div>
+<!-- This div holds the dynamically generated invoice items. -->
 
-  <div class="line"></div>
+<div class="line"></div>
+<!-- Decorative line for visual separation -->
 
-  <div class="costs">
+<!-- Cost Summary Section -->
+<div class="costs">
+    <!-- Subtotal Display -->
     <div class="cost-item">
       <span class="cost-label">Subtotal:</span>
       <span class="cost-value" id="subtotal-cost">$0.00</span>
     </div>
+    <!-- This displays the subtotal cost of the items. -->
+
+    <!-- Tax Calculation Display -->
+    <div class="cost-item">
+      <span class="cost-label">Tax (5.75%):</span>
+      <span class="cost-value" id="tax">$0.00</span>
+    </div>
+    <!-- Shows the calculated tax based on the subtotal. -->
+
+    <!-- Shipping Cost Display -->
     <div class="cost-item">
       <span class="cost-label">Shipping:</span>
       <span class="cost-value" id="shipping-cost">$0.00</span>
     </div>
+    <!-- Displays the shipping cost. -->
+
+    <!-- Total Cost Display -->
     <div class="cost-item">
       <span class="cost-label">Total:</span>
       <span class="cost-value" id="total-cost">$0.00</span>
     </div>
-  </div>
+    <!-- Shows the total cost including subtotal, tax, and shipping. -->
+</div>
 
   <div class="line"></div>
 
+  <!-- Display shipping policy-->
   <div class="shipping-policy">
     <br />
     <b>
@@ -90,6 +109,7 @@
 
       // Update the costs in the HTML
       document.getElementById('subtotal-cost').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
       document.getElementById('shipping-cost').textContent = `$${shipping.toFixed(2)}`;
       document.getElementById('total-cost').textContent = `$${total.toFixed(2)}`;
     } else {
@@ -109,6 +129,7 @@
         let totalForItem = quantities[i] * products[i].price;
         subtotal += totalForItem;
 
+        // Adds on items to invoiceItemsHtml as loop runs through
         invoiceItemsHtml += `
         <div class="invoice-item">
     <img src="${products[i].image}" alt="${products[i].name}">
@@ -124,9 +145,7 @@
             quantities[i] * products[i].price
           ).toFixed(2)}</p>
     </div>
-</div>
-
-                `;
+</div>`;
       }
       // Append the generated items to the invoice container
       document.getElementById('invoice-items-container').innerHTML = invoiceItemsHtml;
