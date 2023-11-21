@@ -17,7 +17,7 @@
 		document.getElementById(theTextbox.name + "_label").innerHTML =
 			errs.join(", ");
 	}
-    
+
     // Function is called when after the page is loaded and handles any error messages passed in the URL.
    window.onload = function() {
     let params = new URLSearchParams(window.location.search);
@@ -35,8 +35,19 @@
         for (let inputName in errorMessages) { 
             // Check if the error message contains the expected pattern first before trying to extract available quantity in order to prevent errors.
             if (errorMessages[inputName].includes("Only") && errorMessages[inputName].includes("left")) {
-                let availableQuantity = errorMessages[inputName].match(/Only (\d+) left/)[1]; // Extract the available quantity from the error message using a regular expression
-             // The pattern /Only (\d+) left/ matches the text and captures the number in the message.
+            // Extract the available quantity from the error message using a regular expression
+                // The pattern /Only (\d+) left/ matches the text and captures the number in the message.
+                let availableQuantity = errorMessages[inputName].match(/Only (\d+) left/)[1]; 
+            
+                // Retrieve all textboxes with the name matching 'inputName'
+                let textBoxes = document.getElementsByName(inputName);
+                 // Check if there is at least one textbox found
+                 if (textBoxes.length > 0) {
+                     // Change the border color of the first textbox to red
+                     textBoxes[0].style.borderColor = "red";
+                     // Update the textbox input to the available quantity.
+                    textBoxes[0].value = availableQuantity;
+        }
             }
             alertMessage += errorMessages[inputName] + '\n'; // Add each error message to the alert string
         }
