@@ -9,20 +9,52 @@
     <script src="./products.js" type="text/javascript"></script>
 </head>
    <script>
-    window.onload = function() {
-      let params = new URLSearchParams(window.location.search);
-      let errorMessages = params.get('error');
-      if (errorMessages) {
-        errorMessages = JSON.parse(errorMessages);
-        let alertMessage = '';
-        for (let key in errorMessages) {
-          alertMessage += errorMessages[key] + '\n'; // Add each error message to the alert string
-        }
-        if (alertMessage) {
-          alert(alertMessage); // Display the alert with all error messages
-        }
+    // Function will run after the window is fully loaded. Orginally got from ChatGpt and then modified to fit my website
+window.onload = function() {
+  // Create a URLSearchParams object from the query string in the URL
+  let params = new URLSearchParams(window.location.search);
+
+  // Retrieve the 'error' parameter from the query string
+  let errorMessages = params.get('error');
+
+  if (errorMessages) {
+    // Parse the JSON string of error messages into an object
+    errorMessages = JSON.parse(errorMessages);
+    let alertMessage = '';
+
+    // Iterate over each errorKey in the errorMessages object to see if the error message is about quantity exceeding availability
+    for (let errorKey in errorMessages) {
+    
+      let errorMessage = errorMessages[errorKey];
+
+      // Add the current error message to the alertMessage string, followed by a newline
+      alertMessage += errorMessage + '\n';
+
+      // Check if the current error message is about quantity exceeding availability
+      if (errorMessage.includes("exceeds the quantity that we have available")) {
+        // Extract the product name from the error message
+        let productName = errorMessage.split(" for ")[1].split(" exceeds")[0];
+
+        // Find the index of the product in the products array based on the product name
+        let productIndex = products.findIndex(p => p.name === productName);
+
+        // Get the input box element for the product based on its index
+        let inputBox = document.getElementById(`quantities${productIndex}`);
+
+        // Change the border color of the input box to red to indicate an error
+        inputBox.style.borderColor = "red";
+
+        // Update the value of the input box to the maximum available quantity for the product
+        inputBox.value = products[productIndex].quantityAvailable;
       }
-    };
+    }
+
+    // If there are any accumulated error messages, display them in an alert
+    if (alertMessage) {
+      alert(alertMessage);
+    }
+  }
+};
   </script>
 
 <body>

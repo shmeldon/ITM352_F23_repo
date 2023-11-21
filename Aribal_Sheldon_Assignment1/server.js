@@ -41,7 +41,13 @@ app.post("/process_form", function (request, response) {
     // Got loop from previous labs and modified
     for (let i in products) {
         let qty = request.body['quantity' + i];
+        var qa = products[i].quantityAvailable;
 
+        if (qty > qa) {
+            errors_array.push(`The quantity that you have selected for ${products[i].name} exceeds the quantity available`);
+            // Reduce the requested quantity to the available quantity
+            request.body['quantity' + i] = qa;
+        }
         // Continue over if there's a textbox with 0 quantity. 
         if (qty == 0) {
             continue;
