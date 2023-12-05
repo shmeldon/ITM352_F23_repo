@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <link rel="stylesheet" href="invoiceStyle.css">
+  <script src="./products.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li>
+        <a href="index.html"><b>HOME</b></a>
+      </li>
+      <li>
+        <a href="products_display.html"><b>SHOP</b></a>
+      </li>
+    </ul>
+  </nav>
+
+  <header>
+    <h1>ORDER SUMMARY</h1>
+  </header>
+
+  <!-- Invoice Items Container -->
+<div class="invoice-items" id="invoice-items-container"></div>
+<!-- This div holds the dynamically generated invoice items. -->
+
+<div class="line"></div>
+<!-- Decorative line for visual separation -->
+
+<!-- Cost Summary Section -->
+<div class="costs">
+    <!-- Subtotal Display -->
+    <div class="cost-item">
+      <span class="cost-label">Subtotal:</span>
+      <span class="cost-value" id="subtotal-cost">$0.00</span>
+    </div>
+    <!-- This displays the subtotal cost of the items. -->
+
+    <!-- Tax Calculation Display -->
+    <div class="cost-item">
+      <span class="cost-label">Tax (4.00%):</span>
+      <span class="cost-value" id="tax">$0.00</span>
+    </div>
+    <!-- Shows the calculated tax based on the subtotal. -->
+
+    <!-- Shipping Cost Display -->
+    <div class="cost-item">
+      <span class="cost-label">Shipping:</span>
+      <span class="cost-value" id="shipping-cost">$0.00</span>
+    </div>
+    <!-- Displays the shipping cost. -->
+
+    <!-- Total Cost Display -->
+    <div class="cost-item">
+      <span class="cost-label">Total:</span>
+      <span class="cost-value" id="total-cost">$0.00</span>
+    </div>
+    <!-- Shows the total cost including subtotal, tax, and shipping. -->
+</div>
+
+  <div class="line"></div>
+
+  <!-- Display shipping policy-->
+  <div class="shipping-policy">
+    <br />
+    <b>
+      SHIPPING POLICY: <br>
+      A subtotal of $0 - $99.99 will be $9.99 shipping. 
+      $100.00 - $199.99 will be $4.99 shipping. <br>
+      Subtotals over $200 qualify for free shipping!
+    </b>
+  </div>
+
+  <script>
+    let params = new URL(document.location).searchParams;
+    let quantities = [];
+
+    // form was submitted so process the invoice
+    if (params.has("purchase_submit")) {
+      for (let i = 0; i < products.length; i++) {
+        if (params.has(`quantity${i}`)) {
+          let a_qty = params.get(`quantity${i}`);
+          quantities[i] = parseInt(a_qty, 10);
+        }
+      }
+
+      let subtotal = generateInvoiceItems(products, quantities);
+
+      // Compute tax
+      let tax_rate = 0.04;
+      let tax = tax_rate * subtotal;
+
+      // Compute shipping
+      let shipping = 0;
+      if (subtotal < 100) {
+        shipping = 9.99;
+      } else if (subtotal >= 100 && subtotal < 200 ) {
+        shipping = 4.99;
+      } else {
+        shipping = 0.00; 
+      }
+
+      // Compute grand total
+      let total = subtotal + tax + shipping;
+
+      // Update the costs in the HTML
+      document.getElementById('subtotal-cost').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+      document.getElementById('shipping-cost').textContent = `$${shipping.toFixed(2)}`;
+      document.getElementById('total-cost').textContent = `$${total.toFixed(2)}`;
+    } else {
+      document.write("no form submitted");
+    }
+
+    // Function for generating item rows dynamically
+    function generateInvoiceItems(products, quantities) {
+      let invoiceItemsHtml = '';
+      let subtotal = 0;
+
+      for (let i = 0; i < products.length; i++) {
+        // Skip items with zero or invalid quantity
+    if (!quantities[i] || quantities[i] <= 0) continue;
+
+
+        let totalForItem = quantities[i] * products[i].price;
+        subtotal += totalForItem;
+
+        // Adds on items to invoiceItemsHtml as loop runs through
+        invoiceItemsHtml += `
+        <div class="invoice-item">
+    <img src="${products[i].image}" alt="${products[i].name}">
+    <div class="item-details">
+        <div class="item-header">
+            <h3>${products[i].name}</h3>
+            <p>Quantity: ${quantities[i]}</p>
+            <p>Price: $${products[i].price.toFixed(2)}</p>
+        </div>
+      </div>
+        <div class="item-total">
+            <p>$${(
+            quantities[i] * products[i].price
+          ).toFixed(2)}</p>
+    </div>
+</div>`;
+      }
+      // Append the generated items to the invoice container
+      document.getElementById('invoice-items-container').innerHTML = invoiceItemsHtml;
+
+      // Return the subtotal for further calculations
+      return subtotal;
+    }
+  </script>
+</body>
+
+</html>
