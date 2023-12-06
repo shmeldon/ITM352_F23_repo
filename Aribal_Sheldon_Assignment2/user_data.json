@@ -1,1 +1,33 @@
-{"dport@hawaii.edu":{"name":"Dan Port","password":"portspassword","last_login":"","login_count":0},"jsmith@hawaii.edu":{"name":"John Smith","password":"smith123","last_login":"","login_count":0},"amiller@hawaii.edu":{"name":"Alice Miller","password":"alice456","last_login":"","login_count":0},"rjones@hawaii.edu":{"name":"Robert Jones","password":"robert789","last_login":"","login_count":0},"itm352@hawaii.edu":{"name":"ITM352","password":"grader","last_login":"","login_count":0},"sheldonaribal@gmail.com":{"name":"Sheldon Aribal","password":"Sssssssssss"},"bobbylee@gmail.com":{"name":"Bobby Lee","password":"bobbybobby"}}
+{
+	"dport@hawaii.edu": {
+		"name": "Dan Port",
+		"password": "portspassword",
+		"last_login": "",
+		"login_count": 0
+	},
+	"jsmith@hawaii.edu": {
+		"name": "John Smith",
+		"password": "smith123",
+		"last_login": "",
+		"login_count": 0
+	},
+	"amiller@hawaii.edu": {
+		"name": "Alice Miller",
+		"password": "alice456",
+		"last_login": "",
+		"login_count": 0
+	},
+	"rjones@hawaii.edu": {
+		"name": "Robert Jones",
+		"password": "robert789",
+		"last_login": "",
+		"login_count": 0
+	},
+	"itm352@hawaii.edu": {
+		"name": "ITM352",
+		"password": "grader",
+		"last_login": "",
+		"login_count": 0
+	}
+	
+}
