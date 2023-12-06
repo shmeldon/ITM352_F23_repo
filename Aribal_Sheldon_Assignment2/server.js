@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
+const qs = require("qs");
 
 const products = require(__dirname + "/products.json");
-const qs = require("qs");
 
 // Function to check if the quantities entered are whole numbers, negative values, and/or a number and not a string; Taken from labs
 function isNonNegInt(quantities, returnErrors) {
@@ -196,9 +196,13 @@ app.post("/process_login", function (request, response) {
 	let loginResult = checkLogin(request.body.email, request.body.password);
 
 	if (loginResult.success) {
-		 // Append 'purchase_submit=true' and the user's email to signify the form submission and user identification
-		 let redirectQuery = tempProductDetails + "&purchase_submit=true&user=" + encodeURIComponent(request.body.email);
-		 response.redirect(`/invoice.html?${redirectQuery}`);
+        // Retrieve the user's email and look up their full name
+        let userEmail = request.body.email.toLowerCase();
+        let userName = user_data[userEmail].name;
+
+        // Append 'purchase_submit=true' and the user's name to signify the form submission and user identification
+        let redirectQuery = tempProductDetails + "&purchase_submit=true&user=" + encodeURIComponent(userName);
+        response.redirect(`/invoice.html?${redirectQuery}`);
 	} else {
 		// Construct the return URL with error message
 		let returnUrl =
@@ -231,7 +235,7 @@ app.post("/register_user", function (request, response) {
 		// Register the user
 		registerUser(email, password, name);
 		// Redirect to invoice.html to complete purchase
-		let redirectQuery = tempProductDetails + "&purchase_submit=true";
+		let redirectQuery = tempProductDetails + "&purchase_submit=true&user=";
         response.redirect(`/invoice.html?${redirectQuery}`);
 	} else {
 		// Redirect back to the registration form with errors
