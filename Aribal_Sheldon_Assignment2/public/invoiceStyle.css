@@ -99,7 +99,8 @@ body {
     margin-top: 20px; 
     font-size: 17px; 
     font-weight: bold; 
-    margin: auto;
+    text-align: center;
+    
 }
 /* Copied from ChatGPT. Makes the layout responsive to webpage size */
 @media screen and (max-width: 600px) {

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LOGIN</title>
+    <link href="loginStyle.css" rel="stylesheet">
+    <script>
+       window.onload = function () {
+      let params = new URL(document.location).searchParams;
+      let error = params.get('error');
+      let success = params.get('successful_login');
+      let email = params.get('email'); // Get the email from query string
+
+      // Display errors or success messages
+      if (error) {
+        window.alert(decodeURIComponent(error));
+      }
+      if (success) {
+        window.alert(success);
+      }
+
+      // Make email textbox sticky
+      if (email) {
+        document.login_form['email'].value = decodeURIComponent(email);
+      }
+    };
+    </script>
+</head>
+<nav>
+    <ul>
+        <li><a href="index.html"><b>HOME</b></a></li>
+        <li><a href="products_display.html"><b>SHOP</b></a></li>
+    </ul>
+</nav>
+
+<body>
+    <form name="login_form" action="/process_login" method="post">
+        <header>
+            <h1>Login</h1>
+        </header>
+
+        <div class="login_field">
+            <label for="email"><b>Email Address</b></label>
+            <input type="text" placeholder="Enter Email" name="email">
+
+            <label for="password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password">
+
+            <button type="submit" class="login-btn">Sign In</button>
+            <button type="button" class="btn" onclick="location.href='#';">Forgot Password?</button>
+        </div>
+    </form>
+    <div class="register-section">
+        <p><b>Need an account?</b></p>
+        <button type="button" class="btn" onclick="location.href='./registration.html';">Register</button>
+    </div>
+</body>
+
+</html>

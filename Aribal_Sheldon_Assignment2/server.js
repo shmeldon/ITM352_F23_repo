@@ -34,6 +34,9 @@ app.get("/products.js", function (request, response, next) {
 	response.send(products_str);
 });
 
+// For assignment 2: Temporary storage for product details
+let tempProductDetails = {};
+
 //Handling of the form submission, validates quantities, and redirects to the invoice or back to the form with errors.
 app.post("/process_form", function (request, response) {
 	console.log("in process_form", request.body);
@@ -80,7 +83,10 @@ app.post("/process_form", function (request, response) {
 			Number(qty) <= products[i].quantity_available
 		) {
 			products[i].quantity_available -= Number(qty); // Subtract the purchased quantity from the available quantity
-			console.log(`Quantity${i} Updated Stock: `, products[i].quantity_available);
+			console.log(
+				`Quantity${i} Updated Stock: `,
+				products[i].quantity_available
+			);
 		}
 	}
 	// If no quantity is selected or all input fields are zero, then add the error string.
@@ -95,13 +101,145 @@ app.post("/process_form", function (request, response) {
 	console.log("Valid Items: ", validItems);
 	console.log("Errors: ", errors);
 
-	// if valid, create invoice. Revised code from ChatGpt
+	// If there are no errors, store the validated items and redirect to login
 	if (Object.keys(validItems).length > 0 && Object.keys(errors).length === 0) {
-		response.redirect(`invoice.html?purchase_submit=true&${qstr}`); //redirects the user to 'invoice.html' with the query string appended.
-	}
-	// if not valid, send back to products display page. Passes errors back as well.
-	else {
+		// Serialize the valid items into a query string
+		let qstr = qs.stringify(validItems);
+		// Store the product details temporarily
+		tempProductDetails = qstr;
+		// Redirect to the login page with the items as part of the query string
+		response.redirect(`/login.html?${qstr}`);
+	} else {
+		// If there are errors, redirect back to the products display page with error details
 		response.redirect(`products_display.html?error=${JSON.stringify(errors)}`);
+	}
+});
+
+// Assignment 2
+// Login
+const fs = require("fs");
+const user_data_file = __dirname + "/user_data.json";
+
+// Load existing user data or create an empty object if the file does not exist
+let user_data = {};
+if (fs.existsSync(user_data_file)) {
+	user_data = JSON.parse(fs.readFileSync(user_data_file, "utf-8"));
+}
+
+// Function to register a new user
+function registerUser(email, password, name) {
+	user_data[email.toLowerCase()] = {
+		name,
+		password, // In a real app, you should hash this password before storing it
+	};
+	fs.writeFileSync(user_data_file, JSON.stringify(user_data));
+}
+
+// Function to validate user registration
+function validateRegistration(email, password, name, confirmPassword) {
+	let errors = {};
+
+	// Initialize variables to empty strings if they are undefined. Avoids undefined errors.
+	email = email || "";
+	password = password || "";
+	name = name || "";
+
+	// Email validation regex. Got idea for RegEx from Alanna Mellor assignment2. Checks if email is in valid format.
+	const emailRegex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+
+	// Check if the email is valid
+	if (!email || !emailRegex.test(email)) {
+		errors.email = "Invalid email format";
+	}
+
+	// Check if the email address is already registered
+	if (user_data.hasOwnProperty(email.toLowerCase())) {
+		errors.email =
+			"The email you have entered already exists, please sign in or use a different email";
+	}
+	// Password validation
+	const passwordRegex = /^[^\s]{10,16}$/; // Regex for password (no spaces, 10-16 characters)
+	if (!passwordRegex.test(password)) {
+		errors.password =
+			"Password must be between 10 to 16 characters and cannot contain spaces";
+	}
+
+	// Confirm Password validation
+	if (password !== confirmPassword) {
+		errors.confirmPassword = "Passwords do not match";
+	}
+
+	// Full Name validation
+	const nameRegex = /^[A-Za-z\s]{2,30}$/; // Regex for name (only letters and spaces, 2-30 characters)
+	if (!nameRegex.test(name)) {
+		errors.name = "Full name must be between 2 to 30 letters";
+	}
+	return errors;
+}
+
+// Function to validate user login attempts
+function checkLogin(email, password) {
+	let user_email = email.toLowerCase();
+	if (user_data.hasOwnProperty(user_email)) {
+		if (user_data[user_email].password === password) {
+			return {success: true};
+		} else {
+			return {success: false, message: "Wrong password"};
+		}
+	} else {
+		return {success: false, message: "User does not exist"};
+	}
+}
+
+// login processing
+app.post("/process_login", function (request, response) {
+	let loginResult = checkLogin(request.body.email, request.body.password);
+
+	if (loginResult.success) {
+		 // Append 'purchase_submit=true' and the user's email to signify the form submission and user identification
+		 let redirectQuery = tempProductDetails + "&purchase_submit=true&user=" + encodeURIComponent(request.body.email);
+		 response.redirect(`/invoice.html?${redirectQuery}`);
+	} else {
+		// Construct the return URL with error message
+		let returnUrl =
+			"/login.html?error=" + encodeURIComponent(loginResult.message);
+		returnUrl += "&email=" + encodeURIComponent(request.body.email);
+		response.redirect(returnUrl);
+	}
+});
+
+/// Process User Registration
+app.post("/register_user", function (request, response) {
+	// Extract user input
+	let email = request.body.email || "";
+	let password = request.body.password || "";
+	let confirmPassword = request.body.repeat_password || "";
+	let name = request.body.fullname || "";
+
+	// Initialize errors object
+	let registration_errors = {};
+
+	// Check if all fields are blank
+	if (email === "" && password === "" && name === "") {
+		registration_errors.allFields = "All fields are blank";
+	} else {
+		// If not all fields are blank, validate the user input
+		registration_errors = validateRegistration(email, password, name, confirmPassword);
+	}
+
+	if (Object.keys(registration_errors).length === 0) {
+		// Register the user
+		registerUser(email, password, name);
+		// Redirect to invoice.html to complete purchase
+		let redirectQuery = tempProductDetails + "&purchase_submit=true";
+        response.redirect(`/invoice.html?${redirectQuery}`);
+	} else {
+		// Redirect back to the registration form with errors
+		response.redirect(
+			`/registration.html?reg_errors=${encodeURIComponent(
+				JSON.stringify(Object.values(registration_errors))
+			)}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`
+		);
 	}
 });
 

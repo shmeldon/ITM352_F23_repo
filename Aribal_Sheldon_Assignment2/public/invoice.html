@@ -25,6 +25,8 @@
     <h1>ORDER SUMMARY</h1>
   </header>
 
+  <div class="thank-user" id="thank-user-container"></div>
+
   <!-- Invoice Items Container -->
 <div class="invoice-items" id="invoice-items-container"></div>
 <!-- This div holds the dynamically generated invoice items. -->
@@ -97,7 +99,7 @@
 
       // Compute shipping
       let shipping = 0;
-      if (subtotal < 100) {
+      if (subtotal < 100 && subtotal > 0) {
         shipping = 9.99;
       } else if (subtotal >= 100 && subtotal < 200 ) {
         shipping = 4.99;
