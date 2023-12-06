@@ -5,6 +5,7 @@
     <title>LOGIN</title>
     <link href="loginStyle.css" rel="stylesheet">
     <script>
+        // After page loads - function handles query parameters and display error/success messages
        window.onload = function () {
       let params = new URL(document.location).searchParams;
       let error = params.get('error');

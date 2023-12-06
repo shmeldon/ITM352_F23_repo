@@ -76,14 +76,13 @@ input[type="password"] {
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
-    box-sizing: border-box; /* Include padding in width */
+    box-sizing: border-box;
     text-align: center; /* Center the text inside the button */
 }
 
 /* Button hover effect */
 .btn:hover {
-    background-color: #ddd; /* Light grey for hover */
-    /* Removed the transform for consistency with your design */
+    background-color: #ddd; 
 }
 
 /* Additional styles for register section */

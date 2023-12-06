@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const qs = require("qs");
+const fs = require("fs");
 
 const products = require(__dirname + "/products.json");
 
@@ -16,18 +17,18 @@ function isNonNegInt(quantities, returnErrors) {
 	return result;
 }
 
-//routing
+// Routing
 
-//middleware that helps in parsing incoming requests with URL-encoded payloads.
+// Middleware that helps in parsing incoming requests with URL-encoded payloads.
 app.use(express.urlencoded({extended: true}));
 
-//logs every request made to the server
+// Logs every request made to the server
 app.all("*", function (request, response, next) {
 	console.log(request.method + " to path " + request.path);
 	next();
 });
 
-//Sends the JSON products data as a JavaScript file to the client.
+// Sends the JSON products data as a JavaScript file to the client.
 app.get("/products.js", function (request, response, next) {
 	response.type(".js");
 	let products_str = `var products = ${JSON.stringify(products)};`;
@@ -37,13 +38,13 @@ app.get("/products.js", function (request, response, next) {
 // For assignment 2: Temporary storage for product details
 let tempProductDetails = {};
 
-//Handling of the form submission, validates quantities, and redirects to the invoice or back to the form with errors.
+// Handling of the form submission, validates quantities, and redirects to the invoice or back to the form with errors.
 app.post("/process_form", function (request, response) {
 	console.log("in process_form", request.body);
 
 	let errors = {}; // Object to store errors
 	let totalQuantity = 0; // To check if any quantity is selected
-	let validItems = {}; //Objest to store items with valid quantities
+	let validItems = {}; // Object to store items with valid quantities
 
 	// Got loop from previous labs and modified
 	for (let i in products) {
@@ -58,7 +59,7 @@ app.post("/process_form", function (request, response) {
 			validItems["quantity" + i] = qty;
 		}
 		// If the quantity is NOT valid or non-zero, add to errors object
-		if (!isNonNegInt(qty) | (!Number(qty) > 0)) {
+		if (!isNonNegInt(qty) || !(Number(qty) > 0)) {
 			errors[
 				"quantity" + i
 			] = `Quantity for ${products[i].name} is not valid (Not a number or is a negative value)`;
@@ -115,13 +116,12 @@ app.post("/process_form", function (request, response) {
 	}
 });
 
-// Assignment 2
 // Login
-const fs = require("fs");
-const user_data_file = __dirname + "/user_data.json";
+// IR4 Keep track of the number of times a user logged in and the last time they logged in. When they login display this information. (will comment "IR4" next to code meant for this requirement)
 
 // Load existing user data or create an empty object if the file does not exist
 let user_data = {};
+const user_data_file = __dirname + "/user_data.json";
 if (fs.existsSync(user_data_file)) {
 	user_data = JSON.parse(fs.readFileSync(user_data_file, "utf-8"));
 }
@@ -130,7 +130,9 @@ if (fs.existsSync(user_data_file)) {
 function registerUser(email, password, name) {
 	user_data[email.toLowerCase()] = {
 		name,
-		password, // In a real app, you should hash this password before storing it
+		password,
+		loginCount: 0, // Initialize login count
+		lastLogin: "", // Initialize last login time
 	};
 	fs.writeFileSync(user_data_file, JSON.stringify(user_data));
 }
@@ -157,11 +159,14 @@ function validateRegistration(email, password, name, confirmPassword) {
 		errors.email =
 			"The email you have entered already exists, please sign in or use a different email";
 	}
+
 	// Password validation
-	const passwordRegex = /^[^\s]{10,16}$/; // Regex for password (no spaces, 10-16 characters)
+	//IR2**************
+	const passwordRegex =
+		/^(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-])[^\s]{10,16}$/; // Regular expression for 10-16 characters as well as one special character and number
 	if (!passwordRegex.test(password)) {
 		errors.password =
-			"Password must be between 10 to 16 characters and cannot contain spaces";
+			"Password must be between 10 to 16 characters and must contain at least one digit (number) and one special character.";
 	}
 
 	// Confirm Password validation
@@ -196,13 +201,34 @@ app.post("/process_login", function (request, response) {
 	let loginResult = checkLogin(request.body.email, request.body.password);
 
 	if (loginResult.success) {
-        // Retrieve the user's email and look up their full name
-        let userEmail = request.body.email.toLowerCase();
-        let userName = user_data[userEmail].name;
+		let userEmail = request.body.email.toLowerCase();
 
-        // Append 'purchase_submit=true' and the user's name to signify the form submission and user identification
-        let redirectQuery = tempProductDetails + "&purchase_submit=true&user=" + encodeURIComponent(userName);
-        response.redirect(`/invoice.html?${redirectQuery}`);
+		// Update login count and last login time
+		// IR4
+		if (!user_data[userEmail].loginCount) {
+			user_data[userEmail].loginCount = 0;
+		}
+		user_data[userEmail].loginCount++;
+		user_data[userEmail].lastLogin = new Date().toLocaleString(); // Update last login time
+
+		// Save the updated user data
+		// IR4
+		fs.writeFileSync(user_data_file, JSON.stringify(user_data));
+
+		let userName = user_data[userEmail].name;
+		let loginCount = user_data[userEmail].loginCount || 0;
+		let lastLogin = user_data[userEmail].lastLogin || "";
+
+		// Construct query string with essential info
+		let redirectQuery =
+			tempProductDetails +
+			"&purchase_submit=true&user=" +
+			encodeURIComponent(userName) +
+			"&loginCount=" +
+			loginCount +
+			"&lastLogin=" +
+			encodeURIComponent(lastLogin);
+		response.redirect(`/invoice.html?${redirectQuery}`);
 	} else {
 		// Construct the return URL with error message
 		let returnUrl =
@@ -228,15 +254,30 @@ app.post("/register_user", function (request, response) {
 		registration_errors.allFields = "All fields are blank";
 	} else {
 		// If not all fields are blank, validate the user input
-		registration_errors = validateRegistration(email, password, name, confirmPassword);
+		registration_errors = validateRegistration(
+			email,
+			password,
+			name,
+			confirmPassword
+		);
 	}
 
 	if (Object.keys(registration_errors).length === 0) {
 		// Register the user
 		registerUser(email, password, name);
-		// Redirect to invoice.html to complete purchase
-		let redirectQuery = tempProductDetails + "&purchase_submit=true&user=";
-        response.redirect(`/invoice.html?${redirectQuery}`);
+
+		// Update login count and last login time for the new user
+		const userEmail = email.toLowerCase();
+		user_data[userEmail].loginCount = 0;
+		user_data[userEmail].lastLogin = new Date().toLocaleString();
+
+		// Save the registered user data
+		fs.writeFileSync(user_data_file, JSON.stringify(user_data));
+
+		// Redirect to invoice.html to complete purchase, with query string. IR4
+		let redirectQuery = tempProductDetails + "&purchase_submit=true&user=" + encodeURIComponent(name) + "&loginCount=0&lastLogin=";
+		response.redirect(`/invoice.html?${redirectQuery}`);
+		
 	} else {
 		// Redirect back to the registration form with errors
 		response.redirect(
@@ -250,5 +291,5 @@ app.post("/register_user", function (request, response) {
 // Serve static files from the 'public' directory
 app.use(express.static(__dirname + "/public"));
 
-// Stats the server on port 8080
+// Start the server on port 8080
 app.listen(8080, () => console.log(`listening on port 8080`));
