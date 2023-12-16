@@ -16,29 +16,29 @@
         },
         {
             "name": "CARHARTT JEANS",
-            "price": 0.00,
-            "quantity_available": 0,
+            "price": 80.00,
+            "quantity_available": 8,
             "image": "https://placeholder-image-url.com",
             "description": "Placeholder Description 1"
         },
         {
             "name": "CARHARTT WORK PANT GREY",
-            "price": 0.00,
-            "quantity_available": 0,
+            "price": 90.00,
+            "quantity_available": 10,
             "image": "https://placeholder-image-url.com",
             "description": "Placeholder Description 2"
         },
         {
             "name": "PATAGONIA SHORT GREEN",
-            "price": 0.00,
-            "quantity_available": 0,
+            "price": 50.00,
+            "quantity_available": 40,
             "image": "https://placeholder-image-url.com",
             "description": "Placeholder Description 3"
         },
         {
             "name": "SUPREME JOGGER",
-            "price": 0.00,
-            "quantity_available": 0,
+            "price": 100.00,
+            "quantity_available": 13,
             "image": "https://placeholder-image-url.com",
             "description": "Placeholder Description 4"
         }
@@ -53,29 +53,29 @@
         },
         {
             "name": "HELLO KITTY BRACELET",
-            "price": 0.00,
-            "quantity_available": 0,
+            "price": 30.00,
+            "quantity_available": 100,
             "image": "https://placeholder-image-url.com",
             "description": "Placeholder Description 1"
         },
         {
             "name": "FIGARO CHAIN SILVER",
-            "price": 0.00,
-            "quantity_available": 0,
+            "price": 250.00,
+            "quantity_available": 5,
             "image": "https://placeholder-image-url.com",
             "description": "Placeholder Description 2"
         },
         {
             "name": "GUCCI DOGTAG",
-            "price": 0.00,
-            "quantity_available": 0,
+            "price": 200.00,
+            "quantity_available": 3,
             "image": "https://placeholder-image-url.com",
             "description": "Placeholder Description 3"
         },
         {
             "name": "AIR FRESHENER",
-            "price": 0.00,
-            "quantity_available": 0,
+            "price": 15.00,
+            "quantity_available": 80,
             "image": "https://placeholder-image-url.com",
             "description": "Placeholder Description 4"
         }
@@ -104,24 +104,17 @@
         },
         {
             "name": "GOLF HOODIE TAN",
-            "price": 0.00,
-            "quantity_available": 0,
+            "price": 115.00,
+            "quantity_available": 15,
             "image": "https://placeholder-image-url.com",
             "description": "Placeholder Description 1"
         },
         {
             "name": "FRENS HOODIE GREEN",
-            "price": 0.00,
-            "quantity_available": 0,
+            "price": 80.00,
+            "quantity_available": 10,
             "image": "https://placeholder-image-url.com",
             "description": "Placeholder Description 2"
-        },
-        {
-            "name": "",
-            "price": 0.00,
-            "quantity_available": 0,
-            "image": "https://placeholder-image-url.com",
-            "description": "Placeholder Description 3"
         }
     ]
 }
