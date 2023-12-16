@@ -54,6 +54,21 @@ app.get("/products.js", function (request, response, next) {
 	response.send(products_str);
 });
 
+// Route for 'bottoms' category products
+app.get('/products/bottoms', function (request, response) {
+    response.json(products.bottoms);
+});
+
+// Route for 'tops' category products
+app.get('/products/tops', function (request, response) {
+    response.json(products.tops);
+});
+
+// Route for 'accessories' category products
+app.get('/products/accessories', function (request, response) {
+    response.json(products.accessories);
+});
+
 // For assignment 2: Temporary storage for product details
 let tempProductDetails = {};
 

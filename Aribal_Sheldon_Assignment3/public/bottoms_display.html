@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bottoms - Sheldon's Closet</title>
+    <link rel="stylesheet" href="productStyle.css">
+</head>
+<body>
+    <nav> 
+        <ul> 
+            <li><a href="index.html"><b>HOME</b></a></li>
+            <li><a href="tops_display.html"><b>TOPS</b></a></li>
+            <li><a href="accessories_display.html"><b>ACCESSORIES</b></a></li>
+        </ul>
+    </nav>
+    
+    <header>
+        <h1>Sheldon's Closet - Bottoms</h1>
+    </header>
+
+    <main class="products-container">
+        <script>
+            fetch('/products/bottoms')
+                .then(response => response.json())
+                .then(bottoms => {
+                    bottoms.forEach(product => {
+                        document.write(`
+                            <section class="item">
+                                <img src="${product.image}" alt="${product.name}">
+                                <h2>${product.name}</h2>
+                                <h3><b>$${product.price.toFixed(2)}</b></h3>
+                                <p>${product.quantity_available} available</p>
+                                <div class="quantity-container">
+                                    <label for="quantity${product.name.replace(/\s+/g, '')}">Quantity Desired:</label>
+                                    <input type="text" class="textbox" placeholder="0" name="quantity${product.name.replace(/\s+/g, '')}">
+                                </div>
+                            </section>
+                        `);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching bottoms products:', error);
+                });
+        </script>
+    </main>
+
+    <footer>
+        <script> //purchase button  </script>
+            <input type="submit" value="Purchase!"      name="purchase_submit">
+    </footer>
+</body>
+</html>
