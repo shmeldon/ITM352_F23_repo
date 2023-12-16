@@ -27,7 +27,7 @@ h1 {
 /* Styling for product images only */
 .item img {
     height: auto;
-    max-width: 100%;
+    max-width: 50%;
 }
 /* Styling for item price, availability, quantity desired */
 .item h2, .item h3, .item p {

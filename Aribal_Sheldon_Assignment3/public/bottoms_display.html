@@ -5,7 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bottoms - Sheldon's Closet</title>
     <link rel="stylesheet" href="productStyle.css">
+    <script src="./products.js" type="text/javascript"></script>
 </head>
+
+<script>
+
+    // Function is called when after the page is loaded and handles any error messages passed in the URL.
+   window.onload = function() {
+    let params = new URLSearchParams(window.location.search);
+    // Retrieve the 'error' parameter from the query string
+    let errorMessages = params.get('error');
+    // Check if there are any error messages passed in the query string
+    if (errorMessages) {
+    // Parse the error messages from a JSON string back into an object
+        errorMessages = JSON.parse(errorMessages);
+        
+        let alertMessage = '';
+        
+        //For personal requirement IR3 where I need to check that the quantity entered does not exceed the quantity available as currently available on the server. If it does, change the frame for the textbox to red and display a message “We don’t have xx available.” and reduce the input to the quantity available (replace the input). 
+        // Loop through each key in the errorMessages object
+        for (let inputName in errorMessages) { 
+            // Check if the error message contains the expected pattern first before trying to extract available quantity in order to prevent errors.
+            if (errorMessages[inputName].includes("Only") && errorMessages[inputName].includes("left")) {
+            // Extract the available quantity from the error message using a regular expression
+                // The pattern /Only (\d+) left/ matches the text and captures the number in the message.
+                let availableQuantity = errorMessages[inputName].match(/Only (\d+) left/)[1]; 
+            
+                // Retrieve all textboxes with the name matching 'inputName'
+                let textBoxes = document.getElementsByName(inputName);
+                 // Check if there is at least one textbox found
+                 if (textBoxes.length > 0) {
+                     // Change the border color of the first textbox to red
+                     textBoxes[0].style.borderColor = "red";
+                     // Update the textbox input to the available quantity.
+                    textBoxes[0].value = availableQuantity;
+        }
+            }
+            alertMessage += errorMessages[inputName] + '\n'; // Add each error message to the alert string
+        }
+        if (alertMessage) {
+            alert(alertMessage); // Display the alert with all error messages
+        }
+    }
+};
+</script>
+
 <body>
     <nav> 
         <ul> 
