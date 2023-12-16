@@ -21,33 +21,26 @@
 
     <main class="products-container">
         <script>
-            fetch('/products/tops')
-                .then(response => response.json())
-                .then(bottoms => {
-                    bottoms.forEach(product => {
-                        document.write(`
-                            <section class="item">
-                                <img src="${product.image}" alt="${product.name}">
-                                <h2>${product.name}</h2>
-                                <h3><b>$${product.price.toFixed(2)}</b></h3>
-                                <p>${product.quantity_available} available</p>
-                                <div class="quantity-container">
-                                    <label for="quantity${product.name.replace(/\s+/g, '')}">Quantity Desired:</label>
-                                    <input type="text" class="textbox" placeholder="0" name="quantity${product.name.replace(/\s+/g, '')}">
-                                </div>
-                            </section>
-                        `);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching bottoms products:', error);
-                });
+           for (var i = 0; i < products.tops.length; i++) {
+                document.write(`
+                    <section class="item">
+                        <h2 name="products.tops${i}_name">${products.tops[i].name}</h2>
+                        <p>$${products.tops[i].price.toFixed(2)}</p>
+                        <img src="${products.tops[i].image}" alt="${products.tops[i].name}">
+                        <p>Quantity Available: ${products.tops[i].quantity_available}</p>
+                        <div class="quantity-container">
+                                <label id="quantity${i}_label"}">Quantity Desired:</label>
+                                <input type="text" class="textbox" placeholder="0" name="quantity${i}">
+                        </div>
+                        <input type="submit" value="Add to Cart" class="add-cart">
+                    </section>
+                `);
+            }
         </script>
     </main>
 
     <footer>
-        <script> //purchase button  </script>
-            <input type="submit" value="Purchase!"      name="purchase_submit">
+        <p>&copy; 2023 Sheldon's Closet</p>
     </footer>
 </body>
 </html>
