@@ -1,44 +1,50 @@
-[
-	{
-		"name": "CUSTOM PEARL NECKLACE",
-		"price": 100.00,
-		"quantity_available": 20,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/pearl_necklace.jpg?raw=true",
-        "description": "20 in. handmade pearl necklace (fits like choker)"
-	},
-	{
-		"name": "CUSTOM GRAPHIC HOODIE",
-		"price": 100.00,
-		"quantity_available": 5,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/custom_hoodie.jpg?raw=true",
-        "description": "20 in. handmade pearl necklace (fits like choker)"
-	},
-	{
-		"name": "KITH MESH SHORT GREY",
-		"price": 60.00,
-		"quantity_available": 25,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/kith_shorts.jpg?raw=true",
-        "description": "20 in. handmade pearl necklace (fits like choker)"
-	},
-	{
-		"name": "NIKE MESH SHORT BLACK",
-		"price": 60.00,
-		"quantity_available": 25,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/nike_shorts.jpg?raw=true",
-        "description": "20 in. handmade pearl necklace (fits like choker)"
-	},
-	{
-		"name": "STUSSY X CACTUS PLANT",
-		"price": 75.00,
-		"quantity_available": 40,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/Stussy_tee.jpg?raw=true",
-        "description": "20 in. handmade pearl necklace (fits like choker)"
-	},
-	{
-		"name": "SUPREME FLANNEL GREEN",
-		"price": 120.00,
-		"quantity_available": 25,
-		"image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/Supreme_flannel.jpg?raw=true",
-        "description": "20 in. handmade pearl necklace (fits like choker)"
-	}
-]
+{
+    "bottoms": [
+        {
+            "name": "KITH MESH SHORT GREY",
+            "price": 60.00,
+            "quantity_available": 25,
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/kith_shorts.jpg?raw=true",
+            "description": "20 in. handmade pearl necklace (fits like choker)"
+        },
+        {
+            "name": "NIKE MESH SHORT BLACK",
+            "price": 60.00,
+            "quantity_available": 25,
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/nike_shorts.jpg?raw=true",
+            "description": "20 in. handmade pearl necklace (fits like choker)"
+        }
+    ],
+    "accessories": [
+        {
+            "name": "CUSTOM PEARL NECKLACE",
+            "price": 100.00,
+            "quantity_available": 20,
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/pearl_necklace.jpg?raw=true",
+            "description": "20 in. handmade pearl necklace (fits like choker)"
+        }
+    ],
+    "tops": [
+        {
+            "name": "CUSTOM GRAPHIC HOODIE",
+            "price": 100.00,
+            "quantity_available": 5,
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/custom_hoodie.jpg?raw=true",
+            "description": "20 in. handmade pearl necklace (fits like choker)"
+        },
+        {
+            "name": "SUPREME FLANNEL GREEN",
+            "price": 120.00,
+            "quantity_available": 25,
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/Supreme_flannel.jpg?raw=true",
+            "description": "20 in. handmade pearl necklace (fits like choker)"
+        },
+        {
+            "name": "STUSSY X CACTUS PLANT",
+            "price": 75.00,
+            "quantity_available": 40,
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/Stussy_tee.jpg?raw=true",
+            "description": "20 in. handmade pearl necklace (fits like choker)"
+        }
+    ]
+}

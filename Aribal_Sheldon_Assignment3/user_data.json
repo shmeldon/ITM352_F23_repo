@@ -26,7 +26,13 @@
 	"itm352@hawaii.edu": {
 		"name": "ITM352",
 		"password": "grader",
+		"loginCount": 1,
+		"lastLogin": "12/15/2023, 7:09:16 PM"
+	},
+	"sheldonaribal@gmail.com": {
+		"name": "Sheldon",
+		"password": "Sheldon1227-",
 		"loginCount": 0,
-		"lastLogin": ""
+		"lastLogin": "12/15/2023, 7:10:01 PM"
 	}
 }

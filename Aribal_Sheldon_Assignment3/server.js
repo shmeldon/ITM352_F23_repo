@@ -37,6 +37,16 @@ app.all("*", function (request, response, next) {
 	next();
 });
 
+// Test if sessions are working
+app.get('/test-session', function (req, res) {
+    if (!req.session.views) {
+        req.session.views = 1;
+    } else {
+        req.session.views++;
+    }
+    res.send(`Number of views: ${req.session.views}`);
+});
+
 // Sends the JSON products data as a JavaScript file to the client.
 app.get("/products.js", function (request, response, next) {
 	response.type(".js");
