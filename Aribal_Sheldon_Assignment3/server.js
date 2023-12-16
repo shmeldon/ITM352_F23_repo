@@ -4,14 +4,13 @@ var cookieParser = require('cookie-parser');
 const app = express();
 const qs = require("qs");
 const fs = require("fs");
-
 const products = require(__dirname + "/products.json");
 
 app.use(cookieParser());
 
 app.use(session({
     secret: 'secret-key', 
-    resave: false,
+    resave: true,
     saveUninitialized: true
 }));
 
