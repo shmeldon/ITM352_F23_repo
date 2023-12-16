@@ -1,9 +1,19 @@
 const express = require("express");
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 const app = express();
 const qs = require("qs");
 const fs = require("fs");
 
 const products = require(__dirname + "/products.json");
+
+app.use(cookieParser());
+
+app.use(session({
+    secret: 'secret-key', 
+    resave: false,
+    saveUninitialized: true
+}));
 
 // Function to check if the quantities entered are whole numbers, negative values, and/or a number and not a string; Taken from labs
 function isNonNegInt(quantities, returnErrors) {
