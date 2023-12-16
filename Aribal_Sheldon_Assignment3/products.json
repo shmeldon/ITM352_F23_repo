@@ -5,14 +5,14 @@
             "price": 60.00,
             "quantity_available": 25,
             "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/kith_shorts.jpg?raw=true",
-            "description": "20 in. handmade pearl necklace (fits like choker)"
+            "description": "Grey Kith Shorts"
         },
         {
             "name": "NIKE MESH SHORT BLACK",
             "price": 60.00,
             "quantity_available": 25,
             "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/nike_shorts.jpg?raw=true",
-            "description": "20 in. handmade pearl necklace (fits like choker)"
+            "description": "Black nike shorts"
         }
     ],
     "accessories": [
@@ -30,21 +30,21 @@
             "price": 100.00,
             "quantity_available": 5,
             "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/custom_hoodie.jpg?raw=true",
-            "description": "20 in. handmade pearl necklace (fits like choker)"
+            "description": "Custom graphic hoodie tan"
         },
         {
             "name": "SUPREME FLANNEL GREEN",
             "price": 120.00,
             "quantity_available": 25,
             "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/Supreme_flannel.jpg?raw=true",
-            "description": "20 in. handmade pearl necklace (fits like choker)"
+            "description": "green supreme flannel"
         },
         {
             "name": "STUSSY X CACTUS PLANT",
             "price": 75.00,
             "quantity_available": 40,
             "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/Stussy_tee.jpg?raw=true",
-            "description": "20 in. handmade pearl necklace (fits like choker)"
+            "description": "Stussy shirt"
         }
     ]
 }
