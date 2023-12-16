@@ -18,28 +18,28 @@
             "name": "CARHARTT JEANS",
             "price": 80.00,
             "quantity_available": 8,
-            "image": "https://placeholder-image-url.com",
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/carhart_Jeans.jpg?raw=true",
             "description": "Placeholder Description 1"
         },
         {
             "name": "CARHARTT WORK PANT GREY",
             "price": 90.00,
             "quantity_available": 10,
-            "image": "https://placeholder-image-url.com",
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/carhar_work.jpg?raw=true",
             "description": "Placeholder Description 2"
         },
         {
             "name": "PATAGONIA SHORT GREEN",
             "price": 50.00,
             "quantity_available": 40,
-            "image": "https://placeholder-image-url.com",
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/patagonia_short.jpg?raw=true",
             "description": "Placeholder Description 3"
         },
         {
             "name": "SUPREME JOGGER",
             "price": 100.00,
             "quantity_available": 13,
-            "image": "https://placeholder-image-url.com",
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/supreme_jogger.jpg?raw=true",
             "description": "Placeholder Description 4"
         }
     ],
@@ -55,28 +55,28 @@
             "name": "HELLO KITTY BRACELET",
             "price": 30.00,
             "quantity_available": 100,
-            "image": "https://placeholder-image-url.com",
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/hello_kitty_bracelet.jpg?raw=true",
             "description": "Placeholder Description 1"
         },
         {
             "name": "FIGARO CHAIN SILVER",
             "price": 250.00,
             "quantity_available": 5,
-            "image": "https://placeholder-image-url.com",
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/figaro_chain.jpg?raw=true",
             "description": "Placeholder Description 2"
         },
         {
             "name": "GUCCI DOGTAG",
             "price": 200.00,
             "quantity_available": 3,
-            "image": "https://placeholder-image-url.com",
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/gucci_dogtag.jpg?raw=true",
             "description": "Placeholder Description 3"
         },
         {
             "name": "AIR FRESHENER",
             "price": 15.00,
             "quantity_available": 80,
-            "image": "https://placeholder-image-url.com",
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/air_freshener.jpg?raw=true",
             "description": "Placeholder Description 4"
         }
     ],
@@ -106,14 +106,14 @@
             "name": "GOLF HOODIE TAN",
             "price": 115.00,
             "quantity_available": 15,
-            "image": "https://placeholder-image-url.com",
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/golf_hoodie.jpg?raw=true",
             "description": "Placeholder Description 1"
         },
         {
             "name": "FRENS HOODIE GREEN",
             "price": 80.00,
             "quantity_available": 10,
-            "image": "https://placeholder-image-url.com",
+            "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/frens_hoodie.jpg?raw=true",
             "description": "Placeholder Description 2"
         }
     ]
