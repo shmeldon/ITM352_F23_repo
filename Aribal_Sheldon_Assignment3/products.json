@@ -12,7 +12,35 @@
             "price": 60.00,
             "quantity_available": 25,
             "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/nike_shorts.jpg?raw=true",
-            "description": "Black nike shorts"
+            "description": "Black Nike Shorts"
+        },
+        {
+            "name": "CARHARTT JEANS",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 1"
+        },
+        {
+            "name": "CARHARTT WORK PANT GREY",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 2"
+        },
+        {
+            "name": "PATAGONIA SHORT GREEN",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 3"
+        },
+        {
+            "name": "SUPREME JOGGER",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 4"
         }
     ],
     "accessories": [
@@ -22,6 +50,34 @@
             "quantity_available": 20,
             "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/pearl_necklace.jpg?raw=true",
             "description": "20 in. handmade pearl necklace (fits like choker)"
+        },
+        {
+            "name": "HELLO KITTY BRACELET",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 1"
+        },
+        {
+            "name": "FIGARO CHAIN SILVER",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 2"
+        },
+        {
+            "name": "GUCCI DOGTAG",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 3"
+        },
+        {
+            "name": "AIR FRESHENER",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 4"
         }
     ],
     "tops": [
@@ -30,21 +86,42 @@
             "price": 100.00,
             "quantity_available": 5,
             "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/custom_hoodie.jpg?raw=true",
-            "description": "Custom graphic hoodie tan"
+            "description": "Custom Graphic Hoodie Tan"
         },
         {
             "name": "SUPREME FLANNEL GREEN",
             "price": 120.00,
             "quantity_available": 25,
             "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/Supreme_flannel.jpg?raw=true",
-            "description": "green supreme flannel"
+            "description": "Green Supreme Flannel"
         },
         {
             "name": "STUSSY X CACTUS PLANT",
             "price": 75.00,
             "quantity_available": 40,
             "image": "https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/Stussy_tee.jpg?raw=true",
-            "description": "Stussy shirt"
+            "description": "Stussy Shirt"
+        },
+        {
+            "name": "GOLF HOODIE TAN",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 1"
+        },
+        {
+            "name": "FRENS HOODIE GREEN",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 2"
+        },
+        {
+            "name": "",
+            "price": 0.00,
+            "quantity_available": 0,
+            "image": "https://placeholder-image-url.com",
+            "description": "Placeholder Description 3"
         }
     ]
 }
