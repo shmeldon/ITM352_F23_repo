@@ -27,7 +27,7 @@
                     bottoms.forEach(product => {
                         document.write(`
                             <section class="item">
-                                <img src="${product.image}" alt="${product.name}">
+                                <img src="${product.image}">
                                 <h2>${product.name}</h2>
                                 <h3><b>$${product.price.toFixed(2)}</b></h3>
                                 <p>${product.quantity_available} available</p>
@@ -47,7 +47,7 @@
 
     <footer>
         <script> //purchase button  </script>
-            <input type="submit" value="Purchase!"      name="purchase_submit">
+            <input type="submit" value="Purchase!" name="purchase_submit">
     </footer>
 </body>
 </html>
