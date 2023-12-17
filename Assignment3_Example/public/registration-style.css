@@ -1,0 +1,95 @@
+/*The following code is a stylesheet which gets applied to registration.html. Most of the code is inspired by chat gpt*/
+  /* Styles for body, container, and section */
+body {
+    font-family: "American Typewrite", sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .section {
+    background-color: #f0efef;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Styles for the card and card body */
+  .card {
+    border-radius: 25px;
+  }
+  
+  .card-body {
+    padding: 60px 40px;
+  }
+  
+  /* Styles for the form */
+  .form-control {
+    border-radius: 20px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border: none;
+  }
+  
+  
+  
+  .btn-primary {
+    background-color: #5fb2ed;
+    font-family: "Optima", sans-serif;
+    border-radius: 20px;
+    padding: 12px 30px;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0080ff;
+    font-family: "Optima", sans-serif;
+  }
+  
+  /* Styles for the icons */
+  .fa {
+    margin-right: 10px;
+    width: 20px;
+  }
+  
+  .card-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .form-outline {
+    flex: 1;
+  }
+  
+  /* Styles for the text */
+  .h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #0085e4;
+    font-family: "Optima", sans-serif;
+  }
+  
+  .registration-form {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .registration-image {
+    margin-left: 100px;
+    padding: 150 px;
+  }
+  img {
+    max-width: 300px;
+    width: 30%;
+    height: 30%;
+    float: right;
+    margin-left: 200px;
+  }

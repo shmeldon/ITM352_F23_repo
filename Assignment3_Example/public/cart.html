@@ -1,0 +1,234 @@
+<script>
+  /* I, Alanna Mellor, am the author of this code. The following is a simple html page which recives data from the server and generates an invoice. */
+</script>
+
+<link href="products-style.css" rel="stylesheet">
+<script src="/product_data.js"></script>
+<script src="./functions.js"></script>
+<script>
+ var products_data;
+var total = 0;
+
+loadJSON('/signed_in', function (response) {
+    // Parsing JSON string into object; display if user is signed in or not
+    login_status = JSON.parse(response);
+});
+
+ loadJSON('get_cart', function (response) {
+  // Parsing JSON string into object
+  shopping_cart = JSON.parse(response);
+});
+
+
+window.onload = function () {
+   // if user is logged in, display their name on the page
+   if (login_status.loggedIn) {
+      document.getElementById('login_status_yes').style.display = 'block';
+      document.getElementById('login_status_no').style.display = 'none';
+
+      // display login button
+      document.getElementById('login-button').style.display = 'none';
+      document.getElementById('logout-button').style.display = 'block';
+    } else {
+      // if user is not logged in, display appropriate elements
+      document.getElementById('login_status_yes').style.display = 'none';
+      document.getElementById('login_status_no').style.display = 'block';
+
+      // display logout button
+      document.getElementById('login-button').style.display = 'block';
+      document.getElementById('logout-button').style.display = 'none';
+    }
+  // check if the cart is empty
+  if (!shopping_cart.quantities) {
+    document.getElementById('cartTable').style.display = 'none';
+    document.getElementById('emptyCartMessage').style.display = 'block';
+    return;
+  } else {
+    document.getElementById('cartTable').style.display = 'block';
+    document.getElementById('emptyCartMessage').style.display = 'none';
+  }
+  };
+
+  let params = (new URL(document.location)).searchParams;
+  //display successful cart update alert
+ 
+            
+    
+                // if query string has the array "errors_array" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
+                if (params.has(`message`)) {
+                    var success = JSON.parse(params.get(`message`));
+                }
+            // if the variable storing the message exists, assign the value of the button to the errors
+                if (success) {
+                    window.alert(success)
+                }
+
+
+
+  // Sub-Total
+  var subtotal = 0;
+  // shipping 
+  var shipping;
+  var qty;
+  function generate_item_rows() {
+    // function to generate item rows based on products array and the quantities in the query string
+
+
+
+    var items = shopping_cart.item.split(',');
+    var names = shopping_cart.name.split(',');
+    var quantities = shopping_cart.quantities.split(',');
+    var images = shopping_cart.image.split(',');
+    // loop through products to generate a row for each product and quantity 
+    // loop through items to generate a row for each item
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      var name = names[i];
+      var image = images[i];
+      var quantity = parseInt(quantities[i]); // convert quantity to integer
+      if (quantity == 0){
+        continue;
+      }
+      var price = 10;
+
+      //set extended price
+      var extended_price = quantity * price;
+
+
+      // generate item rows 
+      document.write(`
+
+      <tr>
+        <td align="center" width="43%"><img src="${image}" width="30%" height="30%"><div><div><div>${name}</td>
+        <input type="hidden" name = "item" value = "${item}">
+        <td align="center" width="11%"><input type="number" name = "quantities" value="${quantity}" id="quantity_${i}"></td>
+        <td align="center" width="13%" name = >$${price}</td>
+        <td width="43%">$${extended_price.toFixed(2)}</td>
+        </tr>
+      `)
+      subtotal += extended_price
+    }
+  };
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<header>
+  <div class="header-container">
+    <a href="login.html" class="login-button" id = "login-button">Login</a>
+    <a href="/clear_session" class="login-button" id = "logout-button">Logout</a>
+    <a href="cart.html" class="cart-button">Shopping Cart</a>
+  </div>
+  <div class="store-title">
+    <h1>Capture the Bag</h1>
+    <div id="login_status_no">You are not logged in</div>
+        <div id="login_status_yes">You're logged in as <script>document.write(`${login_status.username}`)</script></div>
+  </div>
+</header>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="light_totes.html">Light Totes</a></li>
+      <li><a href="heavy_totes.html">Heavy Duty Totes</a></li>
+      <li><a href="backpacks.html">Backpacks</a></li>
+    </ul>
+  </nav>
+
+  <div class="users_cart">
+    <div id="emptyCartMessage">Your cart is currently empty</div>
+    <form id="cartForm" action="/update_cart" method="post">
+      <table border="2">
+
+        <tbody id="cartTable">
+          <tr>
+            <th style="text-align: center;" width="43%">Item</th>
+            <th style="text-align: center;" width="11%">Quantity</th>
+            <th style="text-align: center;" width="13%">Price</th>
+            <th style="text-align: center;" width="54%">Extended Price</th>
+          </tr>
+
+          <script>
+            //call the function 
+            generate_item_rows();
+
+
+            // Sales Tax
+            taxRate = 5.75 / 100;
+            salesTax = subtotal * taxRate;
+
+            //Shipping Costs
+            shipping;
+            if (subtotal <= 50) {
+              shipping = 2;
+            }
+            if (subtotal > 50 && subtotal <= 100) {
+              shipping = 5;
+            }
+            if (subtotal > 100) {
+              shipping = subtotal * 0.05;
+            }
+
+            // Grand Sales Total
+            total = subtotal + salesTax + shipping;
+
+          </script>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+            <td width="54%">$
+              <script>document.write(subtotal.toFixed(2))</script>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 5.75%</span>
+            </td>
+            <td width="54%">$
+              <script>document.write(salesTax.toFixed(2))</script>
+            </td>
+
+          </tr>
+
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Shipping</span>
+            </td>
+            <td width="54%">$
+              <script>document.write(shipping.toFixed(2))</script>
+            </td>
+
+          </tr>
+
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><strong><strong>Total</strong></strong></td>
+            <td width="54%"><strong>$
+                <script>document.write(total.toFixed(2))</script>
+              </strong></td>
+          </tr>
+          <tr>
+            <td colspan="4" align="center">
+              <button type="submit" class="update_button">Update Cart</button>
+              <a href="invoice" class="confirm_purchase_button">Confirm Purchase</a>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </form>
+  </div>
+
+</body>
+<footer>
+  <p><b> OUR SHIPPING POLICY IS: A subtotal $0 - $49.99 will be $2 shipping
+      A subtotal $50 - $99.99 will be $5 shipping
+      Subtotals over $100 will be charged 5% of the subtotal amount</b></p>
+</footer>
+
+</html>

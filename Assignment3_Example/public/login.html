@@ -1,0 +1,125 @@
+<script>
+  /*I, Alanna Mellor am the author of this code. The following is a login-page which is validated via the server. The user data is stored in a separate JSON file*/
+  // I got this html template from https://www.w3schools.com/howto/howto_css_login_form.asp 
+</script>
+
+<script>
+  let params = (new URL(document.location)).searchParams;
+
+  // errors from server has been input into the query string and assigned to the variable "error_check". if errors_arrays is in the query string, get it, pull out the value, and display it in window alert
+  // store in function and call it when the page loads 
+  window.onload = function () {
+
+    // make textboxes sitcky
+    if (params.has(`uname`)) {
+      login_form[`uname`].value = params.get(`uname`);
+    }
+    if (params.has(`psw`)) {
+      login_form[`psw`].value = params.get(`psw`);
+    }
+
+    // if query string has the array "errors_check" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
+    if (params.has(`error_check`)) {
+      var errors = JSON.parse(params.get(`error_check`));
+    }
+    // if the variable storing the error_check exists, alert errors
+    if (errors) {
+      window.alert(errors);
+    }
+
+    // if, user has succesfully registered a new account, alert them when they come back to this page
+    if (params.has(`successful_login`)) {
+      var success = JSON.parse(params.get(`successful_login`));
+    }
+    if (success) {
+      window.alert(success);
+    }
+
+    //if user is trying to purchase without logging in, direct them to this page via server and display a message
+     // if, user has succesfully registered a new account, alert them when they come back to this page
+     if (params.has(`login_message`)) {
+      var login_message = JSON.parse(params.get(`login_message`));
+    }
+    if (login_message) {
+      window.alert(login_message);
+    }
+  };
+
+
+</script>
+
+<head>
+  <link href="products-style.css" rel="stylesheet">
+</head>
+
+<header>
+  <div class="header-container">
+    <a href="cart.html" class="cart-button">Shopping Cart</a>
+  </div>
+  <div class="store-title">
+    <h1>Capture the Bag</h1>
+  </div>
+</header>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="light_totes.html">Light Totes</a></li>
+      <li><a href="heavy_totes.html">Heavy Duty Totes</a></li>
+      <li><a href="backpacks.html">Backpacks</a></li>
+    </ul>
+  </nav>
+  <form name="login_form" action="/login" method="POST">
+
+    <div class="login-container">
+      <table>
+        <tr>
+          <td class="login_row">
+            <label for="uname"><b>Email Address</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="login_row">
+
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="login_row">
+            <button type="submit"  class = "login_confirm_button" name="button">Login</button>
+          </td>
+        </tr>
+
+
+        <script>
+      // I am adding in this next "<div>" to give users the option of registering a new account; completed via a hyperlink
+        </script>
+
+        <tr>
+          <td class="login_row">
+            <div>
+              <span class="registration_link"> Click <a href="/registration.html">here</a> to create a new
+                account!</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="login_row">
+            <div class="container" style="background-color:#f1f1f1">
+              <button type="button" class="cancel_button"
+                onclick="window.location.href='./index.html'">Cancel</button>
+              <span class="psw">Forgot <a href="#">password?</a></span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </form>
+</body>
