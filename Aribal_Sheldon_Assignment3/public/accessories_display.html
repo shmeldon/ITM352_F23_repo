@@ -52,10 +52,11 @@ window.onload = function() {
     </header>
 
     <main class="products-container">
+        <!-- Loop to dynamically generate product listings for 'accessories' -->
         <script>
             for (var i = 0; i < products.accessories.length; i++) {
                 document.write(`
-                    <form action="/add-to-cart" method="post">
+                    <form action="/add-to-cart-accessories" method="post">
                         <section class="item">
                             <img src="${products.accessories[i].image}" alt="${products.accessories[i].name}">
                             <h2>${products.accessories[i].name}</h2>
@@ -63,7 +64,7 @@ window.onload = function() {
                             <p>Quantity Available: ${products.accessories[i].quantity_available}</p>
                             <div class="quantity-container">
                                 <label for="quantity${i}">Quantity Desired:</label>
-                                <input type="number" id="quantity${i}" name="quantity" min="1" placeholder="0">
+                                <input type="number" id="quantity${i}" name="quantity_${products.accessories[i].product_id}" min="1" placeholder="0">
                                 <input type="hidden" name="product_id" value="${products.accessories[i].product_id}">
                             </div>
                             <input type="submit" value="Add to Cart" class="add-cart">
@@ -73,6 +74,7 @@ window.onload = function() {
             }
         </script>
     </main>
+    
 
     <footer>
         <p>&copy; 2023 Sheldon's Closet</p>

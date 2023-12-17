@@ -11,13 +11,15 @@
 <script>
 window.onload = function() {
     let params = new URLSearchParams(window.location.search);
+
+    // Existing error handling
     let errorMessages = params.get('error');
     let errorProduct = params.get('errorProduct'); // The product ID that caused the error
 
     if (errorMessages && errorProduct) {
         errorMessages = JSON.parse(errorMessages);
-
         let alertMessage = '';
+
         for (let inputName in errorMessages) {
             if (errorMessages[inputName].includes("Only") && errorMessages[inputName].includes("left")) {
                 let availableQuantity = errorMessages[inputName].match(/Only (\d+) left/)[1];
@@ -34,6 +36,18 @@ window.onload = function() {
         if (alertMessage) {
             alert(alertMessage);
         }
+    }
+
+    // New code for handling cart summary or errors from server
+    let cartSummary = params.get('cartSummary');
+    let serverErrors = params.get('errors');
+    
+    if (cartSummary) {
+        cartSummary = JSON.parse(cartSummary);
+        alert("Items in your cart:\n" + cartSummary);
+    } else if (serverErrors) {
+        serverErrors = JSON.parse(serverErrors);
+        alert("Errors:\n" + serverErrors.join("\n"));
     }
 };
 </script>
@@ -56,15 +70,15 @@ window.onload = function() {
         <script>
             for (var i = 0; i < products.bottoms.length; i++) {
                 document.write(`
-                    <form action="/add-to-cart" method="post">
+                    <form action="/add-to-cart-bottoms" method="post">
                         <section class="item">
                             <img src="${products.bottoms[i].image}" alt="${products.bottoms[i].name}">
                             <h2>${products.bottoms[i].name}</h2>
                             <p>$${products.bottoms[i].price.toFixed(2)}</p>
-                            <p>Quantity Available: ${products.bottoms[i].quantity_available}</p>
+                            <p>Quantity Available: ${products.bottoms[i].quantity_available}</p> <!-- Changed to camelCase -->
                             <div class="quantity-container">
                                 <label for="quantity${i}">Quantity Desired:</label>
-                                <input type="number" id="quantity${i}" name="quantity" min="1" placeholder="0">
+                                <input type="number" id="quantity${i}" name="quantity_${products.bottoms[i].product_id}" min="1" placeholder="0"> <!-- Product ID in name -->
                                 <input type="hidden" name="product_id" value="${products.bottoms[i].product_id}">
                             </div>
                             <input type="submit" value="Add to Cart" class="add-cart">
@@ -74,6 +88,7 @@ window.onload = function() {
             }
         </script>
     </main>
+    
     
 
     <footer>

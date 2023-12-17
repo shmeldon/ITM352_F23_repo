@@ -348,4 +348,185 @@ app.post("/register_user", function (request, response) {
 app.use(express.static(__dirname + "/public"));
 
 // Start the server on port 8080
-app.listen(8080, () => console.log(`listening on port 8080`));
+app.listen(8080, () => console.log(`listening on port 8080`)); 
+
+// Assignment 3 code
+
+// Process and validate bottoms items that get added to cart from bottoms_display.html
+app.post("/add-to-cart-bottoms", function (request, response) {
+    var quantities = {};
+
+    // Array to collect all values of the textboxes
+    var all_textboxes = [];
+
+    // Array to collect all errors
+    var errors_array = [];
+
+    // Loop to collect the values of all the textboxes
+    for (let i = 0; i < products.bottoms.length; i++) {
+        all_textboxes.push(request.body[`quantity_${products.bottoms[i].product_id}`]);
+    }
+
+    // Check that at least one quantity is entered
+    if (all_textboxes.every(element => element === '')) {
+        errors_array.push('Please enter at least one quantity');
+        response.redirect('./bottoms_display.html?' + querystring.stringify({ errors_array: `${JSON.stringify(errors_array)}` }));
+        return;
+    }
+
+    // Loop through the products and get the quantities from the request body
+    for (let i = 0; i < products.bottoms.length; i++) {
+        var quantity = request.body[`quantity_${products.bottoms[i].product_id}`];
+        var name = products.bottoms[i].name;
+        var image = products.bottoms[i].image;
+        var qa = products.bottoms[i].quantity_available;
+
+        // Skip if quantity is zero
+        if (quantity == 0) continue;
+
+        // Check for valid quantities
+        let errors = isNonNegInt(quantity, true);
+        if (errors.length > 0) {
+            errors_array.push(`Invalid Quantity for ${name}`);
+            continue;
+        }
+
+        // Check if selected quantity exceeds available quantity
+        if (quantity > qa) {
+            errors_array.push(`The quantity selected for ${name} exceeds the available quantity`);
+            continue;
+        }
+
+        // Add valid quantities to the session cart
+        if (!request.session.cart) request.session.cart = {};
+        request.session.cart[name] = {
+            'item': 'bottoms',
+            'quantity': parseInt(quantity),
+            'image': image
+        };
+    }
+
+    // Popup of either successful item to cart or popup with errors
+	if (errors_array.length == 0) {
+        // Prepare a summary of the cart to send back
+        let cartSummary = prepareCartSummary(request.session.cart);
+        response.json({ success: true, cartSummary: cartSummary });
+    } else {
+        // Handle errors
+        response.json({ success: false, errors: errors_array });
+    }
+});
+
+function prepareCartSummary(cart) {
+    // Create a summary of the cart contents
+    let summary = "";
+    for (let item in cart) {
+        summary += `${item}: ${cart[item].quantity}\n`;
+    }
+    return summary;
+}
+
+// Process and validate tops items that get added to cart from tops_display.html
+app.post("/add-to-cart-tops", function (request, response) {
+    var errors_array = [];
+    var cartSummary = "";
+
+    // Loop through the products and get the quantities from the request body
+    for (let i = 0; i < products.tops.length; i++) {
+        var quantity = request.body[`quantity_${products.tops[i].product_id}`];
+        var name = products.tops[i].name;
+        var image = products.tops[i].image;
+        var qa = products.tops[i].quantity_available;
+
+        if (quantity == 0) continue;
+
+        let errors = isNonNegInt(quantity, true);
+        if (errors.length > 0) {
+            errors_array.push(`Invalid Quantity for ${name}`);
+            continue;
+        }
+
+        if (quantity > qa) {
+            errors_array.push(`The quantity selected for ${name} exceeds the available quantity`);
+            continue;
+        }
+
+        if (!request.session.cart) request.session.cart = {};
+        request.session.cart[name] = {
+            'item': 'tops',
+            'quantity': parseInt(quantity),
+            'image': image
+        };
+    }
+
+    // Prepare the cart summary
+    for (let item in request.session.cart) {
+        cartSummary += `${item}: ${request.session.cart[item].quantity}\n`;
+    }
+
+    // Check for errors and redirect accordingly
+    if (errors_array.length == 0) {
+        response.redirect('/tops_display.html?' + querystring.stringify({ cartSummary: JSON.stringify(cartSummary) }));
+    } else {
+        response.redirect('/tops_display.html?' + querystring.stringify({ errors: JSON.stringify(errors_array) }));
+    }
+});
+
+
+// Process and validate accessories items that get added to cart from accessories_display.html
+app.post("/add-to-cart-accessories", function (request, response) {
+    var all_textboxes = [];
+    var errors_array = [];
+
+    for (let i = 0; i < products.accessories.length; i++) {
+        all_textboxes.push(request.body[`quantity_${products.accessories[i].product_id}`]);
+    }
+
+    if (all_textboxes.every(element => element === '')) {
+        errors_array.push('Please enter at least one quantity');
+        response.json({ success: false, errors: errors_array });
+        return;
+    }
+
+    for (let i = 0; i < products.accessories.length; i++) {
+        var quantity = request.body[`quantity_${products.accessories[i].product_id}`];
+        var name = products.accessories[i].name;
+        var image = products.accessories[i].image;
+        var qa = products.accessories[i].quantity_available;
+
+        if (quantity == 0) continue;
+
+        let errors = isNonNegInt(quantity, true);
+        if (errors.length > 0) {
+            errors_array.push(`Invalid Quantity for ${name}`);
+            continue;
+        }
+
+        if (quantity > qa) {
+            errors_array.push(`The quantity selected for ${name} exceeds the available quantity`);
+            continue;
+        }
+
+        if (!request.session.cart) request.session.cart = {};
+        request.session.cart[name] = {
+            'item': 'accessories',
+            'quantity': parseInt(quantity),
+            'image': image
+        };
+    }
+
+    if (errors_array.length == 0) {
+        let cartSummary = prepareCartSummary(request.session.cart);
+        response.json({ success: true, cartSummary: cartSummary });
+    } else {
+        response.json({ success: false, errors: errors_array });
+    }
+});
+
+function prepareCartSummary(cart) {
+    let summary = "";
+    for (let item in cart) {
+        summary += `${item}: ${cart[item].quantity}\n`;
+    }
+    return summary;
+}

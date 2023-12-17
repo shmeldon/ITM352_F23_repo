@@ -22,10 +22,11 @@
     </header>
 
     <main class="products-container">
+        <!-- Loop to dynamically generate product listings for 'tops' -->
         <script>
             for (var i = 0; i < products.tops.length; i++) {
                 document.write(`
-                    <form action="/add-to-cart" method="post">
+                    <form action="/add-to-cart-tops" method="post">
                         <section class="item">
                             <img src="${products.tops[i].image}" alt="${products.tops[i].name}">
                             <h2>${products.tops[i].name}</h2>
@@ -33,7 +34,7 @@
                             <p>Quantity Available: ${products.tops[i].quantity_available}</p>
                             <div class="quantity-container">
                                 <label for="quantity${i}">Quantity Desired:</label>
-                                <input type="number" id="quantity${i}" name="quantity" min="1" placeholder="0">
+                                <input type="number" id="quantity${i}" name="quantity_${products.tops[i].product_id}" min="1" placeholder="0">
                                 <input type="hidden" name="product_id" value="${products.tops[i].product_id}">
                             </div>
                             <input type="submit" value="Add to Cart" class="add-cart">
@@ -43,6 +44,7 @@
             }
         </script>
     </main>
+    
     
 
     <footer>
