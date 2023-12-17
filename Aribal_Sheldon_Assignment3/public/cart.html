@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="invoiceStyle.css">
+  <script src="./products.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <!-- Navigation Menu -->
+  <nav> 
+    <ul> 
+        <li><a href="index.html"><b>HOME</b></a></li>
+        <li><a href="bottoms_display.html"><b>BOTTOMS</b></a></li>
+        <li><a href="tops_display.html"><b>TOPS</b></a></li>
+        <li><a href="accessories_display.html"><b>ACCESSORIES</b></a></li>
+    </ul>
+  </nav>
+
+  <!-- Page Header -->
+  <header>
+    <h1>Your Cart</h1>
+  </header>
+
+  <!-- Cart Items Container -->
+  <div class="invoice-items" id="cart-items-container"></div>
+
+  <!-- Decorative Line -->
+  <div class="line"></div>
+
+  <!-- Cost Summary Section -->
+  <div class="costs">
+    <!-- Display Subtotal -->
+    <div class="cost-item">
+      <span class="cost-label">Subtotal:</span>
+      <span class="cost-value" id="subtotal-cost">$0.00</span>
+    </div>
+
+    <!-- Display Tax Calculation -->
+    <div class="cost-item">
+      <span class="cost-label">Tax (4.00%):</span>
+      <span class="cost-value" id="tax">$0.00</span>
+    </div>
+
+    <!-- Display Shipping Cost -->
+    <div class="cost-item">
+      <span class="cost-label">Shipping:</span>
+      <span class="cost-value" id="shipping-cost">$0.00</span>
+    </div>
+
+    <!-- Display Total Cost -->
+    <div class="cost-item">
+      <span class="cost-label">Total:</span>
+      <span class="cost-value" id="total-cost">$0.00</span>
+    </div>
+  </div>
+
+  <!-- Decorative Line -->
+  <div class="line"></div>
+
+  <!-- Shipping Policy -->
+  <div class="shipping-policy">
+    <!-- Display shipping policy information here -->
+  </div>
+
+  <!-- JavaScript Code -->
+  <script>
+    // Get URL parameters
+    let params = new URL(document.location).searchParams;
+    let quantities = [];
+
+    // Function for generating cart items dynamically
+    function generateCartItems(products, quantities) {
+      let cartItemsHtml = '';
+      let subtotal = 0;
+
+      for (let i = 0; i < products.length; i++) {
+        if (!quantities[i] || quantities[i] <= 0) continue;
+
+        let totalForItem = quantities[i] * products[i].price;
+        subtotal += totalForItem;
+
+        // Create HTML for each item in the cart
+        cartItemsHtml += `
+        <div class="invoice-item">
+          <img src="${products[i].image}" alt="${products[i].name}">
+          <div class="item-details">
+            <div class="item-header">
+              <h3>${products[i].name}</h3>
+              <p>Quantity: ${quantities[i]}</p>
+              <p>Price: $${products[i].price.toFixed(2)}</p>
+            </div>
+          </div>
+          <div class="item-total">
+            <p>$${(quantities[i] * products[i].price).toFixed(2)}</p>
+          </div>
+        </div>`;
+      }
+
+      // Update the HTML container with generated cart items
+      document.getElementById('cart-items-container').innerHTML = cartItemsHtml;
+      return subtotal;
+    }
+
+    // Function to calculate and display costs
+    function calculateCosts(subtotal) {
+      const taxRate = 0.04; // 4% tax
+      const tax = subtotal * taxRate;
+
+      // Update subtotal display
+      document.getElementById('subtotal-cost').textContent = `$${subtotal.toFixed(2)}`;
+
+      // Update tax display
+      document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+
+      let shipping = 0;
+      if (subtotal < 100 && subtotal > 0) {
+        shipping = 9.99;
+      } else if (subtotal < 200) {
+        shipping = 4.99;
+      }
+      // Update shipping cost display
+      document.getElementById('shipping-cost').textContent = `$${shipping.toFixed(2)}`;
+
+      // Calculate and update total cost display
+      const total = subtotal + tax + shipping;
+      document.getElementById('total-cost').textContent = `$${total.toFixed(2)}`;
+    }
+
+    // Process the cart items
+    for (let i = 0; i < products.length; i++) {
+      if (params.has(`quantity${i}`)) {
+        let a_qty = params.get(`quantity${i}`);
+        quantities[i] = parseInt(a_qty, 10);
+      }
+    }
+    let subtotal = generateCartItems(products, quantities);
+    calculateCosts(subtotal); // Call function to calculate and display costs
+  </script>
+</body>
+
+</html>

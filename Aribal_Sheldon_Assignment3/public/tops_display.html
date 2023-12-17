@@ -6,25 +6,58 @@
     <title>Tops - Sheldon's Closet</title>
     <link rel="stylesheet" href="productStyle.css">
     <script src="./products.js" type="text/javascript"></script>
-
 </head>
 
 <script>
-    window.onload = function() {
-        let params = new URLSearchParams(window.location.search);
-    
-        // Code for handling cart summary or errors from server
-        let cartSummary = params.get('cartSummary');
-        let serverErrors = params.get('errors');
-        
-        if (cartSummary) {
-            cartSummary = JSON.parse(cartSummary);
-            alert("Items in your cart:\n" + cartSummary);
-        } else if (serverErrors) {
-            serverErrors = JSON.parse(serverErrors);
-            alert("Errors:\n" + serverErrors.join("\n"));
+   window.onload = function() {
+    let params = new URLSearchParams(window.location.search);
+
+    // Existing error handling
+    let errorMessages = params.get('error');
+    let errorProduct = params.get('errorProduct'); // The product ID that caused the error
+
+    if (errorMessages && errorProduct) {
+        errorMessages = JSON.parse(errorMessages);
+        let alertMessage = '';
+
+        for (let inputName in errorMessages) {
+            if (errorMessages[inputName].includes("Only") && errorMessages[inputName].includes("left")) {
+                let availableQuantity = errorMessages[inputName].match(/Only (\d+) left/)[1];
+                
+                // Find the specific textbox related to the errorProduct
+                let textBox = document.querySelector(`[name="${inputName}"][data-product-id="${errorProduct}"]`);
+                if (textBox) {
+                    textBox.style.borderColor = "red";
+                    textBox.value = availableQuantity;
+                }
+            }
+            alertMessage += errorMessages[inputName] + '\n';
         }
-    };
+        if (alertMessage) {
+            alert(alertMessage);
+        }
+    }
+
+    // New code for handling cart summary or errors from server
+    let cartSummary = params.get('cartSummary');
+    let serverErrors = params.get('errors');
+    
+    if (cartSummary) {
+        cartSummary = JSON.parse(cartSummary);
+        alert("Items in your cart:\n" + cartSummary);
+    } else if (serverErrors) {
+        try {
+            serverErrors = JSON.parse(serverErrors); // Try to parse the JSON string into an array
+            if (Array.isArray(serverErrors)) {
+                alert("Errors:\n" + serverErrors.join("\n")); // Join the array elements
+            } else {
+                alert("Errors:\n" + JSON.stringify(serverErrors)); // Convert the object to a string
+            }
+        } catch (error) {
+            console.error("Error parsing serverErrors:", error);
+        }
+    }
+};
 </script>
 
 <body>
@@ -64,8 +97,6 @@
         </script>
     </main>
     
-    
-
     <footer>
         <p>&copy; 2023 Sheldon's Closet</p>
     </footer>
