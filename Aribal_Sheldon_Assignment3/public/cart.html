@@ -68,45 +68,63 @@
 
   <!-- JavaScript Code -->
   <script>
-    // Get URL parameters
-    let params = new URL(document.location).searchParams;
-    let quantities = [];
+    <!-- In your cart.html JavaScript code -->
 
-    // Function for generating cart items dynamically
-    function generateCartItems(products, quantities) {
-      let cartItemsHtml = '';
-      let subtotal = 0;
+// Get URL parameters
+let params = new URLSearchParams(window.location.search);
+let cartItems = [];
 
-      for (let i = 0; i < products.length; i++) {
-        if (!quantities[i] || quantities[i] <= 0) continue;
+// Function for generating cart items dynamically
+function generateCartItems(cartItems) {
+  let cartItemsHtml = '';
+  let subtotal = 0;
 
-        let totalForItem = quantities[i] * products[i].price;
-        subtotal += totalForItem;
+  // Loop through the cart items
+  for (let i = 0; i < cartItems.length; i++) {
+    let cartItem = cartItems[i];
+    let product = products.tops.find(top => top.product_id === cartItem.product_id);
 
-        // Create HTML for each item in the cart
-        cartItemsHtml += `
-        <div class="invoice-item">
-          <img src="${products[i].image}" alt="${products[i].name}">
-          <div class="item-details">
-            <div class="item-header">
-              <h3>${products[i].name}</h3>
-              <p>Quantity: ${quantities[i]}</p>
-              <p>Price: $${products[i].price.toFixed(2)}</p>
-            </div>
-          </div>
-          <div class="item-total">
-            <p>$${(quantities[i] * products[i].price).toFixed(2)}</p>
-          </div>
-        </div>`;
-      }
-
-      // Update the HTML container with generated cart items
-      document.getElementById('cart-items-container').innerHTML = cartItemsHtml;
-      return subtotal;
+    if (!product) {
+      continue; // Handle cases where the product is not found
     }
 
-    // Function to calculate and display costs
-    function calculateCosts(subtotal) {
+    let totalForItem = cartItem.quantity * product.price;
+    subtotal += totalForItem;
+
+    // Create HTML for each item in the cart
+    cartItemsHtml += `
+    <div class="cart-item">
+      <img src="${product.image}" alt="${product.name}">
+      <div class="item-details">
+        <div class="item-header">
+          <h3>${product.name}</h3>
+          <p>Quantity: ${cartItem.quantity}</p>
+          <p>Price: $${product.price.toFixed(2)}</p>
+        </div>
+      </div>
+      <div class="item-total">
+        <p>$${totalForItem.toFixed(2)}</p>
+      </div>
+    </div>`;
+  }
+
+  // Update the HTML container with generated cart items
+  document.getElementById('cart-items-container').innerHTML = cartItemsHtml;
+  return subtotal;
+}
+
+// Process the cart items from the query parameters
+let product_id = params.get("product_id");
+let quantity = params.get("quantity");
+if (product_id && quantity) {
+  cartItems.push({ product_id: product_id, quantity: parseInt(quantity) });
+}
+
+// Call the function to generate and display cart items
+let subtotal = generateCartItems(cartItems);
+
+// Calculate and display costs (similar to your existing code)
+function calculateCosts(subtotal) {
       const taxRate = 0.04; // 4% tax
       const tax = subtotal * taxRate;
 
@@ -130,15 +148,8 @@
       document.getElementById('total-cost').textContent = `$${total.toFixed(2)}`;
     }
 
-    // Process the cart items
-    for (let i = 0; i < products.length; i++) {
-      if (params.has(`quantity${i}`)) {
-        let a_qty = params.get(`quantity${i}`);
-        quantities[i] = parseInt(a_qty, 10);
-      }
-    }
-    let subtotal = generateCartItems(products, quantities);
-    calculateCosts(subtotal); // Call function to calculate and display costs
+calculateCosts(subtotal);
+
   </script>
 </body>
 
