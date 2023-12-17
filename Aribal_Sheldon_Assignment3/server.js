@@ -14,6 +14,28 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.post('/add-to-cart', (req, res) => {
+    let product_id = req.body.product_id;
+    let quantity = parseInt(req.body.quantity);
+
+    if (!req.session.cart) {
+        req.session.cart = {};
+    }
+	if (quantity > product.quantity_available) {
+        // Redirect with error and product ID
+        res.redirect('/product-page?error=' + encodeURIComponent(`Only ${product.quantity_available} left`) + '&errorProduct=' + productId);
+    }
+    if (!req.session.cart[product_id]) {
+        req.session.cart[product_id] = quantity;
+    } else {
+        req.session.cart[product_id] += quantity;
+    }
+
+    // Redirect to the product page or cart page after adding item to cart
+    res.redirect('/path-to-redirect');
+});
+
+
 // Function to check if the quantities entered are whole numbers, negative values, and/or a number and not a string; Taken from labs
 function isNonNegInt(quantities, returnErrors) {
 	errors = []; // assume no errors at first

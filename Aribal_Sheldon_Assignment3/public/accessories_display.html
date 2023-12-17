@@ -7,11 +7,42 @@
     <link rel="stylesheet" href="productStyle.css">
     <script src="./products.js" type="text/javascript"></script>
 </head>
+
+<script>
+window.onload = function() {
+    let params = new URLSearchParams(window.location.search);
+    let errorMessages = params.get('error');
+    let errorProduct = params.get('errorProduct'); // The product ID that caused the error
+
+    if (errorMessages && errorProduct) {
+        errorMessages = JSON.parse(errorMessages);
+
+        let alertMessage = '';
+        for (let inputName in errorMessages) {
+            if (errorMessages[inputName].includes("Only") && errorMessages[inputName].includes("left")) {
+                let availableQuantity = errorMessages[inputName].match(/Only (\d+) left/)[1];
+                
+                // Find the specific textbox related to the errorProduct
+                let textBox = document.querySelector(`[name="${inputName}"][data-product-id="${errorProduct}"]`);
+                if (textBox) {
+                    textBox.style.borderColor = "red";
+                    textBox.value = availableQuantity;
+                }
+            }
+            alertMessage += errorMessages[inputName] + '\n';
+        }
+        if (alertMessage) {
+            alert(alertMessage);
+        }
+    }
+};
+</script>
+
 <body>
     <nav> 
         <ul> 
             <li><a href="index.html"><b>HOME</b></a></li>
-            <li><a href="tops_display.html"><b>TOPS</b></a></li>
+            <li><a href="accessories_display.html"><b>TOPS</b></a></li>
             <li><a href="bottoms_display.html"><b>BOTTOMS</b></a></li>
         </ul>
     </nav>
@@ -22,19 +53,22 @@
 
     <main class="products-container">
         <script>
-           for (var i = 0; i < products.accessories.length; i++) {
+            for (var i = 0; i < products.accessories.length; i++) {
                 document.write(`
-                    <section class="item">
-                        <h2 name="products.accessories${i}_name">${products.accessories[i].name}</h2>
-                        <p>$${products.accessories[i].price.toFixed(2)}</p>
-                        <img src="${products.accessories[i].image}" alt="${products.accessories[i].name}">
-                        <p>Quantity Available: ${products.accessories[i].quantity_available}</p>
-                        <div class="quantity-container">
-                                <label id="quantity${i}_label"}">Quantity Desired:</label>
-                                <input type="text" class="textbox" placeholder="0" name="quantity${i}">
-                        </div>
-                        <input type="submit" value="Add to Cart" class="add-cart">
-                    </section>
+                    <form action="/add-to-cart" method="post">
+                        <section class="item">
+                            <img src="${products.accessories[i].image}" alt="${products.accessories[i].name}">
+                            <h2>${products.accessories[i].name}</h2>
+                            <p>$${products.accessories[i].price.toFixed(2)}</p>
+                            <p>Quantity Available: ${products.accessories[i].quantity_available}</p>
+                            <div class="quantity-container">
+                                <label for="quantity${i}">Quantity Desired:</label>
+                                <input type="number" id="quantity${i}" name="quantity" min="1" placeholder="0">
+                                <input type="hidden" name="product_id" value="${products.accessories[i].product_id}">
+                            </div>
+                            <input type="submit" value="Add to Cart" class="add-cart">
+                        </section>
+                    </form>
                 `);
             }
         </script>
