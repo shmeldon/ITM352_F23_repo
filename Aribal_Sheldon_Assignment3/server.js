@@ -6,6 +6,7 @@ const qs = require("qs");
 const fs = require("fs");
 const products = require(__dirname + "/products.json");
 const querystring = require('querystring');
+const nodemailer = require('nodemailer');
 
 app.use(cookieParser());
 
@@ -175,47 +176,37 @@ function registerUser(email, password, name) {
 
 // Function to validate user registration
 function validateRegistration(email, password, name, confirmPassword) {
-	let errors = {};
+    let errors = {};
 
-	// Initialize variables to empty strings if they are undefined. Avoids undefined errors.
-	email = email || "";
-	password = password || "";
-	name = name || "";
+    // Email validation regex
+    const emailRegex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    if (!email || !emailRegex.test(email)) {
+        errors.email = "Invalid email format";
+    }
 
-	// Email validation regex. Got idea for RegEx from Alanna Mellor assignment2. Checks if email is in valid format.
-	const emailRegex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    // Email already registered
+    if (user_data.hasOwnProperty(email.toLowerCase())) {
+        errors.email = "The email you have entered already exists, please sign in or use a different email";
+    }
 
-	// Check if the email is valid
-	if (!email || !emailRegex.test(email)) {
-		errors.email = "Invalid email format";
-	}
+    // Password validation regex
+    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-])[^\s]{10,16}$/;
+    if (!passwordRegex.test(password)) {
+        errors.password = "Password must be between 10 to 16 characters and must contain at least one digit (number) and one special character.";
+    }
 
-	// Check if the email address is already registered
-	if (user_data.hasOwnProperty(email.toLowerCase())) {
-		errors.email =
-			"The email you have entered already exists, please sign in or use a different email";
-	}
+    // Confirm Password validation
+    if (password !== confirmPassword) {
+        errors.confirmPassword = "Passwords do not match";
+    }
 
-	// Password validation
-	//IR2**************
-	const passwordRegex =
-		/^(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-])[^\s]{10,16}$/; // Regular expression for 10-16 characters as well as one special character and number
-	if (!passwordRegex.test(password)) {
-		errors.password =
-			"Password must be between 10 to 16 characters and must contain at least one digit (number) and one special character.";
-	}
+    // Full Name validation regex
+    const nameRegex = /^[A-Za-z\s]{2,30}$/; 
+    if (!name || !nameRegex.test(name)) {
+        errors.name = "Full name must be between 2 to 30 letters and can include spaces";
+    }
 
-	// Confirm Password validation
-	if (password !== confirmPassword) {
-		errors.confirmPassword = "Passwords do not match";
-	}
-
-	// Full Name validation
-	const nameRegex = /^[A-Za-z\s]{2,30}$/; // Regex for name (only letters and spaces, 2-30 characters)
-	if (!nameRegex.test(name)) {
-		errors.name = "Full name must be between 2 to 30 letters";
-	}
-	return errors;
+    return errors;
 }
 
 // Function to validate user login attempts
@@ -233,88 +224,87 @@ function checkLogin(email, password) {
 }
 // Login processing
 app.post("/process_login", function (request, response) {
-    let loginResult = checkLogin(request.body.email, request.body.password);
+    let email = request.body.email.toLowerCase();
+    let password = request.body.password;
+    let loginResult = checkLogin(email, password);
+	request.session.lastAction = Date.now();
 
     if (loginResult.success) {
-        let userEmail = request.body.email.toLowerCase();
-
-        // Update login count and last login time
-        if (!user_data[userEmail].loginCount) {
-            user_data[userEmail].loginCount = 0;
-        }
-        user_data[userEmail].loginCount++;
-        user_data[userEmail].lastLogin = new Date().toLocaleString();
+        // Increment login count and update last login time
+        let user = user_data[email];
+        user.loginCount = (user.loginCount || 0) + 1;
+        user.lastLogin = new Date().toLocaleString();
 
         // Save the updated user data
-        fs.writeFileSync(user_data_file, JSON.stringify(user_data));
+        try {
+            fs.writeFileSync(user_data_file, JSON.stringify(user_data));
+        } catch (error) {
+            console.error('Error writing to user data file:', error);
+        }
 
         // Save login information in the session
         request.session.isLoggedIn = true;
-        request.session.username = user_data[userEmail].name;
+        request.session.username = user.name;
 
         // Redirect to index.html after successful login
         response.redirect('/index.html');
     } else {
-        // Construct the return URL with error message
-        let returnUrl = "/login.html?error=" + encodeURIComponent(loginResult.message);
-        returnUrl += "&email=" + encodeURIComponent(request.body.email);
+        // Redirect to login page with error message
+        let returnUrl = `/login.html?error=${encodeURIComponent(loginResult.message)}&email=${encodeURIComponent(email)}`;
         response.redirect(returnUrl);
     }
 });
-
+// For assignment 2: Temporary storage for product details
+let tempProductDetails = {};
 // Process User Registration
 app.post("/register_user", function (request, response) {
-    // Create an object to store registration errors
-    let registration_errors = {};
+	// Extract user input
+	let email = request.body.email || "";
+	let password = request.body.password || "";
+	let confirmPassword = request.body.repeat_password || "";
+	let name = request.body.name || "";
 
-    // Extract user registration data from the request
-    let name = request.body.name;
-    let email = request.body.email.toLowerCase(); // Convert email to lowercase for consistency
-    let password = request.body.password;
-    let confirm_password = request.body.confirm_password;
+	// Initialize errors object
+	let registration_errors = {};
 
-    // Check if the email is already registered
-    if (user_data.hasOwnProperty(email)) {
-        registration_errors.email_exists = "This email is already registered. Please use a different email.";
-    }
+	// Check if all fields are blank
+	if (email === "" && password === "" && name === "") {
+		registration_errors.allFields = "All fields are blank";
+	} else {
+		// If not all fields are blank, validate the user input
+		registration_errors = validateRegistration(
+			email,
+			password,
+			name,
+			confirmPassword
+		);
+	}
 
-    // Check if the password and confirm password match
-    if (password !== confirm_password) {
-        registration_errors.password_mismatch = "Passwords do not match. Please confirm your password correctly.";
-    }
+	if (Object.keys(registration_errors).length === 0) {
+        // Register the user
+        registerUser(email, password, name);
 
-    // Validate the password length (e.g., minimum 6 characters)
-    if (password.length < 6) {
-        registration_errors.password_length = "Password should be at least 6 characters long.";
-    }
-
-    // If there are any registration errors, redirect back to the registration page with error messages
-    if (Object.keys(registration_errors).length > 0) {
-        // Construct the return URL with error messages and previously entered data
-        let returnUrl = "/register.html?";
-
-        for (let error in registration_errors) {
-            returnUrl += `&${error}=${encodeURIComponent(registration_errors[error])}`;
-        }
-
-        returnUrl += `&name=${encodeURIComponent(name)}`;
-        returnUrl += `&email=${encodeURIComponent(email)}`;
-
-        response.redirect(returnUrl);
-    } else {
-        // Registration successful - create a new user object
-        user_data[email] = {
+        // Update login count and last login time for the new user
+        const userEmail = email.toLowerCase();
+        user_data[userEmail] = {
             name: name,
             password: password,
-            loginCount: 0,
-            lastLogin: null
+            loginCount: 1, // Set initial login count to 1
+            lastLogin: new Date().toLocaleString()
         };
 
-        // Save the updated user data to a file (you may need to add this part)
-        // fs.writeFileSync(user_data_file, JSON.stringify(user_data));
+        // Save the registered user data
+        fs.writeFileSync(user_data_file, JSON.stringify(user_data));
 
-        // Redirect to index.html after successful registration
-        response.redirect('/index.html');
+        // Set session variables to log the user in automatically
+        request.session.isLoggedIn = true;
+        request.session.username = name;
+
+        // Redirect to a desired page after successful registration and login
+        response.redirect('/index.html'); // or any other page you'd like to redirect to
+    } else {
+        // Redirect back to the registration form with errors
+        response.redirect(`/registration.html?reg_errors=${encodeURIComponent(JSON.stringify(Object.values(registration_errors)))}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`);
     }
 });
 
@@ -549,7 +539,6 @@ app.get('/get-cart', function (request, response) {
     response.json(request.session.cart || {});
 });
 
-
 // Route to fetch session data
 app.get('/session-data', function (request, response) {
     // Check if the user is logged in
@@ -572,4 +561,43 @@ app.get('/session-data', function (request, response) {
     response.json(sessionData);
 });
 
+// Endpoint to update a specific cart item
+app.post('/update-cart-item/:productId/:quantity', function (req, res) {
+	let productId = req.params.productId;
+	let quantity = parseInt(req.params.quantity);
+  
+	if (req.session.cart && req.session.cart[productId]) {
+	  req.session.cart[productId].quantity = Math.max(quantity, 0); // Ensure non-negative quantity
+	}
+  
+	res.redirect('/cart.html');
+  });
+  
+  // Endpoint to remove a specific cart item
+  app.post('/remove-cart-item/:productId', function (req, res) {
+	let productId = req.params.productId;
+  
+	if (req.session.cart && req.session.cart[productId]) {
+	  delete req.session.cart[productId];
+	}
+  
+	res.redirect('/cart.html');
+  });
+
+// Automatic logout 
+const maxInactivityPeriod = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+app.use((req, res, next) => {
+  if (req.session.isLoggedIn) {
+    if (Date.now() - req.session.lastAction > maxInactivityPeriod) {
+      // Logout the user
+      req.session.destroy();
+      res.redirect('/login');
+    } else {
+      // Update last action time
+      req.session.lastAction = Date.now();
+    }
+  }
+  next();
+});
 

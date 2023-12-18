@@ -22,13 +22,14 @@ nav ul li {
     color: black;
 }
 nav ul li.cart {
-    margin-left: 100%; /* Add margin to separate "cart" */
+    margin-left: 60%; /* Add margin to separate "cart" */
     font-weight: bold;
 }
 
 nav ul li.login {
     margin-left: auto; /* Push "login" to the right */
     font-weight: bold;
+    margin-right: 20px;
     
 }
 

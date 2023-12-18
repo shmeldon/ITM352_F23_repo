@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +8,6 @@
     <script src="./products.js" type="text/javascript"></script>
     <script src="window_onload_script.js"></script>
 </head>
-
 <body>
     <!-- Navigation Menu -->
     <nav>
@@ -74,84 +72,89 @@
     <script>
         // Fetch and generate cart items from session
         window.onload = function () {
+            refreshCart();
+    
+            document.getElementById('continue-shopping-btn').addEventListener('click', function () {
+                window.history.back(); // Go back to the last page. For continue shopping button.
+            });
+    
+            document.getElementById('proceed-to-invoice-btn').addEventListener('click', function () {
+                fetch('/session-data')
+                    .then(response => response.json())
+                    .then(sessionData => {
+                        if (sessionData.isLoggedIn) {
+                            window.location.href = 'invoice.html';
+                        } else {
+                            alert("Please log in to continue with your purchase.");
+                            window.location.href = 'login.html';
+                        }
+                    });
+            });
+        };
+    
+        function refreshCart() {
             fetch('/get-cart')
                 .then(response => response.json())
                 .then(cartItems => {
                     let subtotal = generateCartItems(cartItems);
                     calculateCosts(subtotal);
                 });
-
-            document.getElementById('continue-shopping-btn').addEventListener('click', function () {
-                window.history.back(); // Go back to the last page. For continue shopping button.
-            });
-
-            // Event listener for 'Proceed to Invoice' button
-            document.getElementById('proceed-to-invoice-btn').addEventListener('click', function () {
-                window.location.href = `invoice.html`; // Redirect to the invoice page. For puchase button
-            });
-        };
-
-        // Function for generating cart items dynamically
+        }
+    
         function generateCartItems(cartItems) {
             let cartItemsHtml = '';
             let subtotal = 0;
-
+    
             for (let productId in cartItems) {
                 let cartItem = cartItems[productId];
                 let productCategory = cartItem.item;
                 let product = products[productCategory].find(p => p.product_id === productId);
-
+    
                 if (!product) {
-                    continue; // Handle cases where the product is not found
+                    continue;
                 }
-
+    
                 let totalForItem = cartItem.quantity * product.price;
                 subtotal += totalForItem;
-
-                // Create HTML for each item in the cart
+    
                 cartItemsHtml += `
-        <div class="cart-item">
-          <img src="${product.image}" alt="${product.name}">
-          <div class="item-details">
-            <div class="item-header">
-              <h3>${product.name}</h3>
-              <p>Quantity: ${cartItem.quantity}</p>
-              <p>Price: $${product.price.toFixed(2)}</p>
-            </div>
-          </div>
-          <div class="item-total">
-            <p>$${totalForItem.toFixed(2)}</p>
-          </div>
-        </div>`;
+                    <div class="cart-item">
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="item-details">
+                            <div class="item-header">
+                                <h3>${product.name}</h3>
+                                <p>Quantity: <span id="quantity_${productId}">${cartItem.quantity}</span></p>
+                                <p>Price: $${product.price.toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <div class="item-total">
+                            <p>$${totalForItem.toFixed(2)}</p>
+                        </div>
+                    </div>`;
             }
-
-            // Update the HTML container with generated cart items
+    
             document.getElementById('cart-items-container').innerHTML = cartItemsHtml;
             return subtotal;
         }
-        // Calculate and display costs (similar to your existing code)
+    
         function calculateCosts(subtotal) {
-
-            const taxRate = 0.04; // 4% tax
+            const taxRate = 0.04;
             const tax = subtotal * taxRate;
             let shipping = 0;
-
+    
             if (subtotal < 100 && subtotal > 0) {
                 shipping = 9.99;
             } else if (subtotal >= 100) {
                 shipping = 4.99;
             }
-
+    
             const total = subtotal + tax + shipping;
-
-            // Update the HTML with calculated values
+    
             document.getElementById('subtotal-cost').textContent = `$${subtotal.toFixed(2)}`;
             document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
             document.getElementById('shipping-cost').textContent = `$${shipping.toFixed(2)}`;
             document.getElementById('total-cost').textContent = `$${total.toFixed(2)}`;
         }
-        calculateCosts(subtotal);
-
     </script>
 
     <div class="cart-buttons">
@@ -160,5 +163,4 @@
     </div>
 
 </body>
-
 </html>

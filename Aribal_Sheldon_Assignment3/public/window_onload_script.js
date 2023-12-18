@@ -1,3 +1,4 @@
+
 function setUsername(data) {
     const usernameElement = document.getElementById('username');
     if (data.isLoggedIn) {
@@ -6,6 +7,7 @@ function setUsername(data) {
         usernameElement.innerText = 'Username: Not logged in';
     }
 }
+
 
 function fetchSessionData() {
     console.log("Function executed"); // Line for debugging
@@ -17,35 +19,24 @@ function fetchSessionData() {
             const loginStatusElement = document.getElementById('loginStatus');
             if (data.isLoggedIn) {
                 loginStatusElement.innerText = `Logged in as: ${data.username}`;
-                // Set username to the session username
-                const username = data.username;
-                // Update data-username attribute here
-                const dataElement = document.getElementById('data');
-                dataElement.dataset.username = username;
-                
-                // Now that you have set the data-username attribute, you can access it later
-                // within the window.onload function
-                window.onload = function () {
-                    fetch('/get-cart')
-                        .then(response => response.json())
-                        .then(cartItems => {
-                            subtotal = generateCartItems(cartItems); // Update the outer subtotal
-                            calculateCosts(subtotal);
-                        });
-                    const dataElement = document.getElementById('data');
-                    document.getElementById('username').innerText = `Thank you, ${dataElement.dataset.username} for your purchase!`;
-                };
             } else {
                 loginStatusElement.innerText = 'Not logged in';
             }
             
             // Update cart count display
             document.getElementById('cartCount').innerText = `Items in Cart: ${data.cartCount}`;
+            
+            // Set dataset.username
+            const dataElement = document.getElementById('data');
+            dataElement.dataset.username = data.username;
+            
+            // Call setUsername function
+            setUsername(data);
+            const username = data.username;
         });
 }
-
 // script for when page loads on product pages. Includes user info and data validation as well as error handling
-window.onload = function () {
+window.onload = function() {
     // Handle errors related to product quantities and availability
     let params = new URLSearchParams(window.location.search);
     let errorMessagesString = params.get('errors');
@@ -81,7 +72,7 @@ window.onload = function () {
     fetchSessionData();
 };
 
-// Go back to the last visited page
+// Go back to last visited page
 function goBack() {
     window.history.back();
-}
+} 
