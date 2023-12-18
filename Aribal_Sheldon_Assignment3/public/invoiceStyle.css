@@ -7,11 +7,22 @@ nav {
 nav ul {
     display: flex;
     list-style-type: none;
-  }
-  nav ul li {
-    margin-right: 35%; 
-    font-size: 150%;
 }
+nav ul li {
+    margin-right: 40px; /* Increase the right margin for all nav links */
+    font-size: 130%;
+    color: black;
+}
+nav ul li.cart {
+    margin-left: 60%; /* Add margin to separate "cart" */
+    font-weight: bold;
+}
+
+nav ul li.login {
+    margin-left: auto; /* Push "login" to the right */
+    font-weight: bold;
+}
+
 /* Make it so after clicking link, words don't turn purple */
 nav ul li a:visited {
     color: black;
@@ -20,6 +31,7 @@ nav ul li a:visited {
 nav ul li a:hover {
     color: red;
 }
+
 /* Styling for all invoice items loaded onto invoice page */
 .invoice-items {
     display: flex;
@@ -28,64 +40,78 @@ nav ul li a:hover {
     margin: 0 auto;
     width: 65%; 
 }
+
 .invoice-item {
     display: flex;
     align-items: top;
     margin-bottom: 20px;
 }
+
 .invoice-item img {
-   width: 20%;
-   height: auto;
-   margin-right: 25px; /* Increase right margin */
-   margin-bottom: 5px; 
+    width: 20%;
+    height: auto;
+    margin-right: 25px; /* Increase right margin */
+    margin-bottom: 5px; 
 }
+
 .cart-item img {
     width: 20%;
     height: auto;
     margin-right: 25px; /* Increase right margin */
     margin-bottom: 5px; 
- }
- .cart-items {
+}
+
+/* Cart page styling */
+.cart-items {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
     width: 65%; 
 }
+
 .cart-item {
     display: flex;
     align-items: top;
     margin-bottom: 20px;
 }
+
+
 .item-details {
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
 }
+
 .item-header {
     flex-grow: 1; 
     align-items: top;
 }
+
 .item-total {
     text-align: right;
     margin-left: auto;
 }
+
 h1 {
     font-size: 37px;
     text-align: center;
     margin-bottom: 40px;
 }
+
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background: #fff;
     color: #333; 
 }
-/* Style for line separating parts of the invoice*/
+
+/* Style for line separating parts of the invoice */
 .line {
     border-bottom: .9px dashed #000; 
     width:70%; 
     margin: auto;
 }
+
 /* Styling for the total, subtotal, tax, and shipping rows */
 .costs {
     display: flex;
@@ -107,10 +133,12 @@ body {
 .cost-label {
     font-weight: bold;
 }
+
 /* Align prices to right */
 .cost-value {
     margin-left: auto;
 }
+
 /* Policy section styling */
 .shipping-policy {
     font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -118,17 +146,22 @@ body {
     font-size: 17px; 
     font-weight: bold; 
     text-align: center;
-    
 }
+
 #user-info {
     text-align: center;
     margin-bottom: 60px;
 }
+
 /* Copied from ChatGPT. Makes the layout responsive to webpage size */
 @media screen and (max-width: 600px) {
     .invoice-items {
         max-width: 90%;
     }
 }
-
-
+@media screen and (max-width: 480px) {
+    .container {
+        width: 90%;
+        margin: 20px;
+    }
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,66 +10,71 @@
 </head>
 
 <script>
-   window.onload = function() {
-    let params = new URLSearchParams(window.location.search);
+    window.onload = function () {
+        let params = new URLSearchParams(window.location.search);
 
-    // Existing error handling
-    let errorMessages = params.get('error');
-    let errorProduct = params.get('errorProduct'); // The product ID that caused the error
+        // Existing error handling
+        let errorMessages = params.get('error');
+        let errorProduct = params.get('errorProduct'); // The product ID that caused the error
 
-    if (errorMessages && errorProduct) {
-        errorMessages = JSON.parse(errorMessages);
-        let alertMessage = '';
+        if (errorMessages && errorProduct) {
+            errorMessages = JSON.parse(errorMessages);
+            let alertMessage = '';
 
-        for (let inputName in errorMessages) {
-            if (errorMessages[inputName].includes("Only") && errorMessages[inputName].includes("left")) {
-                let availableQuantity = errorMessages[inputName].match(/Only (\d+) left/)[1];
-                
-                // Find the specific textbox related to the errorProduct
-                let textBox = document.querySelector(`[name="${inputName}"][data-product-id="${errorProduct}"]`);
-                if (textBox) {
-                    textBox.style.borderColor = "red";
-                    textBox.value = availableQuantity;
+            for (let inputName in errorMessages) {
+                if (errorMessages[inputName].includes("Only") && errorMessages[inputName].includes("left")) {
+                    let availableQuantity = errorMessages[inputName].match(/Only (\d+) left/)[1];
+
+                    // Find the specific textbox related to the errorProduct
+                    let textBox = document.querySelector(`[name="${inputName}"][data-product-id="${errorProduct}"]`);
+                    if (textBox) {
+                        textBox.style.borderColor = "red";
+                        textBox.value = availableQuantity;
+                    }
                 }
+                alertMessage += errorMessages[inputName] + '\n';
             }
-            alertMessage += errorMessages[inputName] + '\n';
+            if (alertMessage) {
+                alert(alertMessage);
+            }
         }
-        if (alertMessage) {
-            alert(alertMessage);
-        }
-    }
 
-    // New code for handling cart summary or errors from server
-    let cartSummary = params.get('cartSummary');
-    let serverErrors = params.get('errors');
-    
-    if (cartSummary) {
-        cartSummary = JSON.parse(cartSummary);
-        alert("Items in your cart:\n" + cartSummary);
-    } else if (serverErrors) {
-        try {
-            serverErrors = JSON.parse(serverErrors); // Try to parse the JSON string into an array
-            if (Array.isArray(serverErrors)) {
-                alert("Errors:\n" + serverErrors.join("\n")); // Join the array elements
-            } else {
-                alert("Errors:\n" + JSON.stringify(serverErrors)); // Convert the object to a string
+        // New code for handling cart summary or errors from server
+        let cartSummary = params.get('cartSummary');
+        let serverErrors = params.get('errors');
+
+        if (cartSummary) {
+            cartSummary = JSON.parse(cartSummary);
+            alert("Items in your cart:\n" + cartSummary);
+        } else if (serverErrors) {
+            try {
+                serverErrors = JSON.parse(serverErrors); // Try to parse the JSON string into an array
+                if (Array.isArray(serverErrors)) {
+                    alert("Errors:\n" + serverErrors.join("\n")); // Join the array elements
+                } else {
+                    alert("Errors:\n" + JSON.stringify(serverErrors)); // Convert the object to a string
+                }
+            } catch (error) {
+                console.error("Error parsing serverErrors:", error);
             }
-        } catch (error) {
-            console.error("Error parsing serverErrors:", error);
         }
-    }
-};
+    };
 </script>
 
 <body>
-    <nav> 
-        <ul> 
+    <nav>
+        <ul>
             <li><a href="index.html"><b>HOME</b></a></li>
             <li><a href="accessories_display.html"><b>ACCESSORIES</b></a></li>
             <li><a href="bottoms_display.html"><b>BOTTOMS</b></a></li>
+            <li><a href="tops_display.html"><b>TOPS</b></a></li>
+            <li class="cart"><a href="cart.html"><b>CART</b></a></li>
+            <li class="login"><a href="login.html"><b>LOGIN</b></a></li>
         </ul>
     </nav>
     
+    
+
     <header>
         <h1>Sheldon's Closet - Tops</h1>
     </header>
@@ -96,9 +102,10 @@
             }
         </script>
     </main>
-    
+
     <footer>
         <p>&copy; 2023 Sheldon's Closet</p>
     </footer>
 </body>
+
 </html>

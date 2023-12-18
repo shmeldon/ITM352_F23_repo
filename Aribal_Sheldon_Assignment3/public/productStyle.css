@@ -2,12 +2,12 @@ body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 p {
-  font-size: 14px;  
+    font-size: 14px;
 }
 label {
     font-size: 14px;
 }
-h1 { 
+h1 {
     text-align: center;
     font-size: 35px;
 }
@@ -54,12 +54,22 @@ nav {
 nav ul {
     display: flex;
     list-style-type: none;
-  }
-  nav ul li {
-    margin-right: 35%; 
+}
+nav ul li {
+    margin-right: 40px; /* Increase the right margin for all nav links */
     font-size: 130%;
     color: black;
 }
+nav ul li.cart {
+    margin-left: 63%; /* Add margin to separate "cart" */
+    font-weight: bold;
+}
+
+nav ul li.login {
+    margin-left: auto; /* Push "login" to the right */
+    font-weight: bold;
+}
+
 /* Make it so after clicking link, words don't turn purple */
 nav ul li a:visited {
     color: black;
@@ -69,7 +79,7 @@ nav ul li a:hover {
     color: red;
 }
 /* Styling for quantity textbox */
-.quantity-container input[type="text"]{
+.quantity-container input[type="text"] {
     width: 100%;
     height: auto;
     font-size: 14px;
@@ -94,7 +104,7 @@ footer {
     align-items: center; /* Centers the button vertically if the footer has a specific height */
 }
 .error-messages {
-    color : red;
+    color: red;
 }
 
 /* Copied from ChatGPT. Adjusts the items according to the size of the browser window open. */
@@ -113,5 +123,11 @@ footer {
 @media (min-width: 1001px) {
     .products-container form {
         width: calc(33.333% - 6px); /* One-third width for large screens, 3 items per row, accounting for margins */
+    }
+}
+/* Add media query for smaller screens (From ChatGPT */
+@media screen and (max-width: 768px) {
+    nav ul li {
+        margin-right: 15px; /* Reduce the right margin for smaller screens */
     }
 }

@@ -423,19 +423,32 @@ app.post("/add-to-cart-tops", function (request, response) {
     }
 });
 
-
+// Add to Cart for Bottoms
 app.post("/add-to-cart-bottoms", function (request, response) {
-    var errors_array = [];
+    let product_id = request.body.product_id;
+    let quantity = parseInt(request.body[`quantity_${product_id}`]);
+    let product = products.bottoms.find(bottom => bottom.product_id === product_id);
+    let errors = {};
 
-    // Collect all values of the textboxes for bottoms
-    var all_textboxes = [];
-    for (let i = 0; i < products.bottoms.length; i++) {
-        all_textboxes.push(request.body[`quantity_${products.bottoms[i].product_id}`]);
+    // Initialize total quantity for all products
+    let totalQuantity = 0;
+
+    if (!product) {
+        // Handle case where product is not found
+        return response.redirect(`/bottoms_display.html?error=Product not found&errorProduct=${product_id}`);
     }
 
-    // Check that at least one quantity is entered for bottoms
-    if (all_textboxes.every(element => element === '')) {
-        errors_array.push('Please enter at least one quantity for bottoms');
+    // Check if quantity is NaN or not a valid number
+    if (isNaN(quantity) || !isNonNegInt(quantity)) {
+        // Handle case where no valid quantity is entered
+        errors[product.name] = `Invalid quantity entered`; 
+        return response.redirect(`/bottoms_display.html?${querystring.stringify({ errors: JSON.stringify(errors), errorProduct: product_id })}`);
+    }
+
+    if (quantity > product.quantity_available) {
+        // Handle quantity exceeding availability
+        errors[product.name] = `The quantity selected for exceeds the available quantity. Only ${product.quantity_available} left.`;
+        return response.redirect(`/bottoms_display.html?${querystring.stringify({ errors: JSON.stringify(errors), errorProduct: product_id })}`);
     }
 
     // Initialize the cart if it doesn't exist
@@ -443,46 +456,102 @@ app.post("/add-to-cart-bottoms", function (request, response) {
         request.session.cart = {};
     }
 
-    // Loop through the bottoms products and validate quantities
-    for (let i = 0; i < products.bottoms.length; i++) {
-        var quantity = request.body[`quantity_${products.bottoms[i].product_id}`];
-        var name = products.bottoms[i].name;
-        var image = products.bottoms[i].image;
-        var qa = products.bottoms[i].quantity_available;
-
-        if (quantity == 0) continue; // Skip if quantity is zero for a bottoms item
-
-        let errors = isNonNegInt(quantity, true);
-        if (errors.length > 0) {
-            errors_array.push(`Invalid Quantity for ${name}`);
-            continue;
-        }
-
-        if (parseInt(quantity) > qa) {
-            errors_array.push(`The quantity selected for ${name} exceeds the available quantity`);
-            continue;
-        }
-
-        // Add valid quantities of bottoms to the session cart
-        request.session.cart[name] = {
+    // Add valid quantities to the session cart
+    if (!request.session.cart[product_id]) {
+        request.session.cart[product_id] = {
             'item': 'bottoms',
-            'quantity': parseInt(quantity),
-            'image': image
+            'quantity': quantity,
+            'image': product.image
         };
+    } else {
+        request.session.cart[product_id].quantity += quantity;
     }
 
-    // Redirect based on the presence of errors for bottoms
-    if (errors_array.length == 0) {
-        // Update cart count for each bottom item
-        products.bottoms.forEach(bottom => {
-            if (request.body[`quantity_${bottom.product_id}`]) {
-                bottom.cartCount += parseInt(request.body[`quantity_${bottom.product_id}`]);
-            }
-        });
+    // Update total quantity
+    totalQuantity += quantity;
 
-        response.redirect('/cart.html');
+    // Update the inventory if the purchase is valid
+    if (isNonNegInt(quantity) && quantity > 0 && quantity <= product.quantity_available) {
+        product.quantity_available -= quantity;
+    }
+
+    // Check if total quantity is zero
+    if (totalQuantity === 0) {
+        errors["totalQuantity"] = "No quantities selected. Please select at least one item.";
+        return response.redirect(`/bottoms_display.html?${querystring.stringify({ errors: JSON.stringify(errors), errorProduct: product_id })}`);
+    }
+
+    // Redirect to the cart page if no errors and display errors if there are any
+    if (Object.keys(errors).length > 0) {
+        return response.redirect(`/bottoms_display.html?${querystring.stringify({ errors: JSON.stringify(errors), errorProduct: product_id })}`);
     } else {
-        response.redirect('/bottoms_display.html?' + querystring.stringify({ errors: JSON.stringify(errors_array) }));
+        response.redirect(`/cart.html?product_id=${product_id}&quantity=${quantity}`);
+    }
+});
+
+// Add to Cart for Accessories
+app.post("/add-to-cart-accessories", function (request, response) {
+    let product_id = request.body.product_id;
+    let quantity = parseInt(request.body[`quantity_${product_id}`]);
+    let product = products.accessories.find(accessory => accessory.product_id === product_id);
+    let errors = {};
+
+    // Initialize total quantity for all products
+    let totalQuantity = 0;
+
+    if (!product) {
+        // Handle case where product is not found
+        return response.redirect(`/accessories_display.html?error=Product not found&errorProduct=${product_id}`);
+    }
+
+    // Check if quantity is NaN or not a valid number
+    if (isNaN(quantity) || !isNonNegInt(quantity)) {
+        // Handle case where no valid quantity is entered
+        errors[product.name] = `Invalid quantity entered`; 
+        return response.redirect(`/accessories_display.html?${querystring.stringify({ errors: JSON.stringify(errors), errorProduct: product_id })}`);
+    }
+
+    if (quantity > product.quantity_available) {
+        // Handle quantity exceeding availability
+        errors[product.name] = `The quantity selected for exceeds the available quantity. Only ${product.quantity_available} left.`;
+        return response.redirect(`/accessories_display.html?${querystring.stringify({ errors: JSON.stringify(errors), errorProduct: product_id })}`);
+    }
+
+    // Initialize the cart if it doesn't exist
+    if (!request.session.cart) {
+        request.session.cart = {};
+    }
+
+    // Add valid quantities to the session cart
+    if (!request.session.cart[product_id]) {
+        request.session.cart[product_id] = {
+            'item': 'accessories',
+            'quantity': quantity,
+            'image': product.image
+        };
+    } else {
+        request.session.cart[product_id].quantity += quantity;
+    }
+
+    // Update total quantity
+    totalQuantity += quantity;
+
+    // Update the inventory if the purchase is valid
+    if (isNonNegInt(quantity) && quantity > 0 && quantity <= product.quantity_available) {
+        product.quantity_available -= quantity;
+    }
+
+    // Check if total quantity is zero
+    if (totalQuantity === 0) {
+        errors["totalQuantity"] = "No quantities selected. Please select at least one item.";
+        return response.redirect(`/accessories_display.html?${querystring.stringify({ errors: JSON.stringify(errors), errorProduct: product_id })}`);
+    }
+
+    // Redirect to the cart page if no errors and display errors if there are any
+    if (Object.keys(errors).length > 0) {
+        return response.redirect(`/accessories_display.html?${querystring.stringify({ errors: JSON.stringify(errors), errorProduct: product_id })}`);
+    } else {
+        response.redirect(`/cart.html?product_id=${product_id}&quantity=${quantity}`);
     }
 });
 
