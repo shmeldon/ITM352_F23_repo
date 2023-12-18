@@ -525,6 +525,31 @@ app.post("/add-to-cart-accessories", function (request, response) {
     }
 });
 
+// Route to remove an item from the cart
+app.post('/remove-from-cart', function(request, response) {
+    let product_id = request.body.product_id;
+    if (request.session.cart && request.session.cart[product_id]) {
+        delete request.session.cart[product_id];
+    }
+    response.redirect('/cart.html');
+});
+
+// Route to update quantity of an item in the cart
+app.post('/update-cart', function(request, response) {
+    let product_id = request.body.product_id;
+    let quantity = parseInt(request.body.quantity);
+    if (request.session.cart && request.session.cart[product_id]) {
+        request.session.cart[product_id].quantity = quantity;
+    }
+    response.redirect('/cart.html');
+});
+
+app.get('/get-cart', function (request, response) {
+    // Send the current state of the cart from the session
+    response.json(request.session.cart || {});
+});
+
+
 // Route to fetch session data
 app.get('/session-data', function (request, response) {
     // Check if the user is logged in

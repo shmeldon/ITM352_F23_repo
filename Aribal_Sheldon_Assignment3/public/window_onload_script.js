@@ -36,6 +36,15 @@ window.onload = function() {
     fetchSessionData();
 };
 
+function setUsername(data) {
+    const usernameElement = document.getElementById('username');
+    if (data.isLoggedIn) {
+        usernameElement.innerText = `Username: ${data.username}`;
+    } else {
+        usernameElement.innerText = 'Username: Not logged in';
+    }
+}
+
 function fetchSessionData() {
     console.log("Function executed"); // Line for debugging
     fetch('/session-data')
@@ -53,4 +62,12 @@ function fetchSessionData() {
             // Update cart count display
             document.getElementById('cartCount').innerText = `Items in Cart: ${data.cartCount}`;
         });
+        const dataElement = document.getElementById('data');
+        dataElement.dataset.username = data.username;
+    setUsername(data);
 }
+
+// Go back to last visited page
+function goBack() {
+    window.history.back();
+} 

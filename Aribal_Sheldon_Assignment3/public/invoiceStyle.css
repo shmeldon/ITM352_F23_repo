@@ -153,6 +153,41 @@ body {
     margin-bottom: 60px;
 }
 
+.continue-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    border: 1px solid #0f0c0c;
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.purchase-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    border: 1px solid #0f0c0c;
+    border-radius: 4px;
+    background-color: #0f0c0c;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Button hover effect */
+.btn:hover {
+    background-color: #ddd; 
+}
+
 /* Copied from ChatGPT. Makes the layout responsive to webpage size */
 @media screen and (max-width: 600px) {
     .invoice-items {

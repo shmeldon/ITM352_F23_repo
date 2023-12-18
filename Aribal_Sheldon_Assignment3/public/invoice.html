@@ -14,24 +14,27 @@
   <!-- Navigation Menu -->
   <nav>
     <ul>
-        <li><a href="index.html"><b>HOME</b></a></li>
-        <li><a href="accessories_display.html"><b>ACCESSORIES</b></a></li>
-        <li><a href="bottoms_display.html"><b>BOTTOMS</b></a></li>
-        <li><a href="tops_display.html"><b>TOPS</b></a></li>
-        <li class="cart"><a href="cart.html"><b>CART</b></a></li>
-        <li class="login"><a href="login.html"><b>LOGIN</b></a></li>
+      <li><a href="index.html"><b>HOME</b></a></li>
+      <li><a href="accessories_display.html"><b>ACCESSORIES</b></a></li>
+      <li><a href="bottoms_display.html"><b>BOTTOMS</b></a></li>
+      <li><a href="tops_display.html"><b>TOPS</b></a></li>
+      <li class="cart"><a href="cart.html"><b>CART</b></a></li>
+      <li class="login"><a href="login.html"><b>LOGIN</b></a></li>
     </ul>
-</nav>
+  </nav>
 
-<div id="username"></div>
-    <div id="loginStatus"></div>
-    <div id="cartCount"></div>
+  <div id="username"></div>
+  <div id="loginStatus"></div>
+  <div id="cartCount"></div>
 
 
   <!-- Page Header -->
   <header>
     <h1>ORDER SUMMARY</h1>
   </header>
+
+  <h1>Thank you, <script> document.write(document.getElementById('data').dataset.username)</script> for your purchase!</h1>
+
 
   <!-- Display User Information -->
   <div id="user-info"></div>
@@ -87,96 +90,83 @@
   <script>
     // Get URL parameters
     let params = new URL(document.location).searchParams;
+    let subtotal = parseFloat(params.get('subtotal')); // Parse the subtotal as a float
     let quantities = [];
-    let userName = params.get('user'); // Get the user's name from the URL parameters
-    let loginCount = params.get('loginCount'); // Get login count
-    let lastLogin = params.get('lastLogin'); // Get last login time
+    const username = params.get('username');
 
-    // Display user's login information and thank you message
-    function displayUserInfo() {
-      let userInfoDiv = document.getElementById('user-info');
-      if (userName) {
-        userInfoDiv.innerHTML += `<h2>Thank you for your purchase, ${userName}</h2>`;
-      }
-      // IR4, displays login count and time if available
-      if (loginCount && lastLogin) {
-        userInfoDiv.innerHTML += `<p>You have logged in ${loginCount} times. Last login: ${decodeURIComponent(lastLogin)}</p>`;
-      }
+   
+window.onload = function () {
+  fetch('/get-cart')
+    .then(response => response.json())
+    .then(cartItems => {
+      subtotal = generateCartItems(cartItems); // Update the outer subtotal
+      calculateCosts(subtotal);
+    });
+  fetchSessionData();
+  const dataElement = document.getElementById('data');
+  dataElement.dataset.username = data.username;
+};
+
+// Function for generating cart items dynamically
+function generateCartItems(cartItems) {
+  let cartItemsHtml = ''; // Initialize cartItemsHtml
+
+  for (let productId in cartItems) {
+    let cartItem = cartItems[productId];
+    let productCategory = cartItem.item;
+    let product = products[productCategory].find(p => p.product_id === productId);
+
+    if (!product) {
+      continue; // Handle cases where the product is not found
     }
 
-    // Function for generating item rows dynamically
-    function generateInvoiceItems(products, quantities) {
-      let invoiceItemsHtml = '';
-      let subtotal = 0;
+    let totalForItem = cartItem.quantity * product.price;
+    subtotal += totalForItem; // Update the outer subtotal variable
 
-      for (let i = 0; i < products.length; i++) {
-        if (!quantities[i] || quantities[i] <= 0) continue;
+    // Create HTML for each item in the cart
+    cartItemsHtml += `
+    <div class="cart-item">
+      <img src="${product.image}" alt="${product.name}">
+      <div class="item-details">
+        <div class="item-header">
+          <h3>${product.name}</h3>
+          <p>Quantity: ${cartItem.quantity}</p>
+          <p>Price: $${product.price.toFixed(2)}</p>
+        </div>
+      </div>
+      <div class="item-total">
+        <p>$${totalForItem.toFixed(2)}</p>
+      </div>
+    </div>`;
+  }
 
-        let totalForItem = quantities[i] * products[i].price;
-        subtotal += totalForItem;
+  // Update the HTML container with generated cart items
+  document.getElementById('invoice-items-container').innerHTML = cartItemsHtml;
+  return subtotal;
+}
 
-        // Create HTML for each item in the invoice
-        invoiceItemsHtml += `
-        <div class="invoice-item">
-          <img src="${products[i].image}" alt="${products[i].name}">
-          <div class="item-details">
-            <div class="item-header">
-              <h3>${products[i].name}</h3>
-              <p>Quantity: ${quantities[i]}</p>
-              <p>Price: $${products[i].price.toFixed(2)}</p>
-            </div>
-          </div>
-          <div class="item-total">
-            <p>$${(quantities[i] * products[i].price).toFixed(2)}</p>
-          </div>
-        </div>`;
-      }
-
-      // Update the HTML container with generated invoice items
-      document.getElementById('invoice-items-container').innerHTML = invoiceItemsHtml;
-      return subtotal;
-    }
-
-    // Function to calculate tax, shipping, and total
+    // Calculate and display costs (similar to your existing code)
     function calculateCosts(subtotal) {
+
       const taxRate = 0.04; // 4% tax
       const tax = subtotal * taxRate;
-
-      // Update subtotal display
-      document.getElementById('subtotal-cost').textContent = `$${subtotal.toFixed(2)}`;
-
-      // Update tax display
-      document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
-
       let shipping = 0;
+
       if (subtotal < 100 && subtotal > 0) {
         shipping = 9.99;
-      } else if (subtotal < 200) {
+      } else if (subtotal >= 100) {
         shipping = 4.99;
       }
-      // Update shipping cost display
-      document.getElementById('shipping-cost').textContent = `$${shipping.toFixed(2)}`;
 
-      // Calculate and update total cost display
       const total = subtotal + tax + shipping;
+
+      // Update the HTML with calculated values
+      document.getElementById('subtotal-cost').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+      document.getElementById('shipping-cost').textContent = `$${shipping.toFixed(2)}`;
       document.getElementById('total-cost').textContent = `$${total.toFixed(2)}`;
     }
+    calculateCosts(subtotal); // Call function to calculate and display costs
 
-    // Process the invoice
-    if (params.has("purchase_submit")) {
-      for (let i = 0; i < products.length; i++) {
-        if (params.has(`quantity${i}`)) {
-          let a_qty = params.get(`quantity${i}`);
-          quantities[i] = parseInt(a_qty, 10);
-        }
-      }
-      displayUserInfo();
-      let subtotal = generateInvoiceItems(products, quantities);
-      calculateCosts(subtotal); // Call function to calculate and display costs
-    } else {
-      document.write("no form submitted");
-    }
   </script>
 </body>
-
-</html>

@@ -2,162 +2,163 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Cart</title>
-  <link rel="stylesheet" href="invoiceStyle.css">
-  <script src="./products.js" type="text/javascript"></script>
-  <script src="window_onload_script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="invoiceStyle.css">
+    <script src="./products.js" type="text/javascript"></script>
+    <script src="window_onload_script.js"></script>
 </head>
 
 <body>
-  <!-- Navigation Menu -->
-  <nav>
-    <ul>
-        <li><a href="index.html"><b>HOME</b></a></li>
-        <li><a href="accessories_display.html"><b>ACCESSORIES</b></a></li>
-        <li><a href="bottoms_display.html"><b>BOTTOMS</b></a></li>
-        <li><a href="tops_display.html"><b>TOPS</b></a></li>
-        <li class="cart"><a href="cart.html"><b>CART</b></a></li>
-        <li class="login"><a href="login.html"><b>LOGIN</b></a></li>
-    </ul>
-</nav>
+    <!-- Navigation Menu -->
+    <nav>
+        <ul>
+            <li><a href="index.html"><b>HOME</b></a></li>
+            <li><a href="accessories_display.html"><b>ACCESSORIES</b></a></li>
+            <li><a href="bottoms_display.html"><b>BOTTOMS</b></a></li>
+            <li><a href="tops_display.html"><b>TOPS</b></a></li>
+            <li class="cart"><a href="cart.html"><b>CART</b></a></li>
+            <li class="login"><a href="login.html"><b>LOGIN</b></a></li>
+        </ul>
+    </nav>
 
-<div id="username"></div>
+    <div id="username"></div>
     <div id="loginStatus"></div>
     <div id="cartCount"></div>
 
-  <!-- Page Header -->
-  <header>
-    <h1>Your Cart</h1>
-  </header>
+    <!-- Page Header -->
+    <header>
+        <h1>Your Cart</h1>
+    </header>
 
-  <!-- Cart Items Container -->
-  <div class="invoice-items" id="cart-items-container"></div>
+    <!-- Cart Items Container -->
+    <div class="invoice-items" id="cart-items-container"></div>
 
-  <!-- Decorative Line -->
-  <div class="line"></div>
+    <!-- Decorative Line -->
+    <div class="line"></div>
 
-  <!-- Cost Summary Section -->
-  <div class="costs">
-    <!-- Display Subtotal -->
-    <div class="cost-item">
-      <span class="cost-label">Subtotal:</span>
-      <span class="cost-value" id="subtotal-cost">$0.00</span>
-    </div>
-
-    <!-- Display Tax Calculation -->
-    <div class="cost-item">
-      <span class="cost-label">Tax (4.00%):</span>
-      <span class="cost-value" id="tax">$0.00</span>
-    </div>
-
-    <!-- Display Shipping Cost -->
-    <div class="cost-item">
-      <span class="cost-label">Shipping:</span>
-      <span class="cost-value" id="shipping-cost">$0.00</span>
-    </div>
-
-    <!-- Display Total Cost -->
-    <div class="cost-item">
-      <span class="cost-label">Total:</span>
-      <span class="cost-value" id="total-cost">$0.00</span>
-    </div>
-  </div>
-
-  <!-- Decorative Line -->
-  <div class="line"></div>
-
-  <!-- Shipping Policy -->
-  <div class="shipping-policy">
-    <!-- Display shipping policy information here -->
-  </div>
-
-  <!-- JavaScript Code -->
-  <script>
-    <!-- In your cart.html JavaScript code -->
-
-// Get URL parameters
-let params = new URLSearchParams(window.location.search);
-let cartItems = [];
-
-// Function for generating cart items dynamically
-function generateCartItems(cartItems) {
-  let cartItemsHtml = '';
-  let subtotal = 0;
-
-  // Loop through the cart items
-  for (let i = 0; i < cartItems.length; i++) {
-    let cartItem = cartItems[i];
-    let product = products.tops.find(top => top.product_id === cartItem.product_id);
-
-    if (!product) {
-      continue; // Handle cases where the product is not found
-    }
-
-    let totalForItem = cartItem.quantity * product.price;
-    subtotal += totalForItem;
-
-    // Create HTML for each item in the cart
-    cartItemsHtml += `
-    <div class="cart-item">
-      <img src="${product.image}" alt="${product.name}">
-      <div class="item-details">
-        <div class="item-header">
-          <h3>${product.name}</h3>
-          <p>Quantity: ${cartItem.quantity}</p>
-          <p>Price: $${product.price.toFixed(2)}</p>
+    <!-- Cost Summary Section -->
+    <div class="costs">
+        <!-- Display Subtotal -->
+        <div class="cost-item">
+            <span class="cost-label">Subtotal:</span>
+            <span class="cost-value" id="subtotal-cost">$0.00</span>
         </div>
-      </div>
-      <div class="item-total">
-        <p>$${totalForItem.toFixed(2)}</p>
-      </div>
-    </div>`;
-  }
 
-  // Update the HTML container with generated cart items
-  document.getElementById('cart-items-container').innerHTML = cartItemsHtml;
-  return subtotal;
-}
+        <!-- Display Tax Calculation -->
+        <div class="cost-item">
+            <span class="cost-label">Tax (4.00%):</span>
+            <span class="cost-value" id="tax">$0.00</span>
+        </div>
 
-// Process the cart items from the query parameters
-let product_id = params.get("product_id");
-let quantity = params.get("quantity");
-if (product_id && quantity) {
-  cartItems.push({ product_id: product_id, quantity: parseInt(quantity) });
-}
+        <!-- Display Shipping Cost -->
+        <div class="cost-item">
+            <span class="cost-label">Shipping:</span>
+            <span class="cost-value" id="shipping-cost">$0.00</span>
+        </div>
 
-// Call the function to generate and display cart items
-let subtotal = generateCartItems(cartItems);
+        <!-- Display Total Cost -->
+        <div class="cost-item">
+            <span class="cost-label">Total:</span>
+            <span class="cost-value" id="total-cost">$0.00</span>
+        </div>
+    </div>
 
-// Calculate and display costs (similar to your existing code)
-function calculateCosts(subtotal) {
-      const taxRate = 0.04; // 4% tax
-      const tax = subtotal * taxRate;
+    <!-- Decorative Line -->
+    <div class="line"></div>
 
-      // Update subtotal display
-      document.getElementById('subtotal-cost').textContent = `$${subtotal.toFixed(2)}`;
+    <!-- Shipping Policy -->
+    <div class="shipping-policy"> </div>
 
-      // Update tax display
-      document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+    <script>
+        // Fetch and generate cart items from session
+        window.onload = function () {
+            fetch('/get-cart')
+                .then(response => response.json())
+                .then(cartItems => {
+                    let subtotal = generateCartItems(cartItems);
+                    calculateCosts(subtotal);
+                });
 
-      let shipping = 0;
-      if (subtotal < 100 && subtotal > 0) {
-        shipping = 9.99;
-      } else if (subtotal < 200) {
-        shipping = 4.99;
-      }
-      // Update shipping cost display
-      document.getElementById('shipping-cost').textContent = `$${shipping.toFixed(2)}`;
+            document.getElementById('continue-shopping-btn').addEventListener('click', function () {
+                window.history.back(); // Go back to the last page. For continue shopping button.
+            });
 
-      // Calculate and update total cost display
-      const total = subtotal + tax + shipping;
-      document.getElementById('total-cost').textContent = `$${total.toFixed(2)}`;
-    }
+            // Event listener for 'Proceed to Invoice' button
+            document.getElementById('proceed-to-invoice-btn').addEventListener('click', function () {
+                window.location.href = `invoice.html`; // Redirect to the invoice page. For puchase button
+            });
+        };
 
-calculateCosts(subtotal);
+        // Function for generating cart items dynamically
+        function generateCartItems(cartItems) {
+            let cartItemsHtml = '';
+            let subtotal = 0;
 
-  </script>
+            for (let productId in cartItems) {
+                let cartItem = cartItems[productId];
+                let productCategory = cartItem.item;
+                let product = products[productCategory].find(p => p.product_id === productId);
+
+                if (!product) {
+                    continue; // Handle cases where the product is not found
+                }
+
+                let totalForItem = cartItem.quantity * product.price;
+                subtotal += totalForItem;
+
+                // Create HTML for each item in the cart
+                cartItemsHtml += `
+        <div class="cart-item">
+          <img src="${product.image}" alt="${product.name}">
+          <div class="item-details">
+            <div class="item-header">
+              <h3>${product.name}</h3>
+              <p>Quantity: ${cartItem.quantity}</p>
+              <p>Price: $${product.price.toFixed(2)}</p>
+            </div>
+          </div>
+          <div class="item-total">
+            <p>$${totalForItem.toFixed(2)}</p>
+          </div>
+        </div>`;
+            }
+
+            // Update the HTML container with generated cart items
+            document.getElementById('cart-items-container').innerHTML = cartItemsHtml;
+            return subtotal;
+        }
+        // Calculate and display costs (similar to your existing code)
+        function calculateCosts(subtotal) {
+
+            const taxRate = 0.04; // 4% tax
+            const tax = subtotal * taxRate;
+            let shipping = 0;
+
+            if (subtotal < 100 && subtotal > 0) {
+                shipping = 9.99;
+            } else if (subtotal >= 100) {
+                shipping = 4.99;
+            }
+
+            const total = subtotal + tax + shipping;
+
+            // Update the HTML with calculated values
+            document.getElementById('subtotal-cost').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('shipping-cost').textContent = `$${shipping.toFixed(2)}`;
+            document.getElementById('total-cost').textContent = `$${total.toFixed(2)}`;
+        }
+        calculateCosts(subtotal);
+
+    </script>
+
+    <div class="cart-buttons">
+        <button id="continue-shopping-btn" class="continue-btn">Continue Shopping</button>
+        <button id="proceed-to-invoice-btn" class="purchase-btn">Purchase</button>
+    </div>
+
 </body>
 
 </html>
