@@ -15,28 +15,6 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.post('/add-to-cart', (req, res) => {
-    let product_id = req.body.product_id;
-    let quantity = parseInt(req.body.quantity);
-
-    if (!req.session.cart) {
-        req.session.cart = {};
-    }
-	if (quantity > product.quantity_available) {
-        // Redirect with error and product ID
-        res.redirect('/product-page?error=' + encodeURIComponent(`Only ${product.quantity_available} left`) + '&errorProduct=' + productId);
-    }
-    if (!req.session.cart[product_id]) {
-        req.session.cart[product_id] = quantity;
-    } else {
-        req.session.cart[product_id] += quantity;
-    }
-
-    // Redirect to the product page or cart page after adding item to cart
-    res.redirect('/path-to-redirect');
-});
-
-
 // Function to check if the quantities entered are whole numbers, negative values, and/or a number and not a string; Taken from labs
 function isNonNegInt(quantities, returnErrors) {
 	errors = []; // assume no errors at first
@@ -94,9 +72,6 @@ app.get('/products/tops', function (request, response) {
 app.get('/products/accessories', function (request, response) {
     response.json(products.accessories);
 });
-
-// For assignment 2: Temporary storage for product details
-let tempProductDetails = {};
 
 // Handling of the form submission, validates quantities, and redirects to the invoice or back to the form with errors.
 app.post("/process_form", function (request, response) {
@@ -256,98 +231,93 @@ function checkLogin(email, password) {
 		return {success: false, message: "User does not exist"};
 	}
 }
-
-// login processing
+// Login processing
 app.post("/process_login", function (request, response) {
-	let loginResult = checkLogin(request.body.email, request.body.password);
+    let loginResult = checkLogin(request.body.email, request.body.password);
 
-	if (loginResult.success) {
-		let userEmail = request.body.email.toLowerCase();
+    if (loginResult.success) {
+        let userEmail = request.body.email.toLowerCase();
 
-		// Update login count and last login time
-		// IR4
-		if (!user_data[userEmail].loginCount) {
-			user_data[userEmail].loginCount = 0;
-		}
-		user_data[userEmail].loginCount++;
-		user_data[userEmail].lastLogin = new Date().toLocaleString(); // Update last login time
+        // Update login count and last login time
+        if (!user_data[userEmail].loginCount) {
+            user_data[userEmail].loginCount = 0;
+        }
+        user_data[userEmail].loginCount++;
+        user_data[userEmail].lastLogin = new Date().toLocaleString();
 
-		// Save the updated user data
-		// IR4
-		fs.writeFileSync(user_data_file, JSON.stringify(user_data));
+        // Save the updated user data
+        fs.writeFileSync(user_data_file, JSON.stringify(user_data));
 
-		let userName = user_data[userEmail].name;
-		let loginCount = user_data[userEmail].loginCount || 0;
-		let lastLogin = user_data[userEmail].lastLogin || "";
+        // Save login information in the session
+        request.session.isLoggedIn = true;
+        request.session.username = user_data[userEmail].name;
 
-		// Construct query string with essential info
-		let redirectQuery =
-			tempProductDetails +
-			"&purchase_submit=true&user=" +
-			encodeURIComponent(userName) +
-			"&loginCount=" +
-			loginCount +
-			"&lastLogin=" +
-			encodeURIComponent(lastLogin);
-		response.redirect(`/invoice.html?${redirectQuery}`);
-	} else {
-		// Construct the return URL with error message
-		let returnUrl =
-			"/login.html?error=" + encodeURIComponent(loginResult.message);
-		returnUrl += "&email=" + encodeURIComponent(request.body.email);
-		response.redirect(returnUrl);
-	}
+        // Redirect to index.html after successful login
+        response.redirect('/index.html');
+    } else {
+        // Construct the return URL with error message
+        let returnUrl = "/login.html?error=" + encodeURIComponent(loginResult.message);
+        returnUrl += "&email=" + encodeURIComponent(request.body.email);
+        response.redirect(returnUrl);
+    }
 });
 
-/// Process User Registration
+// Process User Registration
 app.post("/register_user", function (request, response) {
-	// Extract user input
-	let email = request.body.email || "";
-	let password = request.body.password || "";
-	let confirmPassword = request.body.repeat_password || "";
-	let name = request.body.fullname || "";
+    // Create an object to store registration errors
+    let registration_errors = {};
 
-	// Initialize errors object
-	let registration_errors = {};
+    // Extract user registration data from the request
+    let name = request.body.name;
+    let email = request.body.email.toLowerCase(); // Convert email to lowercase for consistency
+    let password = request.body.password;
+    let confirm_password = request.body.confirm_password;
 
-	// Check if all fields are blank
-	if (email === "" && password === "" && name === "") {
-		registration_errors.allFields = "All fields are blank";
-	} else {
-		// If not all fields are blank, validate the user input
-		registration_errors = validateRegistration(
-			email,
-			password,
-			name,
-			confirmPassword
-		);
-	}
+    // Check if the email is already registered
+    if (user_data.hasOwnProperty(email)) {
+        registration_errors.email_exists = "This email is already registered. Please use a different email.";
+    }
 
-	if (Object.keys(registration_errors).length === 0) {
-		// Register the user
-		registerUser(email, password, name);
+    // Check if the password and confirm password match
+    if (password !== confirm_password) {
+        registration_errors.password_mismatch = "Passwords do not match. Please confirm your password correctly.";
+    }
 
-		// Update login count and last login time for the new user
-		const userEmail = email.toLowerCase();
-		user_data[userEmail].loginCount = 0;
-		user_data[userEmail].lastLogin = new Date().toLocaleString();
+    // Validate the password length (e.g., minimum 6 characters)
+    if (password.length < 6) {
+        registration_errors.password_length = "Password should be at least 6 characters long.";
+    }
 
-		// Save the registered user data
-		fs.writeFileSync(user_data_file, JSON.stringify(user_data));
+    // If there are any registration errors, redirect back to the registration page with error messages
+    if (Object.keys(registration_errors).length > 0) {
+        // Construct the return URL with error messages and previously entered data
+        let returnUrl = "/register.html?";
 
-		// Redirect to invoice.html to complete purchase, with query string. IR4
-		let redirectQuery = tempProductDetails + "&purchase_submit=true&user=" + encodeURIComponent(name) + "&loginCount=0&lastLogin=";
-		response.redirect(`/invoice.html?${redirectQuery}`);
-		
-	} else {
-		// Redirect back to the registration form with errors
-		response.redirect(
-			`/registration.html?reg_errors=${encodeURIComponent(
-				JSON.stringify(Object.values(registration_errors))
-			)}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`
-		);
-	}
+        for (let error in registration_errors) {
+            returnUrl += `&${error}=${encodeURIComponent(registration_errors[error])}`;
+        }
+
+        returnUrl += `&name=${encodeURIComponent(name)}`;
+        returnUrl += `&email=${encodeURIComponent(email)}`;
+
+        response.redirect(returnUrl);
+    } else {
+        // Registration successful - create a new user object
+        user_data[email] = {
+            name: name,
+            password: password,
+            loginCount: 0,
+            lastLogin: null
+        };
+
+        // Save the updated user data to a file (you may need to add this part)
+        // fs.writeFileSync(user_data_file, JSON.stringify(user_data));
+
+        // Redirect to index.html after successful registration
+        response.redirect('/index.html');
+    }
 });
+
 
 // Serve static files from the 'public' directory
 app.use(express.static(__dirname + "/public"));

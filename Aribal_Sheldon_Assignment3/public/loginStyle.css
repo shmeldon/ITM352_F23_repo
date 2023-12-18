@@ -22,13 +22,14 @@ nav ul li {
     color: black;
 }
 nav ul li.cart {
-    margin-left: 63%; /* Add margin to separate "cart" */
+    margin-left: 100%; /* Add margin to separate "cart" */
     font-weight: bold;
 }
 
 nav ul li.login {
     margin-left: auto; /* Push "login" to the right */
     font-weight: bold;
+    
 }
 
 /* Make it so after clicking link, words don't turn purple */
@@ -108,5 +109,10 @@ input[type="password"] {
     .container {
         width: 90%;
         margin: 20px;
+    }
+}
+@media screen and (max-width: 768px) {
+    nav ul li {
+        margin-right: 15px; /* Reduce the right margin for smaller screens */
     }
 }
