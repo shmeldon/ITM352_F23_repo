@@ -6,37 +6,8 @@
     <title>Bottoms - Sheldon's Closet</title>
     <link rel="stylesheet" href="productStyle.css">
     <script src="./products.js" type="text/javascript"></script>
+    <script src="window_onload_script.js"></script>
 </head>
-
-<script>
-window.onload = function() {
-    let params = new URLSearchParams(window.location.search);
-    let errorMessages = params.get('error');
-    let errorProduct = params.get('errorProduct'); // The product ID that caused the error
-
-    if (errorMessages && errorProduct) {
-        errorMessages = JSON.parse(errorMessages);
-
-        let alertMessage = '';
-        for (let inputName in errorMessages) {
-            if (errorMessages[inputName].includes("Only") && errorMessages[inputName].includes("left")) {
-                let availableQuantity = errorMessages[inputName].match(/Only (\d+) left/)[1];
-                
-                // Find the specific textbox related to the errorProduct
-                let textBox = document.querySelector(`[name="${inputName}"][data-product-id="${errorProduct}"]`);
-                if (textBox) {
-                    textBox.style.borderColor = "red";
-                    textBox.value = availableQuantity;
-                }
-            }
-            alertMessage += errorMessages[inputName] + '\n';
-        }
-        if (alertMessage) {
-            alert(alertMessage);
-        }
-    }
-};
-</script>
 
 <body>
     <nav>
@@ -49,8 +20,10 @@ window.onload = function() {
             <li class="login"><a href="login.html"><b>LOGIN</b></a></li>
         </ul>
     </nav>
-    
-    
+
+    <div id="username"></div>
+    <div id="loginStatus"></div>
+    <div id="cartCount"></div>
     
     <header>
         <h1>Sheldon's Closet - Accessories</h1>

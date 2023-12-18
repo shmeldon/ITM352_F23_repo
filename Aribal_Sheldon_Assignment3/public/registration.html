@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
     <link rel="stylesheet" type="text/css" href="loginStyle.css">
+    <script src="window_onload_script.js"></script>
     <script>
         // After page loads - function handles query parameters and display error/success messages
       window.onload = function () {
@@ -36,8 +37,10 @@
         </ul>
     </nav>
     
-    
-    
+    <div id="username"></div>
+    <div id="loginStatus"></div>
+    <div id="cartCount"></div>
+
     <div class="login-container">
         <h1>Registration</h1>
         <form action="/register_user" method="post">

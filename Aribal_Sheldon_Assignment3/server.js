@@ -555,4 +555,26 @@ app.post("/add-to-cart-accessories", function (request, response) {
     }
 });
 
+// Route to fetch session data
+app.get('/session-data', function (request, response) {
+    // Check if the user is logged in
+    let isLoggedIn = request.session.isLoggedIn || false;
+
+    // Get the username from the session (if available)
+    let username = request.session.username || '';
+
+    // Get the cart count from the session (if available)
+    let cartCount = request.session.cart ? Object.keys(request.session.cart).length : 0;
+
+    // Create an object to hold the session data
+    let sessionData = {
+        isLoggedIn: isLoggedIn,
+        username: username,
+        cartCount: cartCount
+    };
+
+    // Send the session data as JSON
+    response.json(sessionData);
+});
+
 

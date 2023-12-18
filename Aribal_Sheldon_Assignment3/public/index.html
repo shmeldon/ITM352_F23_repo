@@ -4,46 +4,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Home - Sheldon's Vintage Clothing Store</title>
     <style>
         body {
             text-align: center;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 28px;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+        }
+        p {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 24px;
+        }
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            color: black;
+            padding: 10px 20px;
+            border-bottom: 0.9px solid #000;
         }
 
-        img {
-            width: 90%;
-            height: auto;
+        .nav-bar a {
+            color: black;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-size: 24px;
         }
-        img:hover {
+
+        .nav-bar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .category-link {
+            position: relative;
+            display: inline-block;
+            width: 45%;
+            margin: 5px;
+        }
+
+        .category-link img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.2s; /* Animation */
+        }
+
+        .category-link img:hover {
             filter: blur(3px);
         }
+
         .overlay-text {
             position: absolute;
-            top: 72%;
-            /* Center vertically */
+            top: 50%;
             left: 50%;
-            /* Center horizontally */
             transform: translate(-50%, -50%);
-            color: rgb(250, 249, 249);
-            /* Text color */
-            font-size: 60px;
-            
+            color: white;
+            font-size: 24px;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            padding: 5px;
+            border-radius: 5px;
         }
 
+        .categories {
+            width: 70%;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        @media (max-width: 600px) {
+            .category-link {
+                width: 90%;
+            }
+        }
     </style>
 </head>
+<script src="window_onload_script.js"></script>
 
 <body>
+    <div class="nav-bar">
+        <a href="login.html"><b>Login</b></a>
+        <a href="cart.html"><b>Cart</b></a>
+    </div>
+
+    <div id="username"></div>
+    <div id="loginStatus"></div>
+    <div id="cartCount"></div>
+
+
     <h1>Sheldon's Vintage Clothing Store</h1>
-
-        <a href="products_display.html"><img
-                src="https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/IMG_0494.jpg?raw=true">
-            <span class="overlay-text"><b>Enter</b></span>
+    <div class="categories">
+        <a href="tops_display.html" class="category-link">
+            <img src="https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/custom_hoodie.jpg?raw=true" alt="Tops">
+            <span class="overlay-text">Tops</span>
         </a>
-    
-
+        <a href="bottoms_display.html" class="category-link">
+            <img src="https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment3/public/images/supreme_jogger.jpg?raw=true" alt="Bottoms">
+            <span class="overlay-text">Bottoms</span>
+        </a>
+        <a href="accessories_display.html" class="category-link">
+            <img src="https://github.com/shmeldon/ITM352_F23_repo/blob/main/Aribal_Sheldon_Assignment1/public/images/pearl_necklace.jpg?raw=true" alt="Accessories">
+            <span class="overlay-text">Accessories</span>
+        </a>
+    </div>
+    <p>
+        A website curated for selling clothing items from my own personal closet. 
+    </p>
 </body>
-
 </html>
